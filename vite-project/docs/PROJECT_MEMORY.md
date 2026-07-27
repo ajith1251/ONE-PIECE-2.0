@@ -1,7 +1,7 @@
 # PROJECT MEMORY — One Piece 2.0
 
 > **Last Updated**: 2026-07-27
-> **Current Phase**: Phase 1F — Hero Final Audit & Lock
+> **Current Phase**: Phase 1G — Post-Lock Regression Test & Phase 2 Handoff
 > **Phase 1 Status**: ✅ COMPLETE
 > **Hero Status**: 🔒 STABLE + PROTECTED
 
@@ -362,9 +362,9 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 1F — Hero Final Audit & Lock
+**Phase**: Phase 1G — Post-Lock Regression Test & Phase 2 Handoff
 
-**Goal**: Final Hero audit, protection lock, recovery checkpoint, and Phase 1 closure.
+**Goal**: Final regression checkpoint proving Phase 1 can be trusted before Phase 2 development.
 
 **Status**: ✅ COMPLETED
 
@@ -380,6 +380,7 @@ vite-project/
 | **Phase 1D** | Hero Quote Transition | ✅ |
 | **Phase 1E** | Responsive & Accessibility Verification | ✅ |
 | **Phase 1F** | Hero Final Audit & Lock | ✅ |
+| **Phase 1G** | Post-Lock Regression Test | ✅ |
 
 ---
 

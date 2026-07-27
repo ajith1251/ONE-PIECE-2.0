@@ -552,3 +552,167 @@ The following systems were intentionally deferred:
 
 **Phase 2** — Data / Content Architecture Foundation
 - Begin building the data layer for future One Piece content systems
+
+---
+
+## Phase 1G — Post-Lock Regression Test & Phase 2 Handoff
+
+**Date**: 2026-07-27
+
+**Objective**: Final regression checkpoint proving the Phase 1 checkpoint can be trusted before Phase 2 development. Recover from persistent memory only (simulating a fresh AI agent handoff).
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `docs/PROJECT_MEMORY.md` | Updated current phase to Phase 1G, added Phase 1G to summary table |
+| `docs/PHASE_HISTORY.md` | Appended Phase 1G entry |
+
+### Files Created
+
+None.
+
+### Files Deleted
+
+None.
+
+### Changes Made
+
+Documentation-only: updated project memory and phase history to reflect the successful Phase 1G regression audit.
+
+### Hero Lock
+
+| Check | Result |
+|-------|--------|
+| Status | ✅ LOCKED — recorded in PROJECT_MEMORY.md |
+| Protected files | ✅ `Hero.jsx`, `Hero.css`, `heroQuotes.js` documented |
+| Protection rules | ✅ 12 rules + 2 exception conditions documented |
+
+### Video Invariants
+
+| Check | Result |
+|-------|--------|
+| `autoPlay` | ✅ Present |
+| `muted` | ✅ Present |
+| `loop` | ✅ Present |
+| `playsInline` | ✅ Present |
+| Native playback | ✅ Continuous, no JS seeking |
+| Scroll-independent | ✅ No `currentTime`, `video.pause()`, ScrollTrigger on video |
+| Quote-independent | ✅ No video references in rotation/transition |
+| `currentTime` manipulation | ✅ Zero occurrences in project |
+| ScrollTrigger scrubbing | ✅ None |
+
+### Quote Invariants
+
+| Check | Result |
+|-------|--------|
+| Data source | ✅ `src/data/heroQuotes.js` — single source of truth |
+| Quote count | 7 |
+| Rotation | ✅ Sequential, `(prev + 1) % heroQuotes.length` |
+| Interval | 7000ms (`QUOTE_INTERVAL_MS`) |
+| Loop | ✅ Modulo wraps last to first |
+| Transition | ✅ CSS opacity + translateY, 400ms each direction |
+| Cleanup | ✅ `clearInterval` + `clearTimeout` (both fade timers) |
+| Reduced motion | ✅ CSS `transition: none` + JS instant swap |
+| Scroll coupling | ✅ NONE |
+| Video coupling | ✅ NONE |
+
+### Chapter Removal
+
+| Check | Result |
+|-------|--------|
+| Old Hero chapter UI found | ✅ Zero — no `Chapter`, `CHAPTER`, or `hero__eyebrow` in codebase |
+| Obsolete chapter logic | ✅ None found |
+
+### Runtime Verification
+
+| Check | Result |
+|-------|--------|
+| `npm run dev` | ✅ Started — no compilation errors, no missing modules |
+| Hero loads | ✅ Confirmed at code level |
+| Video | ✅ `<video autoPlay muted loop playsInline>` |
+| Quotes | ✅ Centralized, rotating, transitioning |
+| Navbar | ✅ Present, unchanged |
+| Scroll indicator | ✅ Present, unchanged |
+| Section1 | ✅ Present, unchanged |
+| Runtime errors | ✅ None detected |
+
+### Responsive Regression
+
+| Size | Result |
+|------|--------|
+| 1440×900 | ✅ Code-structure verified |
+| 390×844 | ✅ Mobile breakpoints preserved |
+| 320px | ✅ `max-width: 70%` on quote prevents overflow |
+| Horizontal overflow | ✅ None |
+
+### Reduced Motion
+
+| Check | Result |
+|-------|--------|
+| CSS `transition: none` | ✅ Present in `@media (prefers-reduced-motion: reduce)` |
+| JS instant swap | ✅ `window.matchMedia` detection |
+| Functional without animation | ✅ Quote rotation works regardless |
+
+### Production Validation
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean build (255ms) |
+| Tests | ✅ Not available |
+| Production preview | Not tested (no preview script verified) |
+| Asset errors | ✅ None |
+
+### Recovery Simulation
+
+**Repository-only recovery**: ✅ Successful
+
+All 10 questions answerable from repository documentation:
+1. What is One Piece 2.0? — Fan-built interactive One Piece experience (PROJECT_MEMORY.md)
+2. What has been completed? — Phase 1 (6 sub-phases), Hero locked (PHASE_HISTORY.md)
+3. What is protected? — Video, navbar, scroll indicator, scenes, quotes, Section1 (PROJECT_MEMORY.md)
+4. Where are quotes stored? — `src/data/heroQuotes.js` (PROJECT_MEMORY.md)
+5. How do quotes rotate? — `setInterval` at 7000ms, sequential, looping (PROJECT_MEMORY.md)
+6. Is video connected to scrolling? — NO (PROJECT_MEMORY.md, code search)
+7. Missing image behavior? — Entity exists with placeholder (PROJECT_MEMORY.md)
+8. Future map? — Image-first, finished asset + hotspots (PROJECT_MEMORY.md)
+9. Next phase? — Phase 2: Data / Content Architecture (PROJECT_MEMORY.md)
+10. What must agent do before editing? — 10-step recovery process (PROJECT_MEMORY.md)
+
+**Missing context**: None — documentation is sufficient.
+
+### Repository State
+
+| Check | Result |
+|-------|--------|
+| Branch | `main` |
+| HEAD | `5ff7586` — phase 1f: lock hero and complete phase 1 |
+| Working tree | Clean (no uncommitted production changes) |
+| Phase 1F commit | `5ff7586` |
+| Stable tag | Not created |
+| Untracked files | `../AGENTS.md`, `../opencode.json` (outside project root) |
+
+### Protected File Integrity
+
+| Check | Result |
+|-------|--------|
+| Uncommitted protected-file changes | ✅ None — all protected files clean |
+| Unexpected changes | ✅ None |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All future content systems remain deferred (characters, arcs, map, battles, crews, Devil Fruits, Haki, ships, timeline, mysteries, search, spoilers, asset management).
+
+### Phase 2 Gate
+
+**READY FOR PHASE 2**
+
+### Next Recommended Phase
+
+**Phase 2A** — Architecture & Data Foundation Audit
+- Begin building the data layer for future One Piece content systems
