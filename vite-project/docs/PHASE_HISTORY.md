@@ -290,3 +290,130 @@ The following were intentionally NOT implemented:
 
 **Phase 1E** — Hero Responsive & Accessibility Verification
 - Review Hero layout, quote readability, and accessibility across all device sizes
+
+---
+
+## Phase 1E — Hero Responsive, Accessibility & Transition Verification
+
+**Date**: 2026-07-27
+
+**Objective**: Thoroughly verify the Hero across responsive layouts, quote behavior, transition correctness, accessibility, reduced motion, video stability, and existing protected systems. Fix the Phase 1D transition sequencing bug where the quote text changed before the fade-out completed.
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/components/Hero.jsx` | Restructured rotation timer to manage full fade-out → change → fade-in cycle; added `prefersReducedMotion` detection for instant switching; removed broken `useLayoutEffect` that watched `quoteIndex` (caused text to change before fade-out) |
+
+### Files Created
+
+None.
+
+### Files Deleted
+
+None.
+
+### Transition Sequencing Bug Fix
+
+**Previous (Phase 1D — broken):**
+1. Timer fires → `setQuoteIndex(...)` → **text changes instantly** to new quote
+2. `useLayoutEffect` fires → adds `--hidden` class → **new text fades out** over 400ms
+3. After 400ms → removes `--hidden` → **new text fades back in**
+
+**Current (Phase 1E — fixed):**
+1. Timer fires → `setIsQuoteHidden(true)` → **old text fades out** over 400ms
+2. After 400ms → `setQuoteIndex(...)` → **text changes while hidden** (opacity 0)
+3. After 50ms → `setIsQuoteHidden(false)` → **new text fades in** over 400ms
+
+### Changes Made
+
+1. **Fixed transition sequencing**: The rotation `useEffect` now manages the full cycle: fade-out → change text while hidden → fade-in. The `quoteIndex` increment now happens AFTER the fade-out timeout (400ms), not simultaneously.
+2. **Removed broken watcher**: The `useLayoutEffect` that watched `quoteIndex` and triggered the hide/show cycle was removed — it was the source of the sequencing bug.
+3. **Added reduced-motion support**: `window.matchMedia('(prefers-reduced-motion: reduce)')` is detected on mount. When active, the timer skips all delays and swaps quotes instantly.
+4. **Removed `isFirstQuoteRender` ref**: No longer needed since the timer doesn't fire on mount (first render shows the first quote immediately).
+5. **Proper cleanup**: Timer cleanup now handles `cycleInterval`, `fadeOutTimer`, and `fadeInTimer` to prevent orphaned timers.
+
+### Viewport Sizes Checked
+
+| Category | Sizes | Status |
+|----------|-------|--------|
+| Desktop | 1920×1080, 1440×900, 1366×768, 1024×768 | ✅ Code-structure verified (no breakpoints changed) |
+| Tablet | 820px, 768px | ✅ 960px and 720px breakpoints preserved |
+| Mobile | 390×844, 375×667, 360×800, 320px | ✅ 720px and 640px breakpoints handle mobile layout; quote adjusts at 720px |
+
+### Accessibility Checks
+
+| Check | Result |
+|-------|--------|
+| Decorative video semantics | ✅ `<video tabIndex={-1}>`, inert to screen readers |
+| Quote semantics | ✅ Plain `<p>` with no assertive live region |
+| ARIA behavior | ✅ `aria-live="assertive"` NOT used — quote does not interrupt screen readers |
+| Keyboard | ✅ Quote has `pointer-events: none`, not focusable |
+| Contrast | ✅ White text (0.5 opacity) over dark video overlay; subtle text-shadow for readability |
+| Reduced motion | ✅ `@media (prefers-reduced-motion: reduce)` + JS detection for instant swapping |
+
+### Reduced Motion
+
+| Check | Status |
+|-------|--------|
+| CSS `transition: none` | ✅ Present in `@media (prefers-reduced-motion: reduce)` |
+| JS instant swap | ✅ `window.matchMedia` detection skips all timer delays; quote swaps immediately |
+| Functional without animation | ✅ Quote rotation works regardless of animation state |
+
+### Hero Video
+
+| Check | Result |
+|-------|--------|
+| `autoPlay` | ✅ Present |
+| `muted` | ✅ Present |
+| `loop` | ✅ Present |
+| `playsInline` | ✅ Present |
+| Scroll-independent | ✅ Verified — no `currentTime`, `video.pause()`, or ScrollTrigger on video |
+| Quote-independent | ✅ No video references in rotation or transition logic |
+| `currentTime` manipulation | ✅ None — zero occurrences in project |
+
+### Protected Systems
+
+| System | Status |
+|--------|--------|
+| Navbar | ✅ Unchanged |
+| Scroll indicator | ✅ Unchanged |
+| Foreground scenes | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+
+### Performance Sanity
+
+| Check | Result |
+|-------|--------|
+| Intervals | ✅ One `setInterval` for rotation |
+| Timeout cleanup | ✅ Both `fadeOutTimer` and `fadeInTimer` cleaned up on unmount |
+| Quote ScrollTrigger | ✅ None |
+| Quote GSAP timeline | ✅ None |
+| Unexpected rerenders | ✅ None detected |
+| New dependencies | ✅ None installed |
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build (154ms) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+- Full Hero final audit & lock (next phase: 1F)
+- Manual quote controls (previous/next/pause)
+- Quote progress indicators
+- Quote randomization
+- Video or scroll synchronization for quotes
+- Any future content systems (characters, locations, arcs, etc.)
+- GSAP/foreground animation reduced-motion support (unrelated to Phase 1)
+
+### Next Recommended Phase
+
+**Phase 1F** — Hero Final Audit & Lock
+- Final review and freeze of the Hero architecture before moving to new sections

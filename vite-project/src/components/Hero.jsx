@@ -55,30 +55,41 @@ export default function Hero() {
   const sceneRefs = useRef([])
   const [quoteIndex, setQuoteIndex] = useState(0)
   const [isQuoteHidden, setIsQuoteHidden] = useState(false)
-  const isFirstQuoteRender = useRef(true)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setQuoteIndex((prev) => (prev + 1) % heroQuotes.length)
+    let fadeOutTimer, fadeInTimer
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    const cycleInterval = setInterval(() => {
+      if (prefersReducedMotion) {
+        // Reduced motion: swap instantly with no delays
+        setQuoteIndex((prev) => (prev + 1) % heroQuotes.length)
+        setIsQuoteHidden(false)
+        return
+      }
+
+      // Phase 1: Start fade-out of current quote
+      setIsQuoteHidden(true)
+
+      // Phase 2: After fade-out completes, change text while hidden
+      fadeOutTimer = setTimeout(() => {
+        setQuoteIndex((prev) => (prev + 1) % heroQuotes.length)
+
+        // Phase 3: Small delay for DOM update, then start fade-in
+        fadeInTimer = setTimeout(() => {
+          setIsQuoteHidden(false)
+        }, 50)
+      }, 400)
     }, QUOTE_INTERVAL_MS)
 
-    return () => clearInterval(interval)
-  }, [])
-
-  useLayoutEffect(() => {
-    if (isFirstQuoteRender.current) {
-      isFirstQuoteRender.current = false
-      return
+    return () => {
+      clearInterval(cycleInterval)
+      clearTimeout(fadeOutTimer)
+      clearTimeout(fadeInTimer)
     }
-
-    setIsQuoteHidden(true)
-
-    const timer = setTimeout(() => {
-      setIsQuoteHidden(false)
-    }, 400)
-
-    return () => clearTimeout(timer)
-  }, [quoteIndex])
+  }, [])
 
   const assignSceneRef = (element, index) => {
     sceneRefs.current[index] = element

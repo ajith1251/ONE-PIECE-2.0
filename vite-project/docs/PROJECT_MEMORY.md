@@ -1,7 +1,7 @@
 # PROJECT MEMORY — One Piece 2.0
 
 > **Last Updated**: 2026-07-27
-> **Current Phase**: Phase 1D — Hero Quote Transition Animation
+> **Current Phase**: Phase 1E — Hero Responsive, Accessibility & Transition Verification
 
 ---
 
@@ -225,9 +225,9 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 1D
+**Phase**: Phase 1E
 
-**Goal**: Add a subtle, premium opacity + translateY transition between Hero quote changes, keeping the Phase 1C rotation logic intact. No new dependencies.
+**Goal**: Thoroughly verify Hero across responsive layouts, quote behavior, transition correctness, accessibility, reduced motion, and video stability. Fix Phase 1D transition sequencing bug.
 
 **Status**: ✅ Completed (see PHASE_HISTORY.md for details)
 
@@ -240,30 +240,33 @@ vite-project/
 | **Data file** | `src/data/heroQuotes.js` — 7 original atmospheric lines |
 | **Rotation logic** | `src/components/Hero.jsx` — `useState` + `useEffect` with `setInterval` (7000ms) |
 | **Rotation order** | Sequential: 0 → 1 → 2 → ... → last → 0 (looping) |
-| **Cleanup** | `clearInterval(interval)` on component unmount |
+| **Cleanup** | `clearInterval(cycleInterval)` + `clearTimeout(fadeOutTimer)` + `clearTimeout(fadeInTimer)` |
 | **Transition type** | CSS `opacity` + `transform: translateY(8px)` — 400ms ease each direction |
-| **Transition trigger** | `useLayoutEffect` watching `quoteIndex` — toggles `.hero__quote--hidden` class |
-| **Reduced motion** | `@media (prefers-reduced-motion: reduce)` — disables transition, instant switching |
+| **Transition trigger** | Rotation timer manages full cycle: fade-out → change text (while hidden) → fade-in |
+| **Reduced motion (CSS)** | `@media (prefers-reduced-motion: reduce)` — disables transition |
+| **Reduced motion (JS)** | `window.matchMedia` detection — skips all timer delays, swaps instantly |
 | **Video sync** | NOT connected — completely independent |
 | **Scroll sync** | NOT connected — completely independent |
 
 ---
 
-## Transition Behavior
+## Corrected Transition Behavior
 
-1. Quote is fully visible at `opacity: 1` for ~6.2s
-2. Timer fires → `quoteIndex` increments → `useLayoutEffect` adds `--hidden` class → CSS transitions to `opacity: 0; transform: translateY(8px)` over 400ms
-3. Text (already updated from `quoteIndex`) is now at the new quote, fully faded out
-4. After 400ms, `setTimeout` removes `--hidden` class → CSS transitions to `opacity: 1; transform: translateY(0)` over 400ms
-5. New quote is fully visible for ~6.2s, then the cycle repeats
+1. Quote is fully visible at `opacity: 1` for ~6.15s
+2. Timer fires → `setIsQuoteHidden(true)` → old text fades OUT over 400ms
+3. After 400ms → `setQuoteIndex(...)` → text changes WHILE hidden (opacity 0)
+4. After 50ms → `setIsQuoteHidden(false)` → new text fades IN over 400ms
+5. Quote fully visible for ~6.15s, then cycle repeats
+
+**Important**: Quote `index` changes AFTER the fade-out, not simultaneously. This ensures the user sees the old text fading out, not the new text appearing and fading out.
 
 ---
 
 ## Next Phase (Recommended)
 
-**Phase 1E** — Hero Responsive & Accessibility Verification
+**Phase 1F** — Hero Final Audit & Lock
 
-Review Hero layout, quote readability, and accessibility across all device sizes.
+Final review and freeze of the Hero architecture before moving to new sections.
 
 ---
 
