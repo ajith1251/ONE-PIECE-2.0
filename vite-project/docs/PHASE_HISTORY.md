@@ -417,3 +417,138 @@ None.
 
 **Phase 1F** — Hero Final Audit & Lock
 - Final review and freeze of the Hero architecture before moving to new sections
+
+---
+
+## Phase 1F — Hero Final Audit, Protection Lock & Recovery Checkpoint
+
+**Date**: 2026-07-27
+
+**Objective**: Perform final Hero audit, confirm Phase 1 stability, lock the Hero architecture, establish a recovery checkpoint, synchronize persistent project memory, and close Phase 1.
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `docs/PROJECT_MEMORY.md` | Added Hero Protection Lock section with invariants, updated to Phase 1F, added Image-First/Map/Asset rules, Micro-Phase rule, Recovery Checkpoint, Phase 1 summary |
+| `docs/PHASE_HISTORY.md` | Appended Phase 1F entry |
+
+### Files Created
+
+None.
+
+### Files Deleted
+
+None.
+
+### Changes Made
+
+1. **Hero Protection Lock**: Added locked status to PROJECT_MEMORY.md with: 12 modification rules (when Hero can/cannot be touched), Hero invariants (video, quotes, layout, existing systems), and protected files list.
+2. **Phase 1 closure**: Marked Phase 1 as COMPLETE, added a summary table of all 6 phases.
+3. **Recovery checkpoint**: Recorded git branch (`main`), latest commit hash (`ab77f1b`), lint/build status.
+4. **Image-First Principle**: Formalized the development priority order with supporting rules (Future Image Rule, Future Map Rule, Future Asset Replacement Rule).
+5. **Micro-Phase Rule**: Documented the required development workflow.
+6. **Phase 1F history**: Appended complete entry with audit results.
+
+### Hero Final Audit Results
+
+| Check | Result |
+|-------|--------|
+| Chapter system removed | ✅ Confirmed — no `Chapter`, `hero__eyebrow`, or chapter-related code exists |
+| Background video | ✅ `<video autoPlay muted loop playsInline>` — independent, no scrubbing |
+| Foreground scenes | ✅ 6 scenes with GSAP timeline, matchMedia breakpoints |
+| Navbar | ✅ Present, unchanged |
+| Scroll indicator | ✅ Present, unchanged |
+| Quote system | ✅ Centralized data, sequential rotation, CSS transition, reduced motion |
+| Responsive state | ✅ Breakpoints at 960px, 720px — quote adjusts at 720px |
+| Reduced motion | ✅ CSS `transition: none` + JS instant swap |
+
+### Video Invariant Verification
+
+| Check | Result |
+|-------|--------|
+| `autoPlay` | ✅ Present |
+| `muted` | ✅ Present |
+| `loop` | ✅ Present |
+| `playsInline` | ✅ Present |
+| Continuous playback | ✅ Native, no JS seeking |
+| Scroll-independent | ✅ No `currentTime`, `video.pause()`, or ScrollTrigger on video |
+| Quote-independent | ✅ No video references in rotation/transition logic |
+| `currentTime` manipulation | ✅ Zero occurrences in project |
+| ScrollTrigger scrubbing | ✅ None — only animates scene content, not video |
+
+### Quote Invariant Verification
+
+| Check | Result |
+|-------|--------|
+| Centralized data | ✅ `src/data/heroQuotes.js` — single source of truth |
+| Quote count | 7 |
+| Sequential rotation | ✅ `(prev + 1) % heroQuotes.length` |
+| Rotation interval | 7000ms (`QUOTE_INTERVAL_MS` constant) |
+| Loop | ✅ Modulo wraps last to first |
+| Transition | ✅ CSS opacity + translateY |
+| Transition duration | 400ms each direction |
+| Timer cleanup | ✅ `clearInterval(cycleInterval)` |
+| Timeout cleanup | ✅ `clearTimeout(fadeOutTimer)` + `clearTimeout(fadeInTimer)` |
+| Video synchronization | ✅ **NONE** |
+| Scroll synchronization | ✅ **NONE** |
+| Reduced-motion behavior | ✅ CSS `transition: none` + JS instant swap |
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero background video | ✅ Locked |
+| Navbar | ✅ Unchanged |
+| Scroll indicator | ✅ Unchanged |
+| Foreground scene animations | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| Quote data | ✅ Locked — `src/data/heroQuotes.js` |
+| Quote rotation logic | ✅ Locked — timer architecture |
+| Responsive layout | ✅ Preserved |
+
+### Scope Audit
+
+| Check | Result |
+|-------|--------|
+| Unexpected features added | ✅ None — Phase 1 strictly limited to Hero cleanup/quotes |
+| Unrelated modifications | ✅ None — only Hero + data + docs files changed across all phases |
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+The following systems were intentionally deferred:
+- Manual quote controls (previous/next/pause)
+- Quote progress indicators (dots/counter)
+- Quote randomization
+- Video or scroll synchronization for quotes
+- GSAP/foreground animation reduced-motion support (unrelated to Phase 1)
+- Character database
+- Wanted Archive
+- Arc / Voyage Log system
+- Location database / World map
+- Battle archive
+- Crew / faction database
+- Devil Fruit system
+- Haki / Powers system
+- Ship archive
+- Timeline
+- Mystery board
+- Global search
+- Spoiler system
+- Image asset management system
+
+### Next Recommended Phase
+
+**Phase 2** — Data / Content Architecture Foundation
+- Begin building the data layer for future One Piece content systems

@@ -1,7 +1,9 @@
 # PROJECT MEMORY — One Piece 2.0
 
 > **Last Updated**: 2026-07-27
-> **Current Phase**: Phase 1E — Hero Responsive, Accessibility & Transition Verification
+> **Current Phase**: Phase 1F — Hero Final Audit & Lock
+> **Phase 1 Status**: ✅ COMPLETE
+> **Hero Status**: 🔒 STABLE + PROTECTED
 
 ---
 
@@ -71,14 +73,22 @@ Animation must never be required for basic functionality. If animations fail, th
 
 ---
 
-## Image Philosophy
+## Image-First Principle
 
-Future development is IMAGE-FIRST. Characters, locations, arcs, battles, ships, and other major entities will use clearly named image assets.
+The rest of One Piece 2.0 follows:
 
-Examples of future asset naming:
+**IMAGES → CONTENT → LAYOUT → INTERACTION → ANIMATION**
+
+Future phases must not make the project animation-first. Major visuals should come from image assets rather than complex programmatic reconstruction. This is especially important for the future world map.
+
+### Future Image Rule
+
+Characters, locations, arcs, battles, crews, ships and other visual entities will eventually use predictable image names.
+
+Examples:
 - `monkey-d-luffy.*`
 - `roronoa-zoro.*`
-- `shanks.*`
+- `portgas-d-ace.*`
 - `alabasta.*`
 - `marineford.*`
 - `wano.*`
@@ -89,6 +99,37 @@ Supported formats (browser-compatible): `.png`, `.webp`, `.jpg`, `.jpeg`, `.avif
 Missing images must NOT prevent an entity from existing. An entity may exist with a placeholder until a better image is manually added later.
 
 **This system is NOT yet implemented.** Documented as a principle only.
+
+### Future Map Rule
+
+The future One Piece world map must be IMAGE-FIRST. The map itself should be a finished image asset. Code will later add interaction/hotspots over that image.
+
+Future agents must NOT automatically turn the map into:
+- Three.js world
+- WebGL globe
+- Canvas reconstruction
+- CSS-drawn continents
+- procedural map
+- complex animated SVG
+- GSAP camera system
+
+The visual map asset is the source of truth. Interaction comes afterward. Do NOT build the map now.
+
+### Future Asset Replacement Rule
+
+Artwork should eventually be replaceable without redesigning components. If the user finds a better image, replacing the appropriate asset file should update the interface without rewriting components. This architecture belongs to future phases. Do not implement it now.
+
+---
+
+## Micro-Phase Development Rule
+
+ALL FUTURE DEVELOPMENT USES MICRO-PHASES.
+
+One prompt should have one clearly measurable objective.
+
+Workflow: **IMPLEMENT → VALIDATE → VERIFY → DIFF REVIEW → MEMORY SYNC → COMMIT → NEXT MICRO-PHASE**
+
+Do not combine multiple major features in one prompt.
 
 ---
 
@@ -111,11 +152,85 @@ Missing images must NOT prevent an entity from existing. An entity may exist wit
 
 ---
 
+## Hero Protection Lock
+
+> **Status**: 🔒 LOCKED AFTER PHASE 1
+>
+> The Hero is now a protected stable system. Future phases must NOT redesign or broadly refactor the Hero unless the user explicitly requests a Hero change.
+
+### Protected Hero Files
+
+- `src/components/Hero.jsx`
+- `src/components/Hero.css`
+- `src/data/heroQuotes.js`
+
+### What "LOCKED" Means
+
+LOCKED does NOT mean files can never be touched. It means future phases must follow these rules:
+
+1. Do not redesign the Hero.
+2. Do not replace its visual direction.
+3. Do not rewrite its working video architecture.
+4. Do not reconnect video playback to scrolling.
+5. Do not connect quote rotation to scrolling.
+6. Do not connect quote rotation to video playback.
+7. Do not remove the quote system.
+8. Do not replace the lightweight quote system with a complex animation framework.
+9. Do not alter Hero CSS while implementing unrelated sections.
+10. Do not use Hero as a convenient place for global styles.
+11. Do not move Hero files during unrelated architecture refactors.
+12. Do not install dependencies for the Hero during unrelated phases.
+
+A future phase may touch the Hero only when:
+- **A.** The user explicitly requests a Hero change, **OR**
+- **B.** Another feature requires a tiny integration point and the change can be proven not to alter Hero behavior.
+
+Any such change must be documented.
+
+### Hero Invariants
+
+Future agents must preserve:
+
+#### Video
+- Native `autoplay`
+- `muted`
+- `loop`
+- `playsInline`
+- Continuous playback
+- Independent of scrolling
+- Independent of quote system
+- No JS frame-by-frame seeking
+
+#### Quotes
+- Centralized data in `src/data/heroQuotes.js`
+- Sequential rotation (0 → 1 → 2 → ... → last → 0)
+- Lightweight timing (`setInterval` at 7000ms)
+- Lightweight transition (CSS opacity + translateY, 400ms)
+- Independent from video
+- Independent from scrolling
+- Reduced-motion compatible (CSS + JS)
+
+#### Layout
+- Video remains visual focus
+- No forced gold-heavy theme
+- No giant opaque Hero panels
+- No unnecessary visual clutter
+- Responsive behavior preserved
+
+#### Existing Systems
+- Navbar preserved
+- Scroll indicator preserved
+- Foreground scene system preserved
+
+These invariants become requirements for future regression checks.
+
+---
+
 ## Protection Systems
 
 > Anything listed here must NOT be modified by future phases unless that phase explicitly requires it.
 
-### Hero Background Video (VERIFIED WORKING)
+### Hero Background Video (VERIFIED WORKING — LOCKED)
 
 The Hero video must:
 - ✅ Autoplay (native `<video autoplay>`)
@@ -157,6 +272,13 @@ Implementation: Standard `<video>` element with React ref. A `useEffect` handles
 - Hero content adapts padding and alignment
 - Scene copy reflows at smaller sizes
 
+### Quote System (VERIFIED WORKING — LOCKED)
+- Data: `src/data/heroQuotes.js` — single source of truth (7 quotes)
+- Rotation: `setInterval` at 7000ms, sequential, looping
+- Transition: CSS opacity + translateY, 400ms each direction
+- Reduced motion: CSS `transition: none` + JS instant swap
+- Independent of video, scroll, GSAP
+
 ---
 
 ## Recovery Instructions
@@ -197,76 +319,16 @@ A phase is NOT complete until memory is synchronized.
 
 ---
 
-## Project Structure
-
-```
-vite-project/
-├── index.html
-├── package.json
-├── vite.config.js
-├── docs/
-│   ├── PROJECT_MEMORY.md
-│   └── PHASE_HISTORY.md
-├── public/
-│   ├── video/hero.mp4
-│   └── images/img1.png–img10.png
-├── src/
-│   ├── main.jsx
-│   ├── App.jsx
-│   ├── App.css
-│   ├── index.css
-│   └── components/
-│       ├── Navbar.jsx + Navbar.css
-│       ├── Hero.jsx + Hero.css
-│       └── Section1.jsx + Section1.css
-```
-
----
-
-## Current Phase
-
-**Phase**: Phase 1E
-
-**Goal**: Thoroughly verify Hero across responsive layouts, quote behavior, transition correctness, accessibility, reduced motion, and video stability. Fix Phase 1D transition sequencing bug.
-
-**Status**: ✅ Completed (see PHASE_HISTORY.md for details)
-
----
-
-## Quote System
+## Recovery Checkpoint
 
 | Aspect | Detail |
 |--------|--------|
-| **Data file** | `src/data/heroQuotes.js` — 7 original atmospheric lines |
-| **Rotation logic** | `src/components/Hero.jsx` — `useState` + `useEffect` with `setInterval` (7000ms) |
-| **Rotation order** | Sequential: 0 → 1 → 2 → ... → last → 0 (looping) |
-| **Cleanup** | `clearInterval(cycleInterval)` + `clearTimeout(fadeOutTimer)` + `clearTimeout(fadeInTimer)` |
-| **Transition type** | CSS `opacity` + `transform: translateY(8px)` — 400ms ease each direction |
-| **Transition trigger** | Rotation timer manages full cycle: fade-out → change text (while hidden) → fade-in |
-| **Reduced motion (CSS)** | `@media (prefers-reduced-motion: reduce)` — disables transition |
-| **Reduced motion (JS)** | `window.matchMedia` detection — skips all timer delays, swaps instantly |
-| **Video sync** | NOT connected — completely independent |
-| **Scroll sync** | NOT connected — completely independent |
-
----
-
-## Corrected Transition Behavior
-
-1. Quote is fully visible at `opacity: 1` for ~6.15s
-2. Timer fires → `setIsQuoteHidden(true)` → old text fades OUT over 400ms
-3. After 400ms → `setQuoteIndex(...)` → text changes WHILE hidden (opacity 0)
-4. After 50ms → `setIsQuoteHidden(false)` → new text fades IN over 400ms
-5. Quote fully visible for ~6.15s, then cycle repeats
-
-**Important**: Quote `index` changes AFTER the fade-out, not simultaneously. This ensures the user sees the old text fading out, not the new text appearing and fading out.
-
----
-
-## Next Phase (Recommended)
-
-**Phase 1F** — Hero Final Audit & Lock
-
-Final review and freeze of the Hero architecture before moving to new sections.
+| **Git branch** | `main` |
+| **Latest commit** | `ab77f1b` — phase 1e: hero responsive and accessibility verification |
+| **Phase 1 status** | ✅ COMPLETE |
+| **Hero status** | 🔒 STABLE + PROTECTED |
+| **Lint status** | ✅ Passing |
+| **Build status** | ✅ Passing |
 
 ---
 
@@ -295,3 +357,63 @@ vite-project/
 │       ├── Hero.jsx + Hero.css
 │       └── Section1.jsx + Section1.css
 ```
+
+---
+
+## Current Phase
+
+**Phase**: Phase 1F — Hero Final Audit & Lock
+
+**Goal**: Final Hero audit, protection lock, recovery checkpoint, and Phase 1 closure.
+
+**Status**: ✅ COMPLETED
+
+---
+
+## Phase 1 Summary
+
+| Phase | Objective | Status |
+|-------|-----------|--------|
+| **Phase 1** | Hero Cleanup + Project Memory | ✅ |
+| **Phase 1B** | Hero Quote Foundation | ✅ |
+| **Phase 1C** | Hero Quote Rotation | ✅ |
+| **Phase 1D** | Hero Quote Transition | ✅ |
+| **Phase 1E** | Responsive & Accessibility Verification | ✅ |
+| **Phase 1F** | Hero Final Audit & Lock | ✅ |
+
+---
+
+## Quote System
+
+| Aspect | Detail |
+|--------|--------|
+| **Data file** | `src/data/heroQuotes.js` — 7 original atmospheric lines |
+| **Rotation logic** | `src/components/Hero.jsx` — `useState` + `useEffect` with `setInterval` (7000ms) |
+| **Rotation order** | Sequential: 0 → 1 → 2 → ... → last → 0 (looping) |
+| **Cleanup** | `clearInterval(cycleInterval)` + `clearTimeout(fadeOutTimer)` + `clearTimeout(fadeInTimer)` |
+| **Transition type** | CSS `opacity` + `transform: translateY(8px)` — 400ms ease each direction |
+| **Transition trigger** | Rotation timer manages full cycle: fade-out → change text (while hidden) → fade-in |
+| **Reduced motion (CSS)** | `@media (prefers-reduced-motion: reduce)` — disables transition |
+| **Reduced motion (JS)** | `window.matchMedia` detection — skips all timer delays, swaps instantly |
+| **Video sync** | NOT connected — completely independent |
+| **Scroll sync** | NOT connected — completely independent |
+
+---
+
+## Corrected Transition Behavior
+
+1. Quote is fully visible at `opacity: 1` for ~6.15s
+2. Timer fires → `setIsQuoteHidden(true)` → old text fades OUT over 400ms
+3. After 400ms → `setQuoteIndex(...)` → text changes WHILE hidden (opacity 0)
+4. After 50ms → `setIsQuoteHidden(false)` → new text fades IN over 400ms
+5. Quote fully visible for ~6.15s, then cycle repeats
+
+**Important**: Quote `index` changes AFTER the fade-out, not simultaneously.
+
+---
+
+## Next Phase (Recommended)
+
+**Phase 2** — Data / Content Architecture Foundation
+
+Begin building the data layer for future One Piece content systems.
