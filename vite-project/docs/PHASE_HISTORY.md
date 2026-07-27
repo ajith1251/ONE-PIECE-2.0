@@ -219,3 +219,74 @@ The following were intentionally NOT implemented:
 **Phase 1D** — Hero Quote Transition Animation
 - Add smooth fade transition between quote changes
 - Keep the rotation logic from Phase 1C intact
+
+---
+
+## Phase 1D — Hero Quote Transition Animation
+
+**Date**: 2026-07-27
+
+**Objective**: Add a subtle, premium opacity + translateY transition between Hero quote changes. No new dependencies. Preserve all Phase 1C rotation logic intact.
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/components/Hero.jsx` | Added `isQuoteHidden` state, `isFirstQuoteRender` ref, `useLayoutEffect` watching `quoteIndex` (skips first render, triggers hide/show cycle), dynamic `className` toggling `.hero__quote--hidden` |
+| `src/components/Hero.css` | Added `transition: opacity 400ms ease, transform 400ms ease` to `.hero__quote`; added `.hero__quote--hidden` class (opacity 0, translateY 8px); added `@media (prefers-reduced-motion: reduce)` support |
+
+### Files Created
+
+None.
+
+### Files Deleted
+
+None.
+
+### Changes Made
+
+1. **CSS transition**: Added `transition: opacity 400ms ease, transform 400ms ease` to `.hero__quote` so all opacity/transform changes animate smoothly.
+2. **Hidden class**: Created `.hero__quote--hidden` with `opacity: 0; transform: translateY(8px)` for the exit state.
+3. **Transition logic in JS**: Added `useLayoutEffect` watching `quoteIndex`. On quote change: adds `--hidden` class (fade-out over 400ms), then after 400ms removes it (fade-in over 400ms). Uses `isFirstQuoteRender` ref to skip animation on initial mount.
+4. **Flash-frame prevention**: Uses `useLayoutEffect` instead of `useEffect` so React batches the hide-state update with the quoteIndex change, preventing a paint frame where the new text appears at full opacity.
+5. **Reduced motion**: `@media (prefers-reduced-motion: reduce)` disables the transition entirely. Quote still switches instantly and remains functional.
+6. **Layout stability**: Quote uses `position: absolute` so different-length quotes don't cause layout shifts.
+
+### Protected Systems Verified
+
+| System | Status | Notes |
+|--------|--------|-------|
+| Hero background video | ✅ Protected | Native autoplay, muted, loop, playsInline, independent of scrolling |
+| Navbar | ✅ Unchanged | No modifications |
+| Scroll indicator | ✅ Unchanged | No modifications |
+| Foreground scene animations | ✅ Unchanged | Scene GSAP timeline untouched |
+| Section1 (Crew cards) | ✅ Unchanged | No modifications |
+| Responsive layout | ✅ Preserved | No changes to breakpoints |
+| Quote data | ✅ Preserved | Still `src/data/heroQuotes.js` |
+| Quote rotation logic | ✅ Preserved | Phase 1C timer architecture intact |
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build (147ms) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+The following were intentionally NOT implemented:
+- Full Hero responsive/accessibility audit (next phase: 1E)
+- Manual quote navigation buttons (previous/next)
+- Quote progress indicators (dots/counter)
+- Quote randomization
+- Video or scroll synchronization for quotes
+- Any future content systems (characters, locations, arcs, etc.)
+
+### Next Recommended Phase
+
+**Phase 1E** — Hero Responsive & Accessibility Verification
+- Review Hero layout, quote readability, and accessibility across all device sizes

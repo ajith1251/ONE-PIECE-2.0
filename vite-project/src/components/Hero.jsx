@@ -54,6 +54,8 @@ export default function Hero() {
   const indicatorRef = useRef(null)
   const sceneRefs = useRef([])
   const [quoteIndex, setQuoteIndex] = useState(0)
+  const [isQuoteHidden, setIsQuoteHidden] = useState(false)
+  const isFirstQuoteRender = useRef(true)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -62,6 +64,21 @@ export default function Hero() {
 
     return () => clearInterval(interval)
   }, [])
+
+  useLayoutEffect(() => {
+    if (isFirstQuoteRender.current) {
+      isFirstQuoteRender.current = false
+      return
+    }
+
+    setIsQuoteHidden(true)
+
+    const timer = setTimeout(() => {
+      setIsQuoteHidden(false)
+    }, 400)
+
+    return () => clearTimeout(timer)
+  }, [quoteIndex])
 
   const assignSceneRef = (element, index) => {
     sceneRefs.current[index] = element
@@ -227,7 +244,9 @@ export default function Hero() {
         </div>
       </div>
 
-      <p className="hero__quote">“{heroQuotes[quoteIndex]}”</p>
+      <p className={`hero__quote${isQuoteHidden ? ' hero__quote--hidden' : ''}`}>
+        “{heroQuotes[quoteIndex]}”
+      </p>
 
       <div className="hero__scroll-indicator" ref={indicatorRef} aria-hidden="true">
         <div className="hero__scroll-label">Scroll to begin</div>
