@@ -1,16 +1,20 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useState, useLayoutEffect, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import heroQuotes from '../data/heroQuotes'
 import './Hero.css'
 
 gsap.registerPlugin(ScrollTrigger)
+
+/** Duration each quote is displayed before rotating to the next (in milliseconds) */
+const QUOTE_INTERVAL_MS = 7000
 
 const scenes = [
   {
     title: 'Dawn of the Storm',
     description:
       'A silent ocean shivers beneath storm-lit clouds. The horizon feels endless, and every ripple carries the weight of a legend waiting to rise.',
-  
+   
   },
   {
     title: 'Execution at Dawn',
@@ -49,37 +53,36 @@ export default function Hero() {
   const videoRef = useRef(null)
   const indicatorRef = useRef(null)
   const sceneRefs = useRef([])
+  const [quoteIndex, setQuoteIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % heroQuotes.length)
+    }, QUOTE_INTERVAL_MS)
+
+    return () => clearInterval(interval)
+  }, [])
 
   const assignSceneRef = (element, index) => {
     sceneRefs.current[index] = element
   }
 
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const playPromise = video.play()
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        /* Autoplay prevented — muted is already set, user interaction needed */
+      })
+    }
+  }, [])
+
   useLayoutEffect(() => {
     if (!heroRef.current) return
 
-    const video = videoRef.current
-    let videoDuration = 1
-    const proxy = { progress: 0 }
-
     const context = gsap.context(() => {
-      if (video) {
-        video.pause()
-        video.load()
-
-        const updateDuration = () => {
-          if (video.duration && !Number.isNaN(video.duration)) {
-            videoDuration = video.duration
-          }
-          if (video.readyState >= 2) {
-            video.currentTime = 0
-          }
-        }
-
-        video.addEventListener('loadedmetadata', updateDuration)
-        video.addEventListener('canplay', updateDuration)
-        updateDuration()
-      }
-
       const mm = gsap.matchMedia()
 
       mm.add(
@@ -107,11 +110,6 @@ export default function Hero() {
                 scrub: 0.95,
                 pin: true,
                 anticipatePin: 1,
-                pinSpacing: true,
-                invalidateOnRefresh: true,
-              },
-              defaults: {
-                ease: 'none',
               },
             })
 
@@ -122,39 +120,10 @@ export default function Hero() {
               scale: 0.98,
             })
 
-            timeline.to(
-              proxy,
-              {
-                progress: 1,
-                duration: 1,
-                onUpdate: () => {
-                  if (video && videoDuration > 0) {
-                    video.currentTime = Math.min(videoDuration, Math.max(0, proxy.progress * videoDuration))
-                  }
-                },
-              },
-              0,
-            )
-
             const fadeInDuration = 0.3
             const fadeOutDuration = 0.22
             const sceneGap = 0.55
             const sceneDuration = fadeInDuration + fadeOutDuration + sceneGap
-            const totalSceneDuration = sceneElements.length * sceneDuration
-
-            timeline.to(
-              proxy,
-              {
-                progress: 1,
-                duration: totalSceneDuration,
-                onUpdate: () => {
-                  if (video && videoDuration > 0) {
-                    video.currentTime = Math.min(videoDuration, Math.max(0, proxy.progress * videoDuration))
-                  }
-                },
-              },
-              0,
-            )
 
             sceneElements.forEach((content, index) => {
               const entrance = index * sceneDuration
@@ -227,10 +196,11 @@ export default function Hero() {
           ref={videoRef}
           className="hero__video"
           src="/video/hero.mp4"
-          preload="auto"
-          playsInline
+          autoPlay
           muted
-          playsinline
+          loop
+          playsInline
+          preload="auto"
           tabIndex={-1}
         />
         <div className="hero__overlay" aria-hidden="true" />
@@ -246,7 +216,6 @@ export default function Hero() {
               ref={(element) => assignSceneRef(element, index)}
             >
               <div className="hero__scene-copy">
-                <p className="hero__eyebrow">Chapter {index + 1}</p>
                 <h1>{scene.title}</h1>
                 <p>{scene.description}</p>
                 <button type="button" className="hero__button">
@@ -257,6 +226,8 @@ export default function Hero() {
           ))}
         </div>
       </div>
+
+      <p className="hero__quote">“{heroQuotes[quoteIndex]}”</p>
 
       <div className="hero__scroll-indicator" ref={indicatorRef} aria-hidden="true">
         <div className="hero__scroll-label">Scroll to begin</div>
