@@ -1,9 +1,9 @@
 # PROJECT MEMORY — One Piece 2.0
 
-> **Last Updated**: 2026-07-27
-> **Current Phase**: Phase 1G — Post-Lock Regression Test & Phase 2 Handoff
+> **Last Updated**: 2026-08-01
+> **Current Phase**: Phase 2B — Repository Foundation & Data Organization
 > **Phase 1 Status**: ✅ COMPLETE
-> **Hero Status**: 🔒 STABLE + PROTECTED
+> **Hero Status**: 🔒 STABLE + PROTECTED (unchanged)
 
 ---
 
@@ -324,8 +324,11 @@ A phase is NOT complete until memory is synchronized.
 | Aspect | Detail |
 |--------|--------|
 | **Git branch** | `main` |
-| **Latest commit** | `ab77f1b` — phase 1e: hero responsive and accessibility verification |
+| **Latest commit** | `027794f` — phase 1g: post-lock regression test and phase 2 handoff |
+| **Working tree** | ✅ Clean production code (only docs modified this phase) |
 | **Phase 1 status** | ✅ COMPLETE |
+| **Phase 2A status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2B status** | ✅ COMPLETE (folders + READMEs, no production logic changes) |
 | **Hero status** | 🔒 STABLE + PROTECTED |
 | **Lint status** | ✅ Passing |
 | **Build status** | ✅ Passing |
@@ -362,15 +365,15 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 1G — Post-Lock Regression Test & Phase 2 Handoff
+**Phase**: Phase 2B — Repository Foundation & Data Organization
 
-**Goal**: Final regression checkpoint proving Phase 1 can be trusted before Phase 2 development.
+**Goal**: Prepare the repository for future scalable data — create the data folder structure and documentation shelves (no content).
 
 **Status**: ✅ COMPLETED
 
 ---
 
-## Phase 1 Summary
+## Phase Summary
 
 | Phase | Objective | Status |
 |-------|-----------|--------|
@@ -381,6 +384,8 @@ vite-project/
 | **Phase 1E** | Responsive & Accessibility Verification | ✅ |
 | **Phase 1F** | Hero Final Audit & Lock | ✅ |
 | **Phase 1G** | Post-Lock Regression Test | ✅ |
+| **Phase 2A** | Architecture Audit & Data Foundation Blueprint | ✅ |
+| **Phase 2B** | Repository Foundation & Data Organization | ✅ |
 
 ---
 
@@ -415,6 +420,18 @@ vite-project/
 
 ## Next Phase (Recommended)
 
-**Phase 2** — Data / Content Architecture Foundation
+**Phase 2C** — Entity ID Convention
 
-Begin building the data layer for future One Piece content systems.
+Define the slug-based ID format (e.g., `monkey-d-luffy`) that all future One Piece entities will use. No data implementation.
+
+---
+
+## Phase 2 Architecture Plan
+
+Full blueprint lives in **`docs/PHASE2_ARCHITECTURE_PLAN.md`** — created in Phase 2A.
+
+It covers: current architecture, data flow, assets, strengths, limitations, risks, recommended future architecture, entity relationships, image strategy, map strategy, migration strategy, and the finalized Phase 2B–2O micro-phase roadmap.
+
+**Phase 2B created the data foundation**: `src/data/` now contains folders `characters/`, `locations/`, `arcs/`, `battles/`, `crews/`, `fruits/`, `ships/`, `events/`, `timeline/`, `shared/` — each with a concise README. All folders are EMPTY (documentation only). `heroQuotes.js` remains untouched at `src/data/heroQuotes.js`.
+
+**Phase 2 production implementation has NOT started.** The data layer (characters, locations, arcs, etc.) remains planned only.

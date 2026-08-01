@@ -716,3 +716,263 @@ All future content systems remain deferred (characters, arcs, map, battles, crew
 
 **Phase 2A** — Architecture & Data Foundation Audit
 - Begin building the data layer for future One Piece content systems
+
+---
+
+## Post-1G Memory Sync — Recovery Checkpoint Refresh
+
+> **Note**: Documentation-only sync, not a new feature phase. Applied between Phase 1G and Phase 2A.
+
+**Date**: 2026-08-01
+
+**Objective**: Refresh the persistent recovery checkpoint after a fresh manual verification of the repository state, so memory docs match the actual HEAD before Phase 2 work begins.
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `docs/PROJECT_MEMORY.md` | Updated `Last Updated` to 2026-08-01; corrected Recovery Checkpoint latest commit to `027794f` (was stale `ab77f1b`); added Working tree status row |
+| `AGENTS.md` | Updated `Last Updated` to 2026-08-01; refreshed Completed Phases index and Change Log |
+
+### Files Created
+
+None.
+
+### Files Deleted
+
+None.
+
+### Changes Made
+
+1. **Checkpoint corrected**: The Recovery Checkpoint recorded `ab77f1b` (phase 1e), but the verified HEAD is `027794f` (phase 1g). Updated to the actual commit.
+2. **Working tree recorded**: Added explicit clean-tree status row (only untracked `AGENTS.md` and `opencode.json` live outside the project root).
+3. **Lightweight index synced**: `AGENTS.md` last-updated date, completed phases list, and change log brought in line with the primary docs.
+
+### Verified State
+
+| Check | Result |
+|-------|--------|
+| Branch | `main` |
+| HEAD | `027794f` — phase 1g |
+| Working tree | ✅ Clean |
+| Phase 1 status | ✅ COMPLETE |
+| Hero status | 🔒 LOCKED |
+| Documentation-code sync | ✅ Verified (Hero.jsx, Navbar.jsx, Section1.jsx, heroQuotes.js match docs) |
+
+### Known Issues
+
+None.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` / `npm run build` | Not applicable — documentation-only change, no code touched |
+
+### Next Recommended Phase
+
+**Phase 2A** — Architecture & Data Foundation Audit
+- Begin building the data layer for future One Piece content systems
+
+---
+
+## Phase 2A — Architecture Audit & Data Foundation Blueprint
+
+**Date**: 2026-08-01
+
+**Objective**: Analyze the current project and produce a robust architectural blueprint that all future phases will follow. Analysis, documentation, and planning only — NO production code changes, NO data/UI implementation.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Full Phase 2 architecture blueprint — current state, future architecture, entity/image/map strategies, migration plan, Phase 2B–2L roadmap |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `docs/PROJECT_MEMORY.md` | Current phase → Phase 2A; added Phase 2A to summary; recovery checkpoint notes docs-only changes; added Phase 2 Architecture Plan section; next phase → 2B |
+| `AGENTS.md` | Index synced — Phase 2A marked complete, plan file location noted, next phase → 2B, change log entry added |
+
+### Findings
+
+1. **Only one true data module exists**: `src/data/heroQuotes.js`. All other One Piece content (Hero `scenes`, Section1 `crew`) is hardcoded inline in JSX.
+2. **Orphan assets identified**: `public/icons.svg`, `src/assets/hero.png`, `src/assets/react.svg`, `src/assets/vite.svg` — none referenced anywhere.
+3. **Image naming is numeric** (`img1.png`…`img10.png`) — not predictable per the future entity-name rule.
+4. **No routing, no tests, no TypeScript** — confirmed; single-page React SPA.
+5. **Nav links are placeholders** (`href="#"`); `index.html` title still "vite-project".
+6. **Tech stack verified**: React 19.2.7, Vite 8.1.0, GSAP 3.15.0, ESLint 10.5.0, Node v24.18.0.
+7. **Protected systems all untouched**: Hero (🔒), Navbar, Section1, heroQuotes.js — zero production changes.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NONE.** This phase is documentation-only by design.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None new. Documented limitations recorded in the architecture plan (inline data, orphan assets, placeholder nav, numeric image names).
+
+### Deferred Work
+
+All Phase 2B–2L implementation (ID convention, schemas, relationships, sample dataset, verification) is deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2B** — Entity ID Convention
+- Define the slug-based ID format (e.g., `monkey-d-luffy`, `alabasta`, `wano`) that all future entities will use
+- No data implementation
+
+---
+
+## Phase 2 Roadmap Revision — Finalized Micro-Phase Sequence (2B–2O)
+
+**Date**: 2026-08-01
+
+**Objective**: Record the user-finalized Phase 2 micro-phase sequence, superseding the provisional 2B–2L roadmap recorded in the Phase 2A entry. Documentation-only revision — no production code changed.
+
+### Finalized Roadmap
+
+| Phase | Objective |
+|-------|-----------|
+| **2A** | Architecture audit & blueprint — ✅ COMPLETE |
+| **2B** | Repository conventions |
+| **2C** | Entity ID conventions |
+| **2D** | Shared metadata/schema conventions |
+| **2E** | Character schema |
+| **2F** | Location schema |
+| **2G** | Arc schema |
+| **2H** | Crew/Faction schema |
+| **2I** | Battle schema |
+| **2J** | Devil Fruit schema |
+| **2K** | Ship schema |
+| **2L** | Relationship conventions |
+| **2M** | Small integrated dataset |
+| **2N** | Architecture verification |
+| **2O** | Architecture lock |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap table → 2A–2O; phase refs updated (characters→2E, locations→2F, arcs→2G, crews→2H, battles→2I, fruits→2J, ships→2K, relationships→2L); haki.js → future (not in roadmap); imageResolver.js → future (post-roadmap); next step → 2B Repository Conventions |
+| `docs/PROJECT_MEMORY.md` | Next phase → 2B Repository Conventions; roadmap reference → 2B–2O |
+| `AGENTS.md` | Next phase → 2B Repository Conventions; change log entry added |
+
+### Notes
+
+- The provisional "Phase 2B — Entity ID Convention" pointer from Phase 2A is superseded: entity IDs are now **2C**, repository conventions are **2B**.
+- No protected systems touched. No production code changed.
+
+### Next Recommended Phase
+
+**Phase 2B** — Repository Conventions
+- Establish folder layout, module naming, and file conventions for the future data layer
+- No data implementation
+
+---
+
+## Phase 2B — Repository Foundation & Data Organization
+
+**Date**: 2026-08-01
+
+**Objective**: Prepare the repository for future scalable data. Build the shelves (folder structure + documentation), not the content. No characters, locations, arcs, IDs, schemas, resolvers, UI, or Hero changes.
+
+### Folders Created
+
+`src/data/` now contains:
+
+| Folder | Purpose | Future Schema Phase |
+|--------|---------|---------------------|
+| `characters/` | Character datasets (100–300+ planned) | 2E |
+| `locations/` | Location datasets (islands, seas, regions) | 2F |
+| `arcs/` | Arc / saga datasets | 2G |
+| `crews/` | Crew / faction datasets | 2H |
+| `battles/` | Battle datasets | 2I |
+| `fruits/` | Devil Fruit datasets | 2J |
+| `ships/` | Ship datasets | 2K |
+| `events/` | Notable world-event datasets | not yet assigned |
+| `timeline/` | Chronological timeline records | references 2C/2L |
+| `shared/` | IDs, metadata, relationships, image keys, validation (documented only) | 2C/2D/2L |
+
+All folders are EMPTY — README.md only. **Do not populate until their schema phases.**
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/characters/README.md` | Folder purpose + belongs / does-not-belong + phases |
+| `src/data/locations/README.md` | Same |
+| `src/data/arcs/README.md` | Same |
+| `src/data/battles/README.md` | Same |
+| `src/data/crews/README.md` | Same |
+| `src/data/fruits/README.md` | Same |
+| `src/data/ships/README.md` | Same |
+| `src/data/events/README.md` | Same |
+| `src/data/timeline/README.md` | Same |
+| `src/data/shared/README.md` | Future shared concepts (IDs, metadata, relationships, image keys, validation) |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Section 9 tree now mirrors real folders; section 11 extended (future image organization under `public/images/`, naming, missing-image policy, image replacement policy); section 13 extended (recommended migration order Characters→Locations→Arcs→Battles→Relationships→Images→Interfaces) |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2B; summary + recovery checkpoint updated; next phase → 2C; data foundation noted |
+
+### Existing Data Preserved
+
+- `src/data/heroQuotes.js` — ✅ untouched, not renamed, not relocated.
+- Hero import (`import heroQuotes from '../data/heroQuotes'`) — ✅ unchanged.
+- No production imports or logic changed.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — production code (JS/JSX/CSS) untouched. Only new empty folders, README files, and documentation.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content (characters, locations, arcs, etc.), IDs, schemas, relationships, image resolver, and UI remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2C** — Entity ID Convention
+- Define the slug-based ID format (e.g., `monkey-d-luffy`) that all future entities will use
+- No data implementation
