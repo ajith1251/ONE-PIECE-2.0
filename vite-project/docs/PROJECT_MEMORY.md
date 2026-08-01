@@ -1,7 +1,7 @@
 # PROJECT MEMORY — One Piece 2.0
 
 > **Last Updated**: 2026-08-01
-> **Current Phase**: Phase 2B — Repository Foundation & Data Organization
+> **Current Phase**: Phase 2C — Universal Entity ID Convention
 > **Phase 1 Status**: ✅ COMPLETE
 > **Hero Status**: 🔒 STABLE + PROTECTED (unchanged)
 
@@ -329,6 +329,7 @@ A phase is NOT complete until memory is synchronized.
 | **Phase 1 status** | ✅ COMPLETE |
 | **Phase 2A status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2B status** | ✅ COMPLETE (folders + READMEs, no production logic changes) |
+| **Phase 2C status** | ✅ COMPLETE (documentation-only) |
 | **Hero status** | 🔒 STABLE + PROTECTED |
 | **Lint status** | ✅ Passing |
 | **Build status** | ✅ Passing |
@@ -365,9 +366,9 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 2B — Repository Foundation & Data Organization
+**Phase**: Phase 2C — Universal Entity ID Convention
 
-**Goal**: Prepare the repository for future scalable data — create the data folder structure and documentation shelves (no content).
+**Goal**: Establish ONE universal ID convention (lowercase kebab-case, stable, immutable) that every future One Piece entity follows.
 
 **Status**: ✅ COMPLETED
 
@@ -386,6 +387,7 @@ vite-project/
 | **Phase 1G** | Post-Lock Regression Test | ✅ |
 | **Phase 2A** | Architecture Audit & Data Foundation Blueprint | ✅ |
 | **Phase 2B** | Repository Foundation & Data Organization | ✅ |
+| **Phase 2C** | Universal Entity ID Convention | ✅ |
 
 ---
 
@@ -420,9 +422,9 @@ vite-project/
 
 ## Next Phase (Recommended)
 
-**Phase 2C** — Entity ID Convention
+**Phase 2D** — Shared Entity Metadata & Schema Foundation
 
-Define the slug-based ID format (e.g., `monkey-d-luffy`) that all future One Piece entities will use. No data implementation.
+Define the common metadata fields every entity shares (id, displayName, imageKey, summary…). No data implementation.
 
 ---
 
@@ -433,5 +435,7 @@ Full blueprint lives in **`docs/PHASE2_ARCHITECTURE_PLAN.md`** — created in Ph
 It covers: current architecture, data flow, assets, strengths, limitations, risks, recommended future architecture, entity relationships, image strategy, map strategy, migration strategy, and the finalized Phase 2B–2O micro-phase roadmap.
 
 **Phase 2B created the data foundation**: `src/data/` now contains folders `characters/`, `locations/`, `arcs/`, `battles/`, `crews/`, `fruits/`, `ships/`, `events/`, `timeline/`, `shared/` — each with a concise README. All folders are EMPTY (documentation only). `heroQuotes.js` remains untouched at `src/data/heroQuotes.js`.
+
+**Phase 2C established the Universal Entity ID Convention**: documented in **`src/data/shared/entity-ids.md`** — lowercase kebab-case IDs, immutable once published, never generated at runtime, `id` ≠ `displayName`, `imageKey` = entity ID, future relationships reference IDs. No production code touched.
 
 **Phase 2 production implementation has NOT started.** The data layer (characters, locations, arcs, etc.) remains planned only.

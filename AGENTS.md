@@ -55,11 +55,13 @@ vite-project/
 - **Phase 1** (1–1G): Hero Cleanup, Quote System, Responsive/Accessibility Audit, Final Lock, Post-Lock Regression — all ✅ COMPLETE (2026-07-27)
 - **Phase 2A** (2026-08-01): Architecture Audit & Data Foundation Blueprint — ✅ COMPLETE (docs only). Plan: `vite-project/docs/PHASE2_ARCHITECTURE_PLAN.md`
 - **Phase 2B** (2026-08-01): Repository Foundation & Data Organization — ✅ COMPLETE. `src/data/` now has empty folders (characters, locations, arcs, battles, crews, fruits, ships, events, timeline, shared) each with a README. No production logic changed.
-- Hero is 🔒 LOCKED. Next: Phase 2C — Entity ID Convention
+- **Phase 2C** (2026-08-01): Universal Entity ID Convention — ✅ COMPLETE. Doc: `src/data/shared/entity-ids.md` (lowercase kebab-case, immutable, id ≠ displayName). No production logic changed.
+- Hero is 🔒 LOCKED. Next: Phase 2D — Shared Entity Metadata & Schema Foundation
 
 > **Full details**: `vite-project/docs/PROJECT_MEMORY.md` + `vite-project/docs/PHASE_HISTORY.md`
 
 ## Change Log
+- **2026-08-01**: Phase 2C completed. Created `src/data/shared/entity-ids.md` (Universal Entity ID Convention), updated shared README + memory docs.
 - **2026-08-01**: Phase 2B completed. Created 10 empty data folders + READMEs under `src/data/`, extended architecture plan (image organization + migration order).
 - **2026-08-01**: Phase 2 roadmap finalized (2B–2O). Docs synced: `PHASE2_ARCHITECTURE_PLAN.md`, `PROJECT_MEMORY.md`, `PHASE_HISTORY.md`, `AGENTS.md`.
 - **2026-08-01**: Phase 2A completed (docs-only). Created `PHASE2_ARCHITECTURE_PLAN.md`, memory synced.

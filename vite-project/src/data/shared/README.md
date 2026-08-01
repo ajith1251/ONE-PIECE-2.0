@@ -3,12 +3,21 @@
 ## Purpose
 Future home for common utilities, metadata, and conventions shared across ALL data folders. **Nothing is implemented yet** — this file documents the plan only.
 
-## Future Shared Concepts
+## Established Conventions
 
-### Entity IDs (Phase 2C)
-- Every entity will get a stable, unique slug-based ID.
+### Entity IDs (Phase 2C) — ✅ DOCUMENTED
+
+See **`entity-ids.md`** in this folder for the complete Universal Entity ID Convention.
+
+Quick summary:
+- IDs are lowercase, kebab-case, unique, stable, immutable once published, independent from UI text.
+- IDs are NEVER generated dynamically at runtime.
+- `id` ≠ `displayName` (identity vs UI text).
+- `imageKey` normally equals the entity ID.
+- Future relationships reference IDs (`characterIds`, `locationIds`, `crewIds`, etc.).
 - Example: `monkey-d-luffy`, `alabasta`, `wano`, `egghead`.
-- Shared ID helpers (validation, normalization) will live here.
+
+Shared ID helpers (validation, normalization) will live here in a future phase.
 
 ### Metadata
 - Common fields every entity shares (e.g., `id`, `name`, `imageKey`, `summary`).
@@ -33,9 +42,9 @@ Future home for common utilities, metadata, and conventions shared across ALL da
 - Image assets
 
 ## Expected Future Phases
-- **2C** — Entity ID conventions
+- **2C** — Entity ID conventions — ✅ DONE (see `entity-ids.md`)
 - **2D** — Shared metadata/schema conventions
 - **2L** — Relationship conventions
 
 ## Status
-🔲 EMPTY — documentation only. Do not implement shared helpers until their phases arrive.
+📄 README + `entity-ids.md` only. Do not implement shared helpers until their phases arrive.

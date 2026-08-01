@@ -889,6 +889,74 @@ All Phase 2B–2L implementation (ID convention, schemas, relationships, sample 
 
 ---
 
+## Phase 2C — Universal Entity ID Convention
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE universal identification system that every future One Piece entity will follow (characters, locations, arcs, battles, crews, ships, Devil Fruits, events, timeline, mysteries). Convention must remain stable for the lifetime of the project.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/shared/entity-ids.md` | The complete Universal Entity ID Convention — rules, display-name separation, image key, file naming, examples, invalid examples, future relationships |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/shared/README.md` | Added "Established Conventions → Entity IDs (Phase 2C) ✅" section referencing `entity-ids.md`; updated status |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2C; summary + recovery checkpoint updated; next phase → 2D; ID convention location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2C marked ✅ DONE; closing note → 2D–2O; section 16 → Phase 2D; section 9 legend updated (shared/ holds entity-ids.md) |
+| `AGENTS.md` | Phase 2C complete; next phase → 2D; change log entry added |
+
+### Convention Established
+
+1. **Universal rules**: IDs are lowercase, kebab-case, unique, stable, immutable once published, independent from UI text. NEVER generated dynamically at runtime.
+2. **Display name separation**: `id` (`monkey-d-luffy`) ≠ `displayName` (`Monkey D. Luffy`). UI shows display name; relationships use IDs.
+3. **Image key**: `imageKey` normally equals the entity ID (`monkey-d-luffy` → `monkey-d-luffy`).
+4. **File naming**: artwork follows `entity-id.*` (e.g., `monkey-d-luffy.*`, `alabasta.*`) in any browser format, no fixed extension.
+5. **Examples**: one per type — Character `monkey-d-luffy`, Location `alabasta`, Arc `marineford`, Crew `straw-hat-pirates`, Ship `thousand-sunny`, Battle `marineford-war`, Devil Fruit `gomu-gomu-no-mi`.
+6. **Invalid examples documented**: `Luffy`, `Monkey D Luffy`, `Monkey_D_Luffy`, `MonkeyDLuffy`, `IMG001`, `character1`.
+7. **Future relationships**: reference IDs via `characterIds`, `locationIds`, `crewIds`, `battleIds`, `shipIds`, `fruitIds`. No logic implemented.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, schemas, image resolver, and UI remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2D** — Shared Entity Metadata & Schema Foundation
+- Define the common metadata fields every entity shares (id, displayName, imageKey, summary…)
+- No data implementation
+
+---
+
 ## Phase 2B — Repository Foundation & Data Organization
 
 **Date**: 2026-08-01
