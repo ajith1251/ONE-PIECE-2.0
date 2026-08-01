@@ -957,6 +957,150 @@ All content, schemas, image resolver, and UI remain deferred by design.
 
 ---
 
+## Phase 2D — Shared Entity Metadata & Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Design one reusable metadata foundation that every future entity schema (characters, locations, arcs, battles, crews, ships, Devil Fruits, events, timeline, mysteries) extends. Lightweight and generic — NO giant master object, NO entity-specific fields.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/shared/entity-metadata.md` | The shared metadata foundation — required fields, optional fields, image/tag/status/alias/notes strategies, relationship placeholders, inheritance philosophy, illustrative example |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/shared/README.md` | Added "Shared Metadata & Schema Foundation (Phase 2D) ✅" section referencing `entity-metadata.md`; expected phases 2D marked DONE |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2D; summary + recovery checkpoint updated; next phase → 2E; metadata foundation location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2D marked ✅ DONE; closing note → 2E–2O; section 16 → Phase 2E; section 9 legend updated (shared/ also holds entity-metadata.md) |
+| `AGENTS.md` | Phase 2D complete; next phase → 2E; change log entry added |
+
+### Shared Concepts Established
+
+1. **Design principle**: NO giant master object. Lightweight generic shared layer; specialized schemas extend it.
+2. **Required fields** (intentionally small): `id`, `displayName`, `description`.
+3. **Optional fields**: `aliases`, `tags`, `status`, `imageKey`, `notes`, `metadata`, `createdAt`, `updatedAt`.
+4. **Excluded fields** (entity-specific — belong in specialized schemas): `bounty`, `crew`, `devilFruit`, `captain`, `ship`, `location`, `arc`, `battle`, `power`, `haki`, `episode`, `kingdom`, `island`.
+5. **Image metadata**: reference `imageKey` only — never paths, extensions, or absolute URLs. Loading is a future phase.
+6. **Tag strategy**: concept only — `pirate`, `marine`, `yonko`, `east-blue`, `villain`, `captain`, `doctor`, `navigator` (illustrative).
+7. **Status strategy**: concept only — `active`, `inactive`, `unknown`, `historic`, `deceased`.
+8. **Alias strategy**: optional `aliases` array (e.g., Gold Roger → Gol D. Roger). Metadata only, no search.
+9. **Notes strategy**: optional maintainer notes, never rendered directly in UI.
+10. **Relationship placeholders**: `characterIds`, `locationIds`, `battleIds`, `crewIds`, `fruitIds`, `shipIds` — IDs only, not implemented.
+11. **Inheritance**: future schema phases (2E–2K) extend this layer in their own folders.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, specialized schemas, relationships, image loading, and UI remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2E** — Character Schema
+- Define the character entity schema extending the shared metadata foundation
+- No production data implementation
+
+---
+
+## Phase 2E — Character Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE reusable character schema that represents every One Piece character type (Straw Hats, Marines, Yonko, Shichibukai, Revolutionaries, World Government, Pirates, Civilians, Kings, Villains, Historical figures, Future characters). Schema only — NOT the character database.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/characters/character-schema.md` | The Character Schema Foundation — base metadata reuse, character-specific fields, ID-only relationships, achievements structure, power references, image strategy, spoiler support, one sample record, archetype validation |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/characters/README.md` | Added "Schema (Phase 2E ✅)" section referencing `character-schema.md`; expected phases 2C/2D/2E marked DONE + 2M noted; status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2E; summary + recovery checkpoint updated; next phase → 2F; schema location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2E marked ✅ DONE; closing note → 2F–2O; section 16 → Phase 2F; section 9 legend updated (characters/ also holds character-schema.md) |
+| `AGENTS.md` | Phase 2E complete; next phase → 2F; change log entry added |
+
+### Schema Established
+
+1. **Objective**: one schema for all character types — no per-type variants.
+2. **Design principles**: reusable, extensible, image-first, relationship-friendly, independent from UI/image loading/routing.
+3. **Base metadata**: reuses shared layer (`id`, `displayName`, `description` required; aliases/tags/status/imageKey/notes/metadata/dates optional) — NOT duplicated.
+4. **Character fields**: `bounty`, `occupation`, `role`, `species`, `gender`, `birthday`, `age`, `height`, `originLocationId`, `currentLocationId`, `nicknames`, `haki`, `devilFruitId`, `weapons`, `fightingStyles`, `voiceActors`, `firstAppearance`, `latestAppearance`.
+5. **Relationships**: ID references only — `crewIds`, `locationIds`, `arcIds`, `battleIds`, `shipIds`, `fruitId`, `mentorIds`, `rivalIds`, `familyIds`. Never embed objects.
+6. **Achievements**: structure only — typed entries (title/victory/territory/kingdom/accomplishment), nothing populated.
+7. **Powers**: references only — `haki` array, `devilFruitId`, `fightingStyles`, `weapons`. No power databases.
+8. **Image strategy**: `imageKey` only (e.g., `monkey-d-luffy`); never hardcoded extensions or URLs.
+9. **Spoiler safety**: `spoilerLevel` field (`basic`/`advanced`/`late`) supports future filtering — no implementation.
+10. **Sample**: ONE record (`monkey-d-luffy`) validates the schema — documentation only.
+11. **Archetype validation**: pirate / marine / civilian / historical figure all fit the same schema with zero modifications.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, the character database (Phase 2M), interfaces, search, image loading, and spoiler filtering remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2F** — Location Schema
+- Define the location entity schema extending the shared metadata foundation
+- No production data implementation
+
+---
+
 ## Phase 2B — Repository Foundation & Data Organization
 
 **Date**: 2026-08-01

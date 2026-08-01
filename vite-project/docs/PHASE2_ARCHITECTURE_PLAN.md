@@ -208,7 +208,7 @@ src/
 └── assets/                      ← imported assets (currently orphaned)
 ```
 
-> **Legend**: Folders `characters/`…`shared/` were CREATED in Phase 2B (empty except READMEs; `shared/` also holds `entity-ids.md` from Phase 2C).
+> **Legend**: Folders `characters/`…`shared/` were CREATED in Phase 2B (empty except READMEs; `shared/` also holds `entity-ids.md` from Phase 2C and `entity-metadata.md` from Phase 2D; `characters/` holds `character-schema.md` from Phase 2E).
 > Files like `shared/relationships.js` and `lib/imageResolver.js` are PLANNED for future phases — they do NOT exist yet.
 
 **Principles**:
@@ -344,8 +344,8 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 | **2A** | Architecture audit + blueprint | ✅ DONE — this document |
 | **2B** | Repository conventions | ✅ DONE — 10 data folders + READMEs created (Phase 2B) |
 | **2C** | Entity ID conventions | ✅ DONE — convention in `src/data/shared/entity-ids.md` (Phase 2C) |
-| **2D** | Shared metadata/schema conventions | Common fields every entity shares (id, name, image, summary…) |
-| **2E** | Character schema | Character entity shape (no data yet, or small sample) |
+| **2D** | Shared metadata/schema conventions | ✅ DONE — foundation in `src/data/shared/entity-metadata.md` (Phase 2D) |
+| **2E** | Character schema | ✅ DONE — schema in `src/data/characters/character-schema.md` (Phase 2E) |
 | **2F** | Location schema | Location entity shape |
 | **2G** | Arc schema | Arc entity shape |
 | **2H** | Crew/Faction schema | Crew + faction entity shapes |
@@ -357,7 +357,7 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 | **2N** | Architecture verification | Regression test of the data layer |
 | **2O** | Architecture lock | Freeze conventions, record protected systems |
 
-> Phases 2D–2O are **planned only** — none are implemented.
+> Phases 2F–2O are **planned only** — none are implemented.
 
 ---
 
@@ -374,4 +374,4 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 
 ## 16. Immediate Next Step
 
-**Phase 2D — Shared Entity Metadata & Schema Foundation**: Define the common metadata fields every entity shares (id, displayName, imageKey, summary…). No data implementation.
+**Phase 2F — Location Schema**: Define the location entity schema extending the shared metadata foundation. No production data implementation.

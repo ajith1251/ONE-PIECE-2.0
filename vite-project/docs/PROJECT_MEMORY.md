@@ -1,7 +1,7 @@
 # PROJECT MEMORY — One Piece 2.0
 
 > **Last Updated**: 2026-08-01
-> **Current Phase**: Phase 2C — Universal Entity ID Convention
+> **Current Phase**: Phase 2E — Character Schema Foundation
 > **Phase 1 Status**: ✅ COMPLETE
 > **Hero Status**: 🔒 STABLE + PROTECTED (unchanged)
 
@@ -330,6 +330,8 @@ A phase is NOT complete until memory is synchronized.
 | **Phase 2A status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2B status** | ✅ COMPLETE (folders + READMEs, no production logic changes) |
 | **Phase 2C status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2D status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2E status** | ✅ COMPLETE (documentation-only) |
 | **Hero status** | 🔒 STABLE + PROTECTED |
 | **Lint status** | ✅ Passing |
 | **Build status** | ✅ Passing |
@@ -366,9 +368,9 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 2C — Universal Entity ID Convention
+**Phase**: Phase 2E — Character Schema Foundation
 
-**Goal**: Establish ONE universal ID convention (lowercase kebab-case, stable, immutable) that every future One Piece entity follows.
+**Goal**: Define ONE reusable character schema (extending the shared metadata layer) that represents every character type.
 
 **Status**: ✅ COMPLETED
 
@@ -388,6 +390,8 @@ vite-project/
 | **Phase 2A** | Architecture Audit & Data Foundation Blueprint | ✅ |
 | **Phase 2B** | Repository Foundation & Data Organization | ✅ |
 | **Phase 2C** | Universal Entity ID Convention | ✅ |
+| **Phase 2D** | Shared Entity Metadata & Schema Foundation | ✅ |
+| **Phase 2E** | Character Schema Foundation | ✅ |
 
 ---
 
@@ -422,9 +426,9 @@ vite-project/
 
 ## Next Phase (Recommended)
 
-**Phase 2D** — Shared Entity Metadata & Schema Foundation
+**Phase 2F** — Location Schema
 
-Define the common metadata fields every entity shares (id, displayName, imageKey, summary…). No data implementation.
+Define the location entity schema extending the shared metadata foundation. No production data implementation.
 
 ---
 
@@ -437,5 +441,9 @@ It covers: current architecture, data flow, assets, strengths, limitations, risk
 **Phase 2B created the data foundation**: `src/data/` now contains folders `characters/`, `locations/`, `arcs/`, `battles/`, `crews/`, `fruits/`, `ships/`, `events/`, `timeline/`, `shared/` — each with a concise README. All folders are EMPTY (documentation only). `heroQuotes.js` remains untouched at `src/data/heroQuotes.js`.
 
 **Phase 2C established the Universal Entity ID Convention**: documented in **`src/data/shared/entity-ids.md`** — lowercase kebab-case IDs, immutable once published, never generated at runtime, `id` ≠ `displayName`, `imageKey` = entity ID, future relationships reference IDs. No production code touched.
+
+**Phase 2D established the Shared Entity Metadata & Schema Foundation**: documented in **`src/data/shared/entity-metadata.md`** — required fields (`id`, `displayName`, `description`), optional fields (`aliases`, `tags`, `status`, `imageKey`, `notes`, `metadata`, `createdAt`, `updatedAt`), image/tag/status/alias/notes strategies, relationship placeholders (IDs only). No giant master object; specialized schemas extend this layer. No production code touched.
+
+**Phase 2E established the Character Schema Foundation**: documented in **`src/data/characters/character-schema.md`** — one reusable schema for all character types (pirates, marines, civilians, historical figures…). Extends shared metadata; character fields (`bounty`, `occupation`, `role`, `species`, `haki`, `devilFruitId`, …); ID-only relationships; `imageKey` strategy; `spoilerLevel` for future spoiler safety; one sample record (`monkey-d-luffy`) for validation. No character database yet. No production code touched.
 
 **Phase 2 production implementation has NOT started.** The data layer (characters, locations, arcs, etc.) remains planned only.

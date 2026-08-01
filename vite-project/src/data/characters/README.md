@@ -7,6 +7,19 @@ Future home for all character datasets in One Piece 2.0 (100–300+ planned).
 - Character entity records (e.g., `monkey-d-luffy`)
 - Character schemas, lookups, and helpers
 
+## Schema (Phase 2E — ✅ DONE)
+
+See **`character-schema.md`** in this folder for the Character Schema Foundation.
+
+Quick summary:
+- Extends the shared metadata foundation (`../shared/entity-metadata.md`).
+- Required: `id`, `displayName`, `description` (from shared layer).
+- Character fields: `bounty`, `occupation`, `role`, `species`, `haki`, `devilFruitId`, `weapons`, `fightingStyles`, `originLocationId`, `currentLocationId`, etc.
+- Relationships are ID references only: `crewIds`, `locationIds`, `arcIds`, `battleIds`, `shipIds`, `fruitId`, `mentorIds`, `rivalIds`, `familyIds`.
+- `imageKey` only — never hardcoded extensions or URLs.
+- `spoilerLevel` supports future spoiler filtering (basic/advanced/late).
+- One sample record (`monkey-d-luffy`) validates the schema. NO character database yet.
+
 ## ID Convention
 
 Characters MUST follow the **Universal Entity ID Convention** (see `../shared/entity-ids.md`):
@@ -23,7 +36,9 @@ Characters MUST follow the **Universal Entity ID Convention** (see `../shared/en
 
 ## Expected future phases
 - **2C** — Entity ID conventions — ✅ DONE (see `../shared/entity-ids.md`)
-- **2E** — Character schema
+- **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
+- **2E** — Character schema — ✅ DONE (see `character-schema.md`)
+- **2M** — Sample integrated dataset (first real character records)
 
 ## Status
-🔲 EMPTY — do not populate until Phase 2E defines the character schema.
+📄 README + `character-schema.md` only. Character records are NOT created until Phase 2M.

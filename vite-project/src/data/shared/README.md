@@ -19,6 +19,18 @@ Quick summary:
 
 Shared ID helpers (validation, normalization) will live here in a future phase.
 
+### Shared Metadata & Schema Foundation (Phase 2D) — ✅ DOCUMENTED
+
+See **`entity-metadata.md`** in this folder for the shared metadata layer every future schema extends.
+
+Quick summary:
+- **No giant master object** — lightweight generic layer; specialized schemas extend it.
+- **Required fields**: `id`, `displayName`, `description` (intentionally small).
+- **Optional fields**: `aliases`, `tags`, `status`, `imageKey`, `notes`, `metadata`, `createdAt`, `updatedAt`.
+- **Image reference** is `imageKey` only — never paths, extensions, or URLs. Loading is a future phase.
+- **Relationship placeholders**: `characterIds`, `locationIds`, `battleIds`, `crewIds`, `fruitIds`, `shipIds` — IDs only.
+- Entity-specific fields (`bounty`, `crew`, `devilFruit`, `haki`, …) belong in specialized schemas, NOT here.
+
 ### Metadata
 - Common fields every entity shares (e.g., `id`, `name`, `imageKey`, `summary`).
 - Shared metadata shape documented in Phase 2D.
@@ -43,8 +55,8 @@ Shared ID helpers (validation, normalization) will live here in a future phase.
 
 ## Expected Future Phases
 - **2C** — Entity ID conventions — ✅ DONE (see `entity-ids.md`)
-- **2D** — Shared metadata/schema conventions
+- **2D** — Shared metadata/schema conventions — ✅ DONE (see `entity-metadata.md`)
 - **2L** — Relationship conventions
 
 ## Status
-📄 README + `entity-ids.md` only. Do not implement shared helpers until their phases arrive.
+📄 README + `entity-ids.md` + `entity-metadata.md` only. Do not implement shared helpers until their phases arrive.
