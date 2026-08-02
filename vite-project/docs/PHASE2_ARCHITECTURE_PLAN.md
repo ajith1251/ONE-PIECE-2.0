@@ -208,7 +208,7 @@ src/
 └── assets/                      ← imported assets (currently orphaned)
 ```
 
-> **Legend**: Folders `characters/`…`shared/` were CREATED in Phase 2B (empty except READMEs; `shared/` also holds `entity-ids.md` from Phase 2C and `entity-metadata.md` from Phase 2D; `characters/` holds `character-schema.md` from Phase 2E; `locations/` holds `location-schema.md` from Phase 2F).
+> **Legend**: Folders `characters/`…`shared/` were CREATED in Phase 2B (empty except READMEs; `shared/` also holds `entity-ids.md` from Phase 2C, `entity-metadata.md` from Phase 2D, and `relationships.md` from Phase 2L; `characters/` holds `character-schema.md` from Phase 2E; `locations/` holds `location-schema.md` from Phase 2F; `arcs/` holds `arc-schema.md` from Phase 2G; `crews/` holds `crew-schema.md` from Phase 2H; `battles/` holds `battle-schema.md` from Phase 2I; `fruits/` holds `power-schema.md` from Phase 2J; `ships/` holds `ship-schema.md` from Phase 2K). Phase 2M added the first real data: each folder now also holds an `index.js` dataset module (`characters/`, `locations/`, `arcs/`, `crews/`, `battles/`, `ships/`, `fruits/`).
 > Files like `shared/relationships.js` and `lib/imageResolver.js` are PLANNED for future phases — they do NOT exist yet.
 
 **Principles**:
@@ -222,6 +222,12 @@ src/
 ---
 
 ## 10. Entity Relationship Strategy (Concept Only)
+
+**Canonized in Phase 2L → `src/data/shared/relationships.md`.**
+
+The full Cross-Entity Relationship Convention defines: ID-only references (never embedded entities), single-direction storage with dynamically derived reverse links, cardinality rules (One→One singular, One→Many/Many→Many plural `*Ids`), standard field naming (`characterIds`, `locationIds`, `battleIds`, `crewIds`, `shipIds`, `fruitIds`, `eventIds`, `arcIds`, `powerIds`), a complete entity relationship matrix, cascade principles, image independence, and future search/map/timeline/validation strategies.
+
+Concept-level overview (see the convention doc for the authoritative rules):
 
 ```
             Character
@@ -237,13 +243,7 @@ src/
         Timeline / Mysteries
 ```
 
-Future relationships are **many-to-many and concept-level** for now:
-- Character ↔ Crew (membership), Character ↔ Devil Fruit (ownership), Character ↔ Haki (ability)
-- Arc ↔ Location (setting), Arc ↔ Character (participants), Arc ↔ Battle (events)
-- Crew ↔ Ship (vessel), Crew ↔ Faction (affiliation)
-- Location ↔ Battle (where), Timeline ↔ Arc (when)
-
-**No IDs or schemas are implemented in this phase.** Phase 2C defines the ID convention; Phase 2L wires the relationships.
+No relationship logic is implemented in this phase — the convention is architecture only.
 
 ---
 
@@ -347,17 +347,17 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 | **2D** | Shared metadata/schema conventions | ✅ DONE — foundation in `src/data/shared/entity-metadata.md` (Phase 2D) |
 | **2E** | Character schema | ✅ DONE — schema in `src/data/characters/character-schema.md` (Phase 2E) |
 | **2F** | Location schema | ✅ DONE — schema in `src/data/locations/location-schema.md` (Phase 2F) |
-| **2G** | Arc schema | Arc entity shape |
-| **2H** | Crew/Faction schema | Crew + faction entity shapes |
-| **2I** | Battle schema | Battle entity shape |
-| **2J** | Devil Fruit schema | Devil Fruit entity shape |
-| **2K** | Ship schema | Ship entity shape |
-| **2L** | Relationship conventions | Reference keys between schemas |
-| **2M** | Small integrated dataset | Small connected dataset proving schemas + relationships |
+| **2G** | Arc schema | ✅ DONE — schema in `src/data/arcs/arc-schema.md` (Phase 2G) |
+| **2H** | Crew/Faction schema | ✅ DONE — schema in `src/data/crews/crew-schema.md` (Phase 2H) |
+| **2I** | Battle schema | ✅ DONE — schema in `src/data/battles/battle-schema.md` (Phase 2I) |
+| **2J** | Devil Fruit schema | ✅ DONE — schema in `src/data/fruits/power-schema.md` (Phase 2J — Devil Fruit & Power) |
+| **2K** | Ship schema | ✅ DONE — schema in `src/data/ships/ship-schema.md` (Phase 2K) |
+| **2L** | Relationship conventions | ✅ DONE — convention in `src/data/shared/relationships.md` (Phase 2L) |
+| **2M** | Small integrated dataset | Small connected dataset proving schemas + relationships — ✅ DONE (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power in `src/data/<type>/index.js`) |
 | **2N** | Architecture verification | Regression test of the data layer |
 | **2O** | Architecture lock | Freeze conventions, record protected systems |
 
-> Phases 2G–2O are **planned only** — none are implemented.
+> Phases 2N–2O are **planned only** — none are implemented. Phase 2M delivered the first real production data.
 
 ---
 
@@ -374,4 +374,4 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 
 ## 16. Immediate Next Step
 
-**Phase 2G — Arc Schema**: Define the arc entity schema extending the shared metadata foundation. No production data implementation.
+**Phase 2N — Architecture Verification**: Build the first verification checks/tooling over the Phase 2M data layer (relationship resolution, duplicate IDs, missing references, circular refs) and canonicalize the Phase 2M findings (single-direction storage vs. stored-both, `fruitId` vs `devilFruitId`, the non-canonical §13 example-graph edge).

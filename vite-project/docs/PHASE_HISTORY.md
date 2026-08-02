@@ -1260,3 +1260,558 @@ All content, the location database (Phase 2M), the interactive map, hotspots, im
 **Phase 2G** — Arc Schema
 - Define the arc entity schema extending the shared metadata foundation
 - No production data implementation
+
+---
+
+## Phase 2G — Arc Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE reusable arc schema that represents every One Piece arc type (introductory arcs, major saga arcs, war arcs, training arcs, flashback arcs, transitional arcs). Schema only — NOT the arc database.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/arcs/arc-schema.md` | The Arc Schema Foundation — base metadata reuse, arc-specific fields, ID-only relationships, image strategy, timeline readiness, spoiler readiness, one sample record, archetype validation |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/arcs/README.md` | Added "Schema (Phase 2G ✅)" section referencing `arc-schema.md`; established conventions (2C/2D) marked DONE + 2M noted; status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2G; summary + recovery checkpoint updated; next phase → 2H; schema location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2G marked ✅ DONE; closing note → 2H–2O; section 16 → Phase 2H; section 9 legend updated (arcs/ also holds arc-schema.md) |
+| `AGENTS.md` | Phase 2G complete; next phase → 2H; change log entry added |
+
+### Schema Established
+
+1. **Objective**: one schema for all arc types — no per-type variants.
+2. **Design principles**: reusable, extensible, relationship-driven, image-first, timeline-ready, spoiler-ready, independent from UI/routing/image loading.
+3. **Base metadata**: reuses shared layer (`id`, `displayName`, `description` required; aliases/tags/status/imageKey/notes/metadata/dates optional) — NOT duplicated.
+4. **Arc fields**: `sagaId`, `arcNumber`, `chronologicalOrder`, `arcType`, `animeEpisodeRange`, `mangaChapterRange`, `duration`, `overview`, `centralConflict`, `outcome`, `significance`, `recommendedViewingOrder`.
+5. **Relationships**: ID references only — `characterIds`, `locationIds`, `battleIds`, `crewIds`, `eventIds`, `shipIds`. Never embed objects.
+6. **Image strategy**: `imageKey` only (e.g., `east-blue`, `alabasta`, `skypiea`, `water-7`, `marineford`, `dressrosa`, `whole-cake-island`, `wano`, `egghead`); never hardcoded extensions or URLs.
+7. **Timeline readiness**: planned fields `sagaId`, `arcNumber`, `chronologicalOrder`, `previousArcId`, `nextArcId` — documented only, no timeline functionality.
+8. **Spoiler readiness**: `spoilerLevel` field (`basic`/`advanced`/`late`, matching Phases 2E/2F) supports future filtering — no implementation.
+9. **Optional fields**: `trivia`, `watchOrderNotes`, `readingOrderNotes` (plus shared optionals) — never required.
+10. **Sample**: ONE record (`marineford`) validates the schema — documentation only.
+11. **Archetype validation**: short introductory / long major saga / flashback / large war arc all fit the same schema with zero modifications.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, the arc database (Phase 2M), timeline UI/navigation, watch/read-order features, image loading, and spoiler filtering remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2H** — Crew & Faction Schema
+- Define the crew/faction entity schema extending the shared metadata foundation
+- No production data implementation
+
+---
+
+## Phase 2H — Crew & Faction Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE reusable crew/faction schema that represents every One Piece organization type (pirate crews, marine organizations, Revolutionary Army, World Government, kingdoms, alliances, temporary alliances, historical factions). Schema only — NOT the crew database.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/crews/crew-schema.md` | The Crew & Faction Schema Foundation — base metadata reuse, organization-specific fields, ID-only relationships, image strategy, spoiler readiness, one sample record, archetype validation |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/crews/README.md` | Added "Schema (Phase 2H ✅)" section referencing `crew-schema.md`; established conventions (2C/2D) marked DONE + 2M noted; status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2H; summary + recovery checkpoint updated; next phase → 2I; schema location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2H marked ✅ DONE; section 16 → Phase 2I; section 9 legend updated (crews/ also holds crew-schema.md) |
+| `AGENTS.md` | Phase 2H complete; next phase → 2I; change log entry added |
+
+### Schema Established
+
+1. **Objective**: one schema for all organization types — no per-type variants.
+2. **Design principles**: reusable, extensible, relationship-driven, image-first, spoiler-ready, independent from UI/routing/image loading.
+3. **Base metadata**: reuses shared layer (`id`, `displayName`, `description` required; aliases/tags/status/imageKey/notes/metadata/dates optional) — NOT duplicated.
+4. **Crew/faction fields**: `organizationType`, `captainId`, `leaderIds`, `memberIds`, `shipIds`, `territoryIds`, `headquartersLocationId`, `emblem`, `allegiance`, `foundedBy`, `objective`, `motto`, `affiliations`.
+5. **Relationships**: ID references only — `characterIds`, `shipIds`, `locationIds`, `battleIds`, `arcIds`, `eventIds`. Never embed objects.
+6. **Image strategy**: `imageKey` only (e.g., `straw-hat-pirates`, `red-hair-pirates`, `marines`, `world-government`); never hardcoded extensions or URLs.
+7. **Optional fields**: `history`, `formerMembers`, `achievements`, `knownAllies`, `knownEnemies` (plus shared optionals) — never required.
+8. **Spoiler readiness**: `spoilerLevel` field (`basic`/`advanced`/`late`, matching Phases 2E/2F/2G) supports future filtering — no implementation.
+9. **Sample**: ONE record (`straw-hat-pirates`) validates the schema — documentation only.
+10. **Archetype validation**: pirate crew / marine organization / government / revolutionary group all fit the same schema with zero modifications.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, the crew/faction database (Phase 2M), alliance mapping, image loading, and spoiler filtering remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2I** — Battle Schema
+- Define the battle entity schema extending the shared metadata foundation
+- No production data implementation
+
+---
+
+## Phase 2I — Battle Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE reusable battle schema that represents every One Piece battle type (one-on-one duels, crew battles, marine battles, war-scale conflicts, historical battles). Schema only — NOT the battle database.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/battles/battle-schema.md` | The Battle Schema Foundation — base metadata reuse, battle-specific fields, ID-only relationships, image strategy, timeline readiness, spoiler readiness, one sample record, archetype validation |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/battles/README.md` | Added "Schema (Phase 2I ✅)" section referencing `battle-schema.md`; established conventions (2C/2D) marked DONE + 2M noted; status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2I; summary + recovery checkpoint updated; next phase → 2J; schema location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2I marked ✅ DONE; section 16 → Phase 2J; section 9 legend updated (battles/ also holds battle-schema.md) |
+| `AGENTS.md` | Phase 2I complete; next phase → 2J; change log entry added |
+
+### Schema Established
+
+1. **Objective**: one schema for all battle types — no per-type variants.
+2. **Design principles**: reusable, extensible, relationship-driven, image-first, timeline-ready, spoiler-ready, independent from UI/routing/image loading.
+3. **Base metadata**: reuses shared layer (`id`, `displayName`, `description` required; aliases/tags/status/imageKey/notes/metadata/dates optional) — NOT duplicated.
+4. **Battle fields**: `battleType`, `locationId`, `arcId`, `participantIds`, `winningSide`, `losingSide`, `outcome`, `duration`, `significance`, `casualties`, `timelineOrder`.
+5. **Relationships**: ID references only — `characterIds`, `crewIds`, `locationIds`, `shipIds`, `eventIds`, `arcIds`. `participantIds` is the canonical participant list; `characterIds` is a divergence-avoidance alias (Phase 2L will canonize).
+6. **Image strategy**: `imageKey` only (e.g., `marineford-war`, `luffy-vs-kaido`); never hardcoded extensions or URLs.
+7. **Timeline readiness**: `arcId` + `timelineOrder` — documented only, no timeline functionality.
+8. **Spoiler readiness**: `spoilerLevel` field (`basic`/`advanced`/`late`, matching Phases 2E/2F/2G/2H) supports future filtering — no implementation.
+9. **Optional fields**: `summary`, `keyMoments`, `importantQuotes`, `futureConsequences` (plus shared optionals) — never required.
+10. **Sample**: ONE record (`marineford-war`) validates the schema — documentation only.
+11. **Archetype validation**: duel / crew battle / war / historical conflict all fit the same schema with zero modifications.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, the battle database (Phase 2M), timeline UI/navigation, battle archives, image loading, and spoiler filtering remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2J** — Devil Fruit & Power Schema
+- Define the Devil Fruit / power entity schema extending the shared metadata foundation
+- No production data implementation
+
+---
+
+## Phase 2J — Devil Fruit & Power Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE reusable power schema that represents every One Piece power system (Devil Fruits, Haki, combat styles, weapons-based fighting systems, special abilities, non-Devil Fruit powers). Flexible enough to support all current and future power systems without redesign. Schema only — NOT the power database.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/fruits/power-schema.md` | The Devil Fruit & Power Schema Foundation — base metadata reuse, power-specific fields, Haki + Devil Fruit support, ID-only relationships, image strategy, spoiler readiness, one sample record, archetype validation |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/fruits/README.md` | Added "Schema (Phase 2J ✅)" section referencing `power-schema.md`; removed "Haki/power systems separate concern" note (now unified here); established conventions (2C/2D) marked DONE + 2M noted; status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2J; summary + recovery checkpoint updated; next phase → 2K; schema location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2J marked ✅ DONE; section 16 → Phase 2K; section 9 legend updated (fruits/ also holds power-schema.md) |
+| `AGENTS.md` | Phase 2J complete; next phase → 2K; change log entry added |
+
+### Schema Established
+
+1. **Objective**: one schema for all power systems — no per-system variants.
+2. **Design principles**: reusable, extensible, relationship-driven, image-first, spoiler-ready, independent from UI/routing/image loading.
+3. **Base metadata**: reuses shared layer (`id`, `displayName`, `description` required; aliases/tags/status/imageKey/notes/metadata/dates optional) — NOT duplicated.
+4. **Power fields**: `powerType`, `fruitType`, `canonicalName`, `alternativeNames`, `userIds`, `previousUserIds`, `awakeningStatus`, `strengths`, `weaknesses`, `combatApplications`, `rarity`, `canonicalStatus`.
+5. **Haki support**: `powerType: 'haki'` + `hakiType` (`observation`/`armament`/`conquerors`) + optional `advancedForm` — no separate Haki database.
+6. **Devil Fruit support**: `powerType: 'devil-fruit'` + `fruitType` (`paramecia`/`zoan`/`ancient-zoan`/`mythical-zoan`/`logia`) — no per-category variants.
+7. **Relationships**: ID references only — `characterIds`, `battleIds`, `arcIds`, `locationIds`, `crewIds`, `relatedPowerIds`. `userIds`/`previousUserIds` are canonical user references; `characterIds` is a divergence-avoidance alias (Phase 2L will canonize).
+8. **Image strategy**: `imageKey` only (e.g., `gomu-gomu-no-mi`, `mera-mera-no-mi`, `ope-ope-no-mi`); never hardcoded extensions or URLs.
+9. **Optional fields**: `trivia`, `historicalUsers`, `symbolicMeaning` (plus shared optionals) — never required.
+10. **Spoiler readiness**: `spoilerLevel` field (`basic`/`advanced`/`late`, matching Phases 2E–2I) supports future filtering — no implementation.
+11. **Sample**: ONE record (`gomu-gomu-no-mi`) validates the schema — documentation only.
+12. **Archetype validation**: logia fruit / mythical zoan / paramecia / haki ability / weapon-based combat style all fit the same schema with zero modifications.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, the power database (Phase 2M), Haki/fruit/ability breakdowns, image loading, and spoiler filtering remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2K** — Ship Schema
+- Define the ship entity schema extending the shared metadata foundation
+- No production data implementation
+
+---
+
+## Phase 2K — Ship Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE reusable ship schema that represents every One Piece ship type (pirate ships, marine ships, government ships, merchant vessels, historical ships, special-purpose vessels). Schema only — NOT the ship database.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/ships/ship-schema.md` | The Ship Schema Foundation — base metadata reuse, ship-specific fields, ID-only relationships, image strategy, history support, spoiler readiness, one sample record, archetype validation |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/ships/README.md` | Added "Schema (Phase 2K ✅)" section referencing `ship-schema.md`; established conventions (2C/2D) marked DONE + 2M noted; status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2K; summary + recovery checkpoint updated; next phase → 2L; schema location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2K marked ✅ DONE; section 16 → Phase 2L; section 9 legend updated (ships/ also holds ship-schema.md) |
+| `AGENTS.md` | Phase 2K complete; next phase → 2L; change log entry added |
+
+### Schema Established
+
+1. **Objective**: one schema for all ship types — no per-type variants.
+2. **Design principles**: reusable, extensible, relationship-driven, image-first, spoiler-ready, independent from UI/routing/image loading.
+3. **Base metadata**: reuses shared layer (`id`, `displayName`, `description` required; aliases/tags/status/imageKey/notes/metadata/dates optional) — NOT duplicated.
+4. **Ship fields**: `shipType`, `ownerCrewId`, `previousOwnerIds`, `captainIds`, `builder`, `manufacturer`, `launchLocationId`, `currentLocationId`, `size`, `specialFeatures`, `armament`, `propulsion`, `firstAppearance`, `latestAppearance`.
+5. **Relationships**: ID references only — `crewIds`, `characterIds`, `battleIds`, `locationIds`, `arcIds`, `eventIds`. Never embed objects.
+6. **Image strategy**: `imageKey` only (e.g., `thousand-sunny`, `going-merry`, `moby-dick`, `red-force`); never hardcoded extensions or URLs.
+7. **History support**: planned fields `ownershipHistory`, `majorUpgrades`, `repairs`, `destruction`, `restoration`, `significantVoyages` — documented only, nothing populated.
+8. **Optional fields**: `designInspiration`, `symbolicMeaning`, `trivia` (plus shared optionals) — never required.
+9. **Spoiler readiness**: `spoilerLevel` field (`basic`/`advanced`/`late`, matching Phases 2E–2J) supports future filtering — no implementation.
+10. **Sample**: ONE record (`thousand-sunny`) validates the schema — documentation only.
+11. **Archetype validation**: pirate ship / marine ship / merchant vessel / historical ship all fit the same schema with zero modifications.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, the ship database (Phase 2M), ship archive UI, image loading, and spoiler filtering remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2L** — Cross-Entity Relationship Convention
+- Define the shared relationship conventions between all entity schemas
+- No production data implementation
+
+---
+
+## Phase 2L — Cross-Entity Relationship Convention
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE universal relationship convention that every entity relationship in the project follows. Architecture only — NO datasets, NO validation code, NO relationship logic.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/shared/relationships.md` | The Cross-Entity Relationship Convention — philosophy, cardinality, single-direction storage, naming, relationship matrix, cascade principles, image independence, future search/map/timeline strategies, validation principles, one example graph |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/shared/README.md` | Relationships (Phase 2L ✅) section referencing `relationships.md`; expected phases updated (2L DONE + 2M noted); status updated |
+| `src/data/battles/battle-schema.md` | Canonical-field note updated → canonized (participantIds) with reference to `relationships.md` |
+| `src/data/fruits/power-schema.md` | Canonical-field note updated → canonized (userIds/previousUserIds) with reference to `relationships.md` |
+| `src/data/locations/location-schema.md` | Canonical-field note updated → canonized (connectedLocationIds) with reference to `relationships.md` |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2L; summary + recovery checkpoint updated; next phase → 2M; convention location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2L marked ✅ DONE; section 16 → Phase 2M; section 9 legend updated (shared/ also holds relationships.md); section 10 relationship strategy refreshed |
+| `AGENTS.md` | Phase 2L complete; next phase → 2M; change log entry added |
+
+### Relationship Convention Established
+
+1. **Philosophy**: relationships ALWAYS reference stable IDs — never embed complete entities. Consumers resolve ID → record at use time.
+2. **Cardinality**: One→One (singular field, e.g., `captainId`, `fruitId`), One→Many / Many→Many (plural `*Ids` fields). Empty array or omission = no relationship.
+3. **Bidirectional strategy**: single-direction storage — each relationship has one canonical owner; reverse links derived dynamically. Minimizes duplicated data, prevents drift.
+4. **Naming rules**: one project-wide convention — `characterIds`, `locationIds`, `battleIds`, `crewIds`, `shipIds`, `fruitIds`, `eventIds`, `arcIds`, `powerIds`; singulars `captainId`, `fruitId`, `locationId`, `arcId`, `ownerCrewId`, `parentLocationId`, etc. Forbidden: `crew`, `crewList`, `members`, `memberList`, `participants`, `cast`.
+5. **Relationship matrix**: full Character/Crew/Battle/Arc/Ship/Devil Fruit/Location matrix documented, with canonical owner per relationship.
+6. **Alias canonization**: battle `participantIds` (drop `characterIds`), power `userIds`/`previousUserIds` (drop `characterIds`), location `connectedLocationIds` (drop `neighborLocationIds`).
+7. **Cascade principles**: IDs immutable once published; renames (displayName), image swaps, and lifecycle changes never break relationships.
+8. **Image independence**: relationships depend on IDs only — never image path, extension, or availability.
+9. **Future search/map/timeline**: all navigation flows through IDs; map hotspots resolve via `locationId`; timeline anchors via arc/saga/chronological fields.
+10. **Validation principles (future)**: missing referenced IDs, duplicate IDs, circular references, invalid entity types, broken relationships — to be checked by future shared tooling (Phase 2N).
+11. **Example graph**: ONE documentation graph (Luffy → Straw Hats → Thousand Sunny → Marineford War → Marineford → Luffy → Gomu Gomu no Mi) explaining the architecture.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, datasets (Phase 2M), relationship helpers/validation code, search, map hotspots, and timeline logic remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2M** — Small Integrated Dataset
+- Create a small, connected dataset proving schemas + relationship conventions work together
+- First real production data (characters, locations, arcs, crews, ships, fruits, battles)
+
+---
+
+## Phase 2M — Small Integrated Dataset
+
+**Date**: 2026-08-02
+
+**Objective**: Create one tiny, fully connected dataset proving that the Phase 2E–2K schemas + the Phase 2L relationship convention work together in real data, verified end-to-end via ID traversal. First real production data in the project.
+
+### Dataset Created
+
+One JS module per data folder (`src/data/<type>/index.js`), each exporting an array of records:
+
+| Folder | Module export | Records |
+|--------|---------------|---------|
+| `characters/` | `characters` | `monkey-d-luffy`, `roronoa-zoro`, `nami` (3) |
+| `locations/` | `locations` | `marineford`, `water-7` (2) |
+| `arcs/` | `arcs` | `marineford` (1) |
+| `crews/` | `crews` | `straw-hat-pirates` (1) |
+| `battles/` | `battles` | `marineford-war` (1) |
+| `ships/` | `ships` | `thousand-sunny` (1) |
+| `fruits/` | `powers` | `gomu-gomu-no-mi` (1) |
+
+### Conventions Applied
+
+1. **Required shared metadata** on every record: `id`, `displayName`, `description` (Phase 2D).
+2. **ID-only relationships** — no embedded objects anywhere (Phase 2L §2).
+3. **Phase 2L canonical aliases**: battle uses `participantIds` (not `characterIds`); power uses `userIds`/`previousUserIds` (not `characterIds`); location uses `connectedLocationIds` (not `neighborLocationIds`).
+4. **Character fruit field**: `devilFruitId` (matches the Phase 2E sample + Phase 2L matrix).
+5. **`imageKey` only** — no extensions, no paths, no URLs (set on every record).
+6. **Canonical data**: relationships reflect real One Piece canon (Zoro/Nami at Water 7, not Marineford; Thousand Sunny launched at Water 7, not present at Marineford War; Luffy at Marineford with the Gomu Gomu no Mi).
+7. **Optional fields referencing out-of-sample entities are omitted** (never placeholder strings / nulls), keeping the sample a closed, resolvable graph.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/characters/index.js` | 3 character records |
+| `src/data/locations/index.js` | 2 location records |
+| `src/data/arcs/index.js` | 1 arc record |
+| `src/data/crews/index.js` | 1 crew record |
+| `src/data/battles/index.js` | 1 battle record |
+| `src/data/ships/index.js` | 1 ship record |
+| `src/data/fruits/index.js` | 1 power record |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/characters/README.md` | Added "Dataset (Phase 2M ✅)" section; status → records created |
+| `src/data/locations/README.md` | Same |
+| `src/data/arcs/README.md` | Same |
+| `src/data/crews/README.md` | Same |
+| `src/data/battles/README.md` | Same |
+| `src/data/ships/README.md` | Same |
+| `src/data/fruits/README.md` | Same |
+| `src/data/shared/README.md` | Expected phases updated (2M ✅ + 2N next); status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2M COMPLETE; summary + recovery checkpoint updated; next phase → 2N; Phase 2M paragraph + findings added |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2M marked ✅ DONE; section 16 → Phase 2N; section 9 legend updated (data folders now hold `index.js` datasets) |
+| `AGENTS.md` | Phase 2M complete; next phase → 2N; change log entry added |
+
+### Relationship Verification
+
+All checks run via a temporary Node script (not committed) that imported every dataset module:
+
+| Check | Result |
+|-------|--------|
+| Every referenced ID resolves to an existing entity of the correct type | ✅ All resolve |
+| No duplicate IDs within any dataset | ✅ None |
+| No duplicate values inside any `*Ids` array | ✅ None |
+| Required shared fields present on every record | ✅ Present |
+| Full traversal chain (Luffy → crew → ship → battle → arc → location → Luffy → fruit) | ✅ Works |
+| Location round-trip (Marineford `characterIds` → Luffy) | ✅ Works |
+| Power user reference (`userIds` → Luffy) | ✅ Works |
+
+Dataset sizes: characters 3, locations 2, arcs 1, crews 1, battles 1, ships 1, powers 1.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework); relationship check run as a one-off Node script |
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+| UI components | ✅ Untouched — Phase 2M is data-only by design |
+
+### Findings (recorded for Phases 2N/2O)
+
+1. **Canonical subset lists**: In a closed sample, relationship lists can only reference entities present in the sample (e.g., `memberIds` = 3 of 10 Straw Hats). Lists are canonical *subsets*; full lists grow with the dataset. Documented on each affected record.
+2. **Ship→Battle edge unexercised**: `battle.shipIds` / `ship.battleIds` were intentionally omitted — the Thousand Sunny was not present at the Marineford War. A future battle the Sunny actually fought in will exercise this edge.
+3. **`relationships.md` §13 example graph contains a non-canonical edge**: it links Thousand Sunny → Marineford War via `battleIds`, but the Sunny was not at Marineford. The example graph should be corrected in Phase 2N/2O.
+4. **Single-direction vs. stored-both ambiguity**: `relationships.md` §4 states store relationships in ONE direction (crew `memberIds` source of truth, character `crewIds` derived), but §5 + the Phase 2E sample store both `character.crewIds` AND `crew.memberIds`. The dataset follows the sample/matrix (both stored); 2N/2O should canonicalize one strategy.
+5. **`fruitId` vs `devilFruitId`**: `relationships.md` §6 lists `fruitId`; the Phase 2E sample and 2L matrix use `devilFruitId`. Dataset uses `devilFruitId`. 2N/2O should canonize one field name.
+
+### Known Issues
+
+None new. Findings above are documentation/architecture notes, not defects in the dataset.
+
+### Deferred Work
+
+- Full datasets for every entity type (100–300+ characters planned, etc.)
+- UI consumption of the data layer (components remain data-free)
+- `shared/relationships.js` helper/validation tooling (Phase 2N)
+- Correction/canonicalization of the findings above (Phase 2N/2O)
+- Image migration + resolver (post-roadmap)
+
+### Next Recommended Phase
+
+**Phase 2N** — Architecture Verification
+- Build the first verification checks/tooling over the data layer (relationship resolution, duplicate IDs, missing references, circular refs)
+- Canonicalize the Phase 2M findings (single-direction storage, `fruitId` vs `devilFruitId`, §13 example graph)

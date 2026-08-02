@@ -1,7 +1,7 @@
 # PROJECT MEMORY — One Piece 2.0
 
-> **Last Updated**: 2026-08-01
-> **Current Phase**: Phase 2F — Location Schema Foundation
+> **Last Updated**: 2026-08-02
+> **Current Phase**: Phase 2M — Small Integrated Dataset
 > **Phase 1 Status**: ✅ COMPLETE
 > **Hero Status**: 🔒 STABLE + PROTECTED (unchanged)
 
@@ -324,8 +324,8 @@ A phase is NOT complete until memory is synchronized.
 | Aspect | Detail |
 |--------|--------|
 | **Git branch** | `main` |
-| **Latest commit** | `027794f` — phase 1g: post-lock regression test and phase 2 handoff |
-| **Working tree** | ✅ Clean production code (only docs modified this phase) |
+| **Latest commit** | `485a4b6` — phase 2f: location schema foundation |
+| **Working tree** | Uncommitted: Phase 2G–2L schema/convention docs + README updates + Phase 2M datasets (pending review/commit) |
 | **Phase 1 status** | ✅ COMPLETE |
 | **Phase 2A status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2B status** | ✅ COMPLETE (folders + READMEs, no production logic changes) |
@@ -333,6 +333,13 @@ A phase is NOT complete until memory is synchronized.
 | **Phase 2D status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2E status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2F status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2G status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2H status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2I status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2J status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2K status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2L status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2M status** | ✅ COMPLETE (first real production data — 3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power) |
 | **Hero status** | 🔒 STABLE + PROTECTED |
 | **Lint status** | ✅ Passing |
 | **Build status** | ✅ Passing |
@@ -369,9 +376,9 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 2F — Location Schema Foundation
+**Phase**: Phase 2M — Small Integrated Dataset
 
-**Goal**: Define ONE reusable location schema (extending the shared metadata layer) that represents every location type.
+**Goal**: Create one tiny connected dataset (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power) proving the Phase 2E–2L schemas + relationship conventions work together, verified end-to-end via ID traversal.
 
 **Status**: ✅ COMPLETED
 
@@ -394,6 +401,13 @@ vite-project/
 | **Phase 2D** | Shared Entity Metadata & Schema Foundation | ✅ |
 | **Phase 2E** | Character Schema Foundation | ✅ |
 | **Phase 2F** | Location Schema Foundation | ✅ |
+| **Phase 2G** | Arc Schema Foundation | ✅ |
+| **Phase 2H** | Crew & Faction Schema Foundation | ✅ |
+| **Phase 2I** | Battle Schema Foundation | ✅ |
+| **Phase 2J** | Devil Fruit & Power Schema Foundation | ✅ |
+| **Phase 2K** | Ship Schema Foundation | ✅ |
+| **Phase 2L** | Cross-Entity Relationship Convention | ✅ |
+| **Phase 2M** | Small Integrated Dataset | ✅ |
 
 ---
 
@@ -428,9 +442,9 @@ vite-project/
 
 ## Next Phase (Recommended)
 
-**Phase 2G** — Arc Schema
+**Phase 2N** — Architecture Verification
 
-Define the arc entity schema extending the shared metadata foundation. No production data implementation.
+Build the first verification tooling/checks over the data layer (relationship resolution, duplicate IDs, missing references, circular refs) and canonicalize the Phase 2M findings (see below).
 
 ---
 
@@ -450,4 +464,18 @@ It covers: current architecture, data flow, assets, strengths, limitations, risk
 
 **Phase 2F established the Location Schema Foundation**: documented in **`src/data/locations/location-schema.md`** — one reusable schema for all location types (seas, islands, kingdoms, marine bases, sky islands, underwater…). Extends shared metadata; location fields (`locationType`, `sea`, `region`, `climate`, `government`, `controllingFactionIds`, …); ID-only relationships; `imageKey` strategy; map-readiness fields (`mapRegion`, `hotspotId`, `displayOrder` — documented only); `spoilerLevel` for future spoiler safety; one sample record (`alabasta`) for validation. No location database yet. No production code touched.
 
-**Phase 2 production implementation has NOT started.** The data layer (characters, locations, arcs, etc.) remains planned only.
+**Phase 2G established the Arc Schema Foundation**: documented in **`src/data/arcs/arc-schema.md`** — one reusable schema for all arc types (introductory, saga, war, training, flashback, transitional…). Extends shared metadata; arc fields (`sagaId`, `arcNumber`, `chronologicalOrder`, `arcType`, `animeEpisodeRange`, `mangaChapterRange`, `duration`, `overview`, `centralConflict`, `outcome`, `significance`, `recommendedViewingOrder`); ID-only relationships (`characterIds`, `locationIds`, `battleIds`, `crewIds`, `eventIds`, `shipIds`); `imageKey` strategy; timeline-readiness fields (`previousArcId`, `nextArcId`, `chronologicalOrder` — documented only); `spoilerLevel` for future spoiler safety; one sample record (`marineford`) for validation. No arc database yet. No production code touched.
+
+**Phase 2H established the Crew & Faction Schema Foundation**: documented in **`src/data/crews/crew-schema.md`** — one reusable schema for all organization types (pirate crews, marines, revolutionary army, world government, kingdoms, alliances, temporary alliances, historical factions…). Extends shared metadata; crew/faction fields (`organizationType`, `captainId`, `leaderIds`, `memberIds`, `shipIds`, `territoryIds`, `headquartersLocationId`, `emblem`, `allegiance`, `foundedBy`, `objective`, `motto`, `affiliations`); ID-only relationships (`characterIds`, `shipIds`, `locationIds`, `battleIds`, `arcIds`, `eventIds`); `imageKey` strategy; optional content (`history`, `formerMembers`, `achievements`, `knownAllies`, `knownEnemies`); `spoilerLevel` for future spoiler safety; one sample record (`straw-hat-pirates`) for validation. No crew database yet. No production code touched.
+
+**Phase 2I established the Battle Schema Foundation**: documented in **`src/data/battles/battle-schema.md`** — one reusable schema for all battle types (duels, crew battles, marine battles, wars, historical conflicts…). Extends shared metadata; battle fields (`battleType`, `locationId`, `arcId`, `participantIds`, `winningSide`, `losingSide`, `outcome`, `duration`, `significance`, `casualties`, `timelineOrder`); ID-only relationships (`characterIds`, `crewIds`, `locationIds`, `shipIds`, `eventIds`, `arcIds`; `participantIds` canonical); `imageKey` strategy; timeline-readiness field (`timelineOrder` — documented only); optional content (`summary`, `keyMoments`, `importantQuotes`, `futureConsequences`); `spoilerLevel` for future spoiler safety; one sample record (`marineford-war`) for validation. No battle database yet. No production code touched.
+
+**Phase 2J established the Devil Fruit & Power Schema Foundation**: documented in **`src/data/fruits/power-schema.md`** — one reusable schema for every power system (Devil Fruits, Haki, combat styles, weapons-based systems, special abilities, non-fruit powers). Extends shared metadata; power fields (`powerType`, `fruitType`, `canonicalName`, `alternativeNames`, `userIds`, `previousUserIds`, `awakeningStatus`, `strengths`, `weaknesses`, `combatApplications`, `rarity`, `canonicalStatus`); Haki via `powerType: 'haki'` + `hakiType` + `advancedForm` (no separate Haki database); fruit categories via `fruitType` (paramecia/zoan/ancient-zoan/mythical-zoan/logia); ID-only relationships (`characterIds`, `battleIds`, `arcIds`, `locationIds`, `crewIds`, `relatedPowerIds`; `userIds`/`previousUserIds` canonical); `imageKey` strategy; optional content (`trivia`, `historicalUsers`, `symbolicMeaning`); `spoilerLevel` for future spoiler safety; one sample record (`gomu-gomu-no-mi`) for validation. No power database yet. No production code touched.
+
+**Phase 2K established the Ship Schema Foundation**: documented in **`src/data/ships/ship-schema.md`** — one reusable schema for all ship types (pirate, marine, government, merchant, historical, special-purpose…). Extends shared metadata; ship fields (`shipType`, `ownerCrewId`, `previousOwnerIds`, `captainIds`, `builder`, `manufacturer`, `launchLocationId`, `currentLocationId`, `size`, `specialFeatures`, `armament`, `propulsion`, `firstAppearance`, `latestAppearance`); ID-only relationships (`crewIds`, `characterIds`, `battleIds`, `locationIds`, `arcIds`, `eventIds`); `imageKey` strategy; history-support fields (`ownershipHistory`, `majorUpgrades`, `repairs`, `destruction`, `restoration`, `significantVoyages` — documented only); optional content (`designInspiration`, `symbolicMeaning`, `trivia`); `spoilerLevel` for future spoiler safety; one sample record (`thousand-sunny`) for validation. No ship database yet. No production code touched.
+
+**Phase 2L established the Cross-Entity Relationship Convention**: documented in **`src/data/shared/relationships.md`** — ONE universal relationship convention. Relationships always reference stable IDs (never embedded entities); single-direction storage with dynamically derived reverse links (minimizes duplicated data); cardinality rules (One→One singular, One→Many/Many→Many plural `*Ids`); standard field names (`characterIds`, `locationIds`, `battleIds`, `crewIds`, `shipIds`, `fruitIds`, `eventIds`, `arcIds`, `powerIds`; singulars `captainId`, `fruitId`, `locationId`, `arcId`, `ownerCrewId`); full entity relationship matrix; canonical alias canonization (battle `participantIds`, power `userIds`/`previousUserIds`, location `connectedLocationIds`); cascade principles (IDs immutable, renames/images never break links); image independence; future search/map/timeline navigation strategies; future validation principles (missing IDs, duplicates, circular refs, invalid types, broken links); one example relationship graph. Canonical-field notes updated in the battle/power/location schema files. No logic implemented. No production code touched.
+
+**Phase 2M created the first production data**: `src/data/<type>/index.js` for characters (3: `monkey-d-luffy`, `roronoa-zoro`, `nami`), locations (2: `marineford`, `water-7`), arcs (1: `marineford`), crews (1: `straw-hat-pirates`), battles (1: `marineford-war`), ships (1: `thousand-sunny`), fruits/powers (1: `gomu-gomu-no-mi`). Every record follows its schema + `relationships.md` (ID-only refs, Phase 2L canonical aliases `participantIds` / `userIds` / `connectedLocationIds`). Verified: every referenced ID resolves to an existing entity of the correct type, no duplicate IDs, no duplicate array values, full traversal chain works (Luffy → crew → ship → battle → arc → location → Luffy → fruit). `npm run lint` + `npm run build` pass. No UI, no Hero/protected-system changes. Key findings for 2N/2O: (1) canonical subset lists (e.g., 3-of-10 `memberIds`) are unavoidable in a closed sample — full lists grow with the dataset; (2) Ship→Battle edge intentionally unexercised (Thousand Sunny was not at Marineford War); (3) `relationships.md` §13 example graph lists a non-canonical edge (Thousand Sunny → Marineford War) and should be corrected; (4) single-direction vs. stored-both ambiguity between `relationships.md` §4 and §5/§2E sample (both `crew.memberIds` and `character.crewIds` stored) needs canonicalization; (5) `fruitId` vs `devilFruitId` naming discrepancy across docs — dataset uses `devilFruitId` (matches 2E sample + 2L matrix).
+
+**Phase 2 data layer implementation has started.** Phase 2M delivered the first real data records; characters/locations/arcs/battles/crews/ships/powers remain small until future dataset phases. UI consumption is NOT started.

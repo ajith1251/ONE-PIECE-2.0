@@ -34,11 +34,22 @@ Characters MUST follow the **Universal Entity ID Convention** (see `../shared/en
 - UI components or styling
 - Image assets (those live in `public/images/`)
 
+## Dataset (Phase 2M ✅)
+
+First real character records — **`index.js`** in this folder.
+
+- `monkey-d-luffy` (captain, devil fruit user, at Marineford)
+- `roronoa-zoro` (first mate / swordsman, at Water 7)
+- `nami` (navigator, at Water 7)
+
+Records follow `character-schema.md` + `relationships.md` (ID-only references). Roster and relationship lists are canonical SUBSETS limited to entities present in the Phase 2M sample.
+
 ## Expected future phases
 - **2C** — Entity ID conventions — ✅ DONE (see `../shared/entity-ids.md`)
 - **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
 - **2E** — Character schema — ✅ DONE (see `character-schema.md`)
-- **2M** — Sample integrated dataset (first real character records)
+- **2M** — Sample integrated dataset (first real character records) — ✅ DONE
+- **2N** — Architecture verification (relationship/schema checks over the data layer)
 
 ## Status
-📄 README + `character-schema.md` only. Character records are NOT created until Phase 2M.
+📦 DATASET CREATED — `character-schema.md` + `index.js` (3 records, Phase 2M). More character records arrive in future dataset phases.

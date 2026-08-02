@@ -13,7 +13,7 @@ This file is a lightweight index. For full context (protected systems, recovery 
 - **Type**: React + Vite single-page application
 - **Theme**: One Piece anime/manga tribute website
 - **Location**: `D:\one-piece2.0\vite-project`
-- **Last Updated**: 2026-08-01
+- **Last Updated**: 2026-08-02
 
 ## Tech Stack
 - **Framework**: React 19.2.7
@@ -59,11 +59,25 @@ vite-project/
 - **Phase 2D** (2026-08-01): Shared Entity Metadata & Schema Foundation — ✅ COMPLETE. Doc: `src/data/shared/entity-metadata.md` (required: id/displayName/description; optional: aliases/tags/status/imageKey/notes/metadata/dates). No production logic changed.
 - **Phase 2E** (2026-08-01): Character Schema Foundation — ✅ COMPLETE. Doc: `src/data/characters/character-schema.md` (one reusable schema for all character types; ID-only relationships; imageKey; spoilerLevel; one sample record). No production logic changed.
 - **Phase 2F** (2026-08-01): Location Schema Foundation — ✅ COMPLETE. Doc: `src/data/locations/location-schema.md` (one reusable schema for all location types; ID-only relationships; imageKey; map-readiness fields; spoilerLevel; one sample record). No production logic changed.
-- Hero is 🔒 LOCKED. Next: Phase 2G — Arc Schema
+- **Phase 2G** (2026-08-01): Arc Schema Foundation — ✅ COMPLETE. Doc: `src/data/arcs/arc-schema.md` (one reusable schema for all arc types; ID-only relationships; imageKey; timeline-readiness fields; spoilerLevel; one sample record). No production logic changed.
+- **Phase 2H** (2026-08-01): Crew & Faction Schema Foundation — ✅ COMPLETE. Doc: `src/data/crews/crew-schema.md` (one reusable schema for all organization types; ID-only relationships; imageKey; spoilerLevel; one sample record). No production logic changed.
+- **Phase 2I** (2026-08-01): Battle Schema Foundation — ✅ COMPLETE. Doc: `src/data/battles/battle-schema.md` (one reusable schema for all battle types; ID-only relationships; imageKey; timeline-readiness; spoilerLevel; one sample record). No production logic changed.
+- **Phase 2J** (2026-08-01): Devil Fruit & Power Schema Foundation — ✅ COMPLETE. Doc: `src/data/fruits/power-schema.md` (one reusable schema for all power systems: Devil Fruits, Haki, combat styles, weapons; ID-only relationships; imageKey; spoilerLevel; one sample record). No production logic changed.
+- **Phase 2K** (2026-08-01): Ship Schema Foundation — ✅ COMPLETE. Doc: `src/data/ships/ship-schema.md` (one reusable schema for all ship types; ID-only relationships; imageKey; history-support fields; spoilerLevel; one sample record). No production logic changed.
+- **Phase 2L** (2026-08-01): Cross-Entity Relationship Convention — ✅ COMPLETE. Doc: `src/data/shared/relationships.md` (ID-only relationships; single-direction storage; cardinality rules; standard field naming; relationship matrix; cascade + validation principles). No production logic changed.
+- **Phase 2M** (2026-08-02): Small Integrated Dataset — ✅ COMPLETE. First real production data: `src/data/<type>/index.js` for characters (3), locations (2), arcs (1), crews (1), battles (1), ships (1), fruits/powers (1). All ID references resolve; lint + build pass; no UI/protected changes. Findings recorded for 2N/2O (canonical subsets, Ship→Battle edge, §13 graph edge, single-direction vs stored-both, fruitId vs devilFruitId).
+- Hero is 🔒 LOCKED. Next: Phase 2N — Architecture Verification
 
 > **Full details**: `vite-project/docs/PROJECT_MEMORY.md` + `vite-project/docs/PHASE_HISTORY.md`
 
 ## Change Log
+- **2026-08-02**: Phase 2M completed. Created `src/data/<type>/index.js` sample datasets (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power), updated all data-folder READMEs + shared README + memory docs. Verified all ID references resolve + lint/build pass.
+- **2026-08-01**: Phase 2L completed. Created `src/data/shared/relationships.md` (Cross-Entity Relationship Convention), updated shared README + schema canonical notes + memory docs.
+- **2026-08-01**: Phase 2K completed. Created `src/data/ships/ship-schema.md` (Ship Schema Foundation), updated ships README + memory docs.
+- **2026-08-01**: Phase 2J completed. Created `src/data/fruits/power-schema.md` (Devil Fruit & Power Schema Foundation), updated fruits README + memory docs.
+- **2026-08-01**: Phase 2I completed. Created `src/data/battles/battle-schema.md` (Battle Schema Foundation), updated battles README + memory docs.
+- **2026-08-01**: Phase 2H completed. Created `src/data/crews/crew-schema.md` (Crew & Faction Schema Foundation), updated crews README + memory docs.
+- **2026-08-01**: Phase 2G completed. Created `src/data/arcs/arc-schema.md` (Arc Schema Foundation), updated arcs README + memory docs.
 - **2026-08-01**: Phase 2F completed. Created `src/data/locations/location-schema.md` (Location Schema Foundation), updated locations README + memory docs.
 - **2026-08-01**: Phase 2E completed. Created `src/data/characters/character-schema.md` (Character Schema Foundation), updated characters README + memory docs.
 - **2026-08-01**: Phase 2D completed. Created `src/data/shared/entity-metadata.md` (shared metadata foundation), updated shared README + memory docs.

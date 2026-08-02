@@ -37,8 +37,18 @@ Locations follow **`location-schema.md`** (Location Schema Foundation, Phase 2F)
 - Map-readiness fields (`mapRegion`, `hotspotId`, `displayOrder`) documented only
 - `spoilerLevel` (`basic`/`advanced`/`late`) supports future spoiler safety
 
+## Dataset (Phase 2M ✅)
+
+First real location records — **`index.js`** in this folder.
+
+- `marineford` (marine-base, Grand Line/Paradise)
+- `water-7` (island/city, Grand Line/Paradise)
+
+Records follow `location-schema.md` + `relationships.md`. Uses the Phase 2L canonical `connectedLocationIds` field (not `neighborLocationIds`).
+
 ## Expected future phases
-- **2M** — Sample integrated dataset (locations included)
+- **2M** — Sample integrated dataset (locations included) — ✅ DONE
+- **2N** — Architecture verification (relationship/schema checks over the data layer)
 
 ## Status
-📐 SCHEMA DEFINED — `location-schema.md` exists (Phase 2F). Dataset remains empty — do not populate until Phase 2M.
+📦 DATASET CREATED — `location-schema.md` + `index.js` (2 records, Phase 2M). More location records arrive in future dataset phases.

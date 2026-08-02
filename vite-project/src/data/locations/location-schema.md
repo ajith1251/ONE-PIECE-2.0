@@ -102,7 +102,7 @@ Fields that genuinely belong to locations (all optional unless noted):
 
 Documented how relationships work — **no relationship logic implemented**.
 
-> ⚠️ **Canonical field**: `connectedLocationIds` is the canonical adjacency field. `neighborLocationIds` exists only because the Phase 2F spec named it — future datasets SHOULD use `connectedLocationIds` and omit `neighborLocationIds` to avoid divergence. Phase 2L (Relationship Conventions) will canonize this.
+> ⚠️ **Canonical field (Phase 2L)**: `connectedLocationIds` is the canonical adjacency field. `neighborLocationIds` exists only because the Phase 2F spec named it — future datasets MUST use `connectedLocationIds` and omit `neighborLocationIds` to avoid divergence (canonized in `../shared/relationships.md`).
 
 ---
 
