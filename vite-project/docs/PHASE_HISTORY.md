@@ -1188,3 +1188,75 @@ All content (characters, locations, arcs, etc.), IDs, schemas, relationships, im
 **Phase 2C** — Entity ID Convention
 - Define the slug-based ID format (e.g., `monkey-d-luffy`) that all future entities will use
 - No data implementation
+
+---
+
+## Phase 2F — Location Schema Foundation
+
+**Date**: 2026-08-01
+
+**Objective**: Define ONE reusable location schema that represents every One Piece location type (seas, oceans, islands, kingdoms, cities, villages, forests, castles, marine bases, sky islands, underwater locations, pirate hideouts, historic locations). Schema only — NOT the location database.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/data/locations/location-schema.md` | The Location Schema Foundation — base metadata reuse, location-specific fields, ID-only relationships, image strategy, map readiness, history support, spoiler support, one sample record, archetype validation |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/locations/README.md` | Added "Schema (Phase 2F ✅)" section referencing `location-schema.md`; established conventions (2C/2D) marked DONE + 2M noted; status updated |
+| `docs/PROJECT_MEMORY.md` | Current phase → 2F; summary + recovery checkpoint updated; next phase → 2G; schema location noted |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap row 2F marked ✅ DONE; closing note → 2G–2O; section 16 → Phase 2G; section 9 legend updated (locations/ also holds location-schema.md) |
+| `AGENTS.md` | Phase 2F complete; next phase → 2G; change log entry added |
+
+### Schema Established
+
+1. **Objective**: one schema for all location types — no per-type variants.
+2. **Design principles**: reusable, extensible, image-first, relationship-friendly, map-ready, independent from UI/routing/image loading.
+3. **Base metadata**: reuses shared layer (`id`, `displayName`, `description` required; aliases/tags/status/imageKey/notes/metadata/dates optional) — NOT duplicated.
+4. **Location fields**: `locationType`, `sea`, `region`, `parentLocationId`, `connectedLocationIds`, `climate`, `terrain`, `government`, `controllingFactionIds`, `population`, `firstAppearance`, `latestAppearance`.
+5. **Relationships**: ID references only — `characterIds`, `arcIds`, `battleIds`, `crewIds`, `eventIds`, `neighborLocationIds`. Never embed objects.
+6. **Image strategy**: `imageKey` only (e.g., `alabasta`, `water-7`, `marineford`, `egghead`); never hardcoded extensions or URLs.
+7. **Map readiness**: planned fields `mapRegion`, `hotspotId`, `displayOrder` — documented only, no coordinates or hotspots.
+8. **History support**: planned structures — `historicalSignificance`, `majorBattles`, `importantEvents`, `rulers`, `organizations`, `notableResidents` (nothing populated).
+9. **Spoiler readiness**: `spoilerLevel` field (`basic`/`advanced`/`late`) supports future filtering — no implementation.
+10. **Sample**: ONE record (`alabasta`) validates the schema — documentation only.
+11. **Archetype validation**: island / kingdom / marine base / sky island / underwater all fit the same schema with zero modifications.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+
+### Production Code Changes
+
+**NO** — documentation only. No JS/JSX/CSS modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | Not available (no test framework) |
+
+### Known Issues
+
+None.
+
+### Deferred Work
+
+All content, the location database (Phase 2M), the interactive map, hotspots, image loading, and spoiler filtering remain deferred by design.
+
+### Next Recommended Phase
+
+**Phase 2G** — Arc Schema
+- Define the arc entity schema extending the shared metadata foundation
+- No production data implementation

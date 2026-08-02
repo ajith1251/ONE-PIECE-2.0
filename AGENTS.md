@@ -58,11 +58,13 @@ vite-project/
 - **Phase 2C** (2026-08-01): Universal Entity ID Convention — ✅ COMPLETE. Doc: `src/data/shared/entity-ids.md` (lowercase kebab-case, immutable, id ≠ displayName). No production logic changed.
 - **Phase 2D** (2026-08-01): Shared Entity Metadata & Schema Foundation — ✅ COMPLETE. Doc: `src/data/shared/entity-metadata.md` (required: id/displayName/description; optional: aliases/tags/status/imageKey/notes/metadata/dates). No production logic changed.
 - **Phase 2E** (2026-08-01): Character Schema Foundation — ✅ COMPLETE. Doc: `src/data/characters/character-schema.md` (one reusable schema for all character types; ID-only relationships; imageKey; spoilerLevel; one sample record). No production logic changed.
-- Hero is 🔒 LOCKED. Next: Phase 2F — Location Schema
+- **Phase 2F** (2026-08-01): Location Schema Foundation — ✅ COMPLETE. Doc: `src/data/locations/location-schema.md` (one reusable schema for all location types; ID-only relationships; imageKey; map-readiness fields; spoilerLevel; one sample record). No production logic changed.
+- Hero is 🔒 LOCKED. Next: Phase 2G — Arc Schema
 
 > **Full details**: `vite-project/docs/PROJECT_MEMORY.md` + `vite-project/docs/PHASE_HISTORY.md`
 
 ## Change Log
+- **2026-08-01**: Phase 2F completed. Created `src/data/locations/location-schema.md` (Location Schema Foundation), updated locations README + memory docs.
 - **2026-08-01**: Phase 2E completed. Created `src/data/characters/character-schema.md` (Character Schema Foundation), updated characters README + memory docs.
 - **2026-08-01**: Phase 2D completed. Created `src/data/shared/entity-metadata.md` (shared metadata foundation), updated shared README + memory docs.
 - **2026-08-01**: Phase 2C completed. Created `src/data/shared/entity-ids.md` (Universal Entity ID Convention), updated shared README + memory docs.

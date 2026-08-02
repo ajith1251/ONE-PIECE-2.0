@@ -1,7 +1,7 @@
 # PROJECT MEMORY — One Piece 2.0
 
 > **Last Updated**: 2026-08-01
-> **Current Phase**: Phase 2E — Character Schema Foundation
+> **Current Phase**: Phase 2F — Location Schema Foundation
 > **Phase 1 Status**: ✅ COMPLETE
 > **Hero Status**: 🔒 STABLE + PROTECTED (unchanged)
 
@@ -332,6 +332,7 @@ A phase is NOT complete until memory is synchronized.
 | **Phase 2C status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2D status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2E status** | ✅ COMPLETE (documentation-only) |
+| **Phase 2F status** | ✅ COMPLETE (documentation-only) |
 | **Hero status** | 🔒 STABLE + PROTECTED |
 | **Lint status** | ✅ Passing |
 | **Build status** | ✅ Passing |
@@ -368,9 +369,9 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 2E — Character Schema Foundation
+**Phase**: Phase 2F — Location Schema Foundation
 
-**Goal**: Define ONE reusable character schema (extending the shared metadata layer) that represents every character type.
+**Goal**: Define ONE reusable location schema (extending the shared metadata layer) that represents every location type.
 
 **Status**: ✅ COMPLETED
 
@@ -392,6 +393,7 @@ vite-project/
 | **Phase 2C** | Universal Entity ID Convention | ✅ |
 | **Phase 2D** | Shared Entity Metadata & Schema Foundation | ✅ |
 | **Phase 2E** | Character Schema Foundation | ✅ |
+| **Phase 2F** | Location Schema Foundation | ✅ |
 
 ---
 
@@ -426,9 +428,9 @@ vite-project/
 
 ## Next Phase (Recommended)
 
-**Phase 2F** — Location Schema
+**Phase 2G** — Arc Schema
 
-Define the location entity schema extending the shared metadata foundation. No production data implementation.
+Define the arc entity schema extending the shared metadata foundation. No production data implementation.
 
 ---
 
@@ -445,5 +447,7 @@ It covers: current architecture, data flow, assets, strengths, limitations, risk
 **Phase 2D established the Shared Entity Metadata & Schema Foundation**: documented in **`src/data/shared/entity-metadata.md`** — required fields (`id`, `displayName`, `description`), optional fields (`aliases`, `tags`, `status`, `imageKey`, `notes`, `metadata`, `createdAt`, `updatedAt`), image/tag/status/alias/notes strategies, relationship placeholders (IDs only). No giant master object; specialized schemas extend this layer. No production code touched.
 
 **Phase 2E established the Character Schema Foundation**: documented in **`src/data/characters/character-schema.md`** — one reusable schema for all character types (pirates, marines, civilians, historical figures…). Extends shared metadata; character fields (`bounty`, `occupation`, `role`, `species`, `haki`, `devilFruitId`, …); ID-only relationships; `imageKey` strategy; `spoilerLevel` for future spoiler safety; one sample record (`monkey-d-luffy`) for validation. No character database yet. No production code touched.
+
+**Phase 2F established the Location Schema Foundation**: documented in **`src/data/locations/location-schema.md`** — one reusable schema for all location types (seas, islands, kingdoms, marine bases, sky islands, underwater…). Extends shared metadata; location fields (`locationType`, `sea`, `region`, `climate`, `government`, `controllingFactionIds`, …); ID-only relationships; `imageKey` strategy; map-readiness fields (`mapRegion`, `hotspotId`, `displayOrder` — documented only); `spoilerLevel` for future spoiler safety; one sample record (`alabasta`) for validation. No location database yet. No production code touched.
 
 **Phase 2 production implementation has NOT started.** The data layer (characters, locations, arcs, etc.) remains planned only.

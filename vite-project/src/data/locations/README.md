@@ -21,9 +21,24 @@ Locations MUST follow the **Universal Entity ID Convention** (see `../shared/ent
 - UI components or styling
 - Image assets (those live in `public/images/`)
 
-## Expected future phases
+## Established Conventions
+
 - **2C** — Entity ID conventions — ✅ DONE (see `../shared/entity-ids.md`)
-- **2F** — Location schema
+- **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
+
+## Schema (Phase 2F ✅)
+
+Locations follow **`location-schema.md`** (Location Schema Foundation, Phase 2F):
+
+- One reusable schema for every location type (seas, islands, kingdoms, marine bases, sky islands, underwater…)
+- Extends the shared metadata layer — base fields are NOT duplicated
+- Relationships use entity IDs only (`characterIds`, `arcIds`, `battleIds`, …)
+- Artwork referenced by `imageKey` (equals `id` by default) — never paths or extensions
+- Map-readiness fields (`mapRegion`, `hotspotId`, `displayOrder`) documented only
+- `spoilerLevel` (`basic`/`advanced`/`late`) supports future spoiler safety
+
+## Expected future phases
+- **2M** — Sample integrated dataset (locations included)
 
 ## Status
-🔲 EMPTY — do not populate until Phase 2F defines the location schema.
+📐 SCHEMA DEFINED — `location-schema.md` exists (Phase 2F). Dataset remains empty — do not populate until Phase 2M.
