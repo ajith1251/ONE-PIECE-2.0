@@ -62,7 +62,8 @@ Records follow `battle-schema.md` + `relationships.md`. Uses the Phase 2L canoni
 - **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
 - **2I** — Battle schema — ✅ DONE (see `battle-schema.md`)
 - **2M** — Sample integrated dataset (battles included) — ✅ DONE
-- **2N** — Architecture verification (relationship/schema checks over the data layer)
+- **2N** — Architecture verification (relationship/schema checks over the data layer) — ✅ DONE (`npm run verify`)
+- **2O** — Architecture lock (freeze conventions)
 
 ## Status
 📦 DATASET CREATED — `battle-schema.md` + `index.js` (1 record, Phase 2M). More battle records arrive in future dataset phases.

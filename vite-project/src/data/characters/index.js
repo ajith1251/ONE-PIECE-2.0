@@ -31,7 +31,7 @@ const characters = [
     fightingStyles: ['gum-gum techniques'],
     crewIds: ['straw-hat-pirates'],
     shipIds: ['thousand-sunny'],
-    arcIds: ['marineford'],
+    arcIds: ['marineford-arc'],
     battleIds: ['marineford-war'],
     locationIds: ['marineford'],
     spoilerLevel: 'late',
@@ -58,7 +58,7 @@ const characters = [
     shipIds: ['thousand-sunny'],
     locationIds: ['water-7'],
     spoilerLevel: 'basic',
-    notes: 'Phase 2M sample — arcIds/battleIds omitted because marineford (the only arc in the sample) did not include Zoro.',
+    notes: 'Phase 2M sample — arcIds/battleIds omitted because marineford-arc (the only arc in the sample) did not include Zoro.',
   },
   {
     id: 'nami',
@@ -80,7 +80,7 @@ const characters = [
     shipIds: ['thousand-sunny'],
     locationIds: ['water-7'],
     spoilerLevel: 'basic',
-    notes: 'Phase 2M sample — arcIds/battleIds omitted because marineford (the only arc in the sample) did not include Nami.',
+    notes: 'Phase 2M sample — arcIds/battleIds omitted because marineford-arc (the only arc in the sample) did not include Nami.',
   },
 ]
 

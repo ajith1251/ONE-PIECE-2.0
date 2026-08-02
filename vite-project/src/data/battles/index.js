@@ -19,7 +19,7 @@ const battles = [
     imageKey: 'marineford-war',
     battleType: 'war',
     locationId: 'marineford',
-    arcId: 'marineford',
+    arcId: 'marineford-arc',
     participantIds: ['monkey-d-luffy'],
     winningSide: 'marines',
     losingSide: 'whitebeard-pirates',

@@ -28,7 +28,7 @@ const powers = [
     combatApplications: ['gum-gum techniques', 'Gear 5 transformations'],
     rarity: 'unique',
     canonicalStatus: 'canon',
-    arcIds: ['marineford'],
+    arcIds: ['marineford-arc'],
     crewIds: ['straw-hat-pirates'],
     spoilerLevel: 'late',
     trivia: 'The canonical name is a major late-story reveal.',

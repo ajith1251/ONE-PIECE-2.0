@@ -226,7 +226,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the power
   // relationships
   characterIds: ['monkey-d-luffy'],
   battleIds: ['luffy-vs-kaido'],
-  arcIds: ['marineford', 'wano'],
+  arcIds: ['marineford-arc', 'wano'],
   locationIds: ['foosha-village'],
   crewIds: ['straw-hat-pirates'],
   relatedPowerIds: ['mera-mera-no-mi'],

@@ -8,13 +8,13 @@
 
 const arcs = [
   {
-    id: 'marineford',
+    id: 'marineford-arc',
     displayName: 'Marineford',
     description: 'The climactic war between the Whitebeard Pirates and the Marines over the execution of Portgas D. Ace.',
     aliases: ['The Paramount War'],
     tags: ['war', 'paramount-war-saga', 'marineford'],
     status: 'historic',
-    imageKey: 'marineford',
+    imageKey: 'marineford-arc',
     sagaId: 'paramount-war-saga',
     arcNumber: 26,
     chronologicalOrder: 26,

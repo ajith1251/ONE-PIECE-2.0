@@ -202,13 +202,15 @@ src/
 │   ├── timeline/                (future)
 │   ├── shared/                  (Phase 2C/2D/2L — IDs, metadata, relationships, validation)
 │   │   └── relationships.js     (Phase 2L — cross-entity links live HERE, inside shared/)
+├── scripts/
+│   └── verify-data.mjs          (Phase 2N — data-layer verification, `npm run verify`)
 ├── lib/ (or utils/)
 │   └── imageResolver.js         (future — post-roadmap) — predictable filename → asset or placeholder
 ├── components/                  ← PRESENTATION ONLY (consume data, no hardcoding)
 └── assets/                      ← imported assets (currently orphaned)
 ```
 
-> **Legend**: Folders `characters/`…`shared/` were CREATED in Phase 2B (empty except READMEs; `shared/` also holds `entity-ids.md` from Phase 2C, `entity-metadata.md` from Phase 2D, and `relationships.md` from Phase 2L; `characters/` holds `character-schema.md` from Phase 2E; `locations/` holds `location-schema.md` from Phase 2F; `arcs/` holds `arc-schema.md` from Phase 2G; `crews/` holds `crew-schema.md` from Phase 2H; `battles/` holds `battle-schema.md` from Phase 2I; `fruits/` holds `power-schema.md` from Phase 2J; `ships/` holds `ship-schema.md` from Phase 2K). Phase 2M added the first real data: each folder now also holds an `index.js` dataset module (`characters/`, `locations/`, `arcs/`, `crews/`, `battles/`, `ships/`, `fruits/`).
+> **Legend**: Folders `characters/`…`shared/` were CREATED in Phase 2B (empty except READMEs; `shared/` also holds `entity-ids.md` from Phase 2C, `entity-metadata.md` from Phase 2D, and `relationships.md` from Phase 2L; `characters/` holds `character-schema.md` from Phase 2E; `locations/` holds `location-schema.md` from Phase 2F; `arcs/` holds `arc-schema.md` from Phase 2G; `crews/` holds `crew-schema.md` from Phase 2H; `battles/` holds `battle-schema.md` from Phase 2I; `fruits/` holds `power-schema.md` from Phase 2J; `ships/` holds `ship-schema.md` from Phase 2K). Phase 2M added the first real data: each folder now also holds an `index.js` dataset module (`characters/`, `locations/`, `arcs/`, `crews/`, `battles/`, `ships/`, `fruits/`). Phase 2N added `scripts/verify-data.mjs` (`npm run verify`).
 > Files like `shared/relationships.js` and `lib/imageResolver.js` are PLANNED for future phases — they do NOT exist yet.
 
 **Principles**:
@@ -225,7 +227,7 @@ src/
 
 **Canonized in Phase 2L → `src/data/shared/relationships.md`.**
 
-The full Cross-Entity Relationship Convention defines: ID-only references (never embedded entities), single-direction storage with dynamically derived reverse links, cardinality rules (One→One singular, One→Many/Many→Many plural `*Ids`), standard field naming (`characterIds`, `locationIds`, `battleIds`, `crewIds`, `shipIds`, `fruitIds`, `eventIds`, `arcIds`, `powerIds`), a complete entity relationship matrix, cascade principles, image independence, and future search/map/timeline/validation strategies.
+The full Cross-Entity Relationship Convention defines: ID-only references (never embedded entities), stored-both strategy with ONE declared source of truth per relationship (reverse stored as an agreeing mirror copy — canonized Phase 2N), cardinality rules (One→One singular, One→Many/Many→Many plural `*Ids`), standard field naming (`characterIds`, `locationIds`, `battleIds`, `crewIds`, `shipIds`, `devilFruitIds`, `eventIds`, `arcIds`, `powerIds`), a complete entity relationship matrix, cascade principles, image independence, and future search/map/timeline/validation strategies.
 
 Concept-level overview (see the convention doc for the authoritative rules):
 
@@ -354,10 +356,10 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 | **2K** | Ship schema | ✅ DONE — schema in `src/data/ships/ship-schema.md` (Phase 2K) |
 | **2L** | Relationship conventions | ✅ DONE — convention in `src/data/shared/relationships.md` (Phase 2L) |
 | **2M** | Small integrated dataset | Small connected dataset proving schemas + relationships — ✅ DONE (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power in `src/data/<type>/index.js`) |
-| **2N** | Architecture verification | Regression test of the data layer |
+| **2N** | Architecture verification | ✅ DONE — `scripts/verify-data.mjs` (`npm run verify`): relationship resolution, duplicate IDs, missing refs, type mismatches, aliases, cycles; stored-both canonicalized; `marineford-arc` global-ID fix |
 | **2O** | Architecture lock | Freeze conventions, record protected systems |
 
-> Phases 2N–2O are **planned only** — none are implemented. Phase 2M delivered the first real production data.
+> Phase 2O is **planned only** — not implemented. Phase 2N delivered the first verification tooling (`npm run verify`), fixed the arc/location ID collision (`marineford-arc`), and canonicalized storage direction, field naming, and the example graph.
 
 ---
 
@@ -374,4 +376,4 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 
 ## 16. Immediate Next Step
 
-**Phase 2N — Architecture Verification**: Build the first verification checks/tooling over the Phase 2M data layer (relationship resolution, duplicate IDs, missing references, circular refs) and canonicalize the Phase 2M findings (single-direction storage vs. stored-both, `fruitId` vs `devilFruitId`, the non-canonical §13 example-graph edge).
+**Phase 2O — Architecture Lock**: Freeze the Phase 2 data-layer conventions (schemas, universal ID convention with global uniqueness, relationship matrix with stored-both + source-of-truth, verification tooling `npm run verify`) and record the protected systems + final Phase 2 data-layer state. Optionally resolve the two remaining Phase 2N mirror warnings with small data additions (crew mirror on Marineford location; `water-7` on Luffy's `locationIds`).

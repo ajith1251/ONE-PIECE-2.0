@@ -58,7 +58,8 @@ Records follow `power-schema.md` + `relationships.md`. Uses the Phase 2L canonic
 - **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
 - **2J** — Devil Fruit & Power schema — ✅ DONE (see `power-schema.md`)
 - **2M** — Sample integrated dataset (powers included) — ✅ DONE
-- **2N** — Architecture verification (relationship/schema checks over the data layer)
+- **2N** — Architecture verification (relationship/schema checks over the data layer) — ✅ DONE (`npm run verify`)
+- **2O** — Architecture lock (freeze conventions)
 
 ## Status
 📦 DATASET CREATED — `power-schema.md` + `index.js` (1 power record, Phase 2M). More power records arrive in future dataset phases.

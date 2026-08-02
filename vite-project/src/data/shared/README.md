@@ -28,7 +28,7 @@ Quick summary:
 - **Required fields**: `id`, `displayName`, `description` (intentionally small).
 - **Optional fields**: `aliases`, `tags`, `status`, `imageKey`, `notes`, `metadata`, `createdAt`, `updatedAt`.
 - **Image reference** is `imageKey` only — never paths, extensions, or URLs. Loading is a future phase.
-- **Relationship placeholders**: `characterIds`, `locationIds`, `battleIds`, `crewIds`, `fruitIds`, `shipIds` — IDs only.
+- **Relationship placeholders**: `characterIds`, `locationIds`, `battleIds`, `crewIds`, `devilFruitIds`, `shipIds` — IDs only.
 - Entity-specific fields (`bounty`, `crew`, `devilFruit`, `haki`, …) belong in specialized schemas, NOT here.
 
 ### Relationships (Phase 2L) — ✅ DOCUMENTED
@@ -37,12 +37,12 @@ See **`relationships.md`** in this folder for the complete Cross-Entity Relation
 
 Quick summary:
 - Relationships ALWAYS reference stable IDs — never embed complete entities.
-- Single-direction storage: each relationship has one canonical owner; reverse links are derived dynamically (minimizes duplicated data).
+- Stored-both strategy (Phase 2N canon): each relationship has ONE declared source of truth; the reverse MAY be stored as a mirror copy that must agree with it.
 - Cardinality: One→One (singular field), One→Many / Many→Many (plural `*Ids` fields).
-- Standard names: `characterIds`, `locationIds`, `battleIds`, `crewIds`, `shipIds`, `fruitIds`, `eventIds`, `arcIds`, `powerIds`; singulars like `captainId`, `fruitId`, `locationId`, `arcId`, `ownerCrewId`.
+- Standard names: `characterIds`, `locationIds`, `battleIds`, `crewIds`, `shipIds`, `devilFruitIds`, `eventIds`, `arcIds`, `powerIds`; singulars like `captainId`, `devilFruitId`, `locationId`, `arcId`, `ownerCrewId`.
 - Canonized aliases: battle `participantIds`, power `userIds`/`previousUserIds`, location `connectedLocationIds` (drop `characterIds` on battles, drop `neighborLocationIds`).
 - Relationships are ID- and image-independent, and future search/map/timeline navigation all flow through IDs.
-- Full entity matrix + example graph documented. No logic implemented.
+- Full entity matrix + example graph documented. Verification tooling implemented in Phase 2N (`scripts/verify-data.mjs`, `npm run verify`).
 
 ### Metadata
 - Common fields every entity shares (e.g., `id`, `name`, `imageKey`, `summary`).
@@ -54,8 +54,9 @@ Quick summary:
 - Missing artwork must never break the UI — a placeholder fallback is planned (not implemented).
 
 ### Validation
-- Future validation helpers for schema compliance.
-- Will be added when schemas exist (Phase 2E+).
+- Phase 2N verification tooling: `scripts/verify-data.mjs` (run via `npm run verify`).
+- Structural checks are errors: missing/duplicate IDs, duplicate array values, unresolved references, type mismatches, alias violations, self-references, circular `previousArcId`/`nextArcId` chains, malformed IDs.
+- Stored-both mirror gaps/disagreements are warnings (data completeness, not structure).
 - Relationship validation concerns documented in `relationships.md` (Phase 2L): missing IDs, duplicates, circular references, invalid types, broken links.
 
 ## What does NOT belong here
@@ -68,7 +69,8 @@ Quick summary:
 - **2D** — Shared metadata/schema conventions — ✅ DONE (see `entity-metadata.md`)
 - **2L** — Relationship conventions — ✅ DONE (see `relationships.md`)
 - **2M** — Sample integrated dataset (first records + first real relationships) — ✅ DONE (`index.js` files created in `characters/`, `locations/`, `arcs/`, `crews/`, `battles/`, `ships/`, `fruits/`)
-- **2N** — Architecture verification (first relationship/schema checks over the data layer)
+- **2N** — Architecture verification — ✅ DONE (`scripts/verify-data.mjs` + canonicalization of storage direction, `devilFruitId`, `marineford-arc` global-ID fix)
+- **2O** — Architecture lock (freeze conventions, record protected systems)
 
 ## Status
-📄 README + `entity-ids.md` + `entity-metadata.md` + `relationships.md` + Phase 2M dataset (`index.js` in every data folder). Do not implement shared helpers until their phases arrive.
+📄 README + `entity-ids.md` + `entity-metadata.md` + `relationships.md` + Phase 2M dataset (`index.js` in every data folder) + Phase 2N verification tooling (`scripts/verify-data.mjs`). Do not implement shared helpers until their phases arrive.

@@ -48,7 +48,8 @@ Records follow `location-schema.md` + `relationships.md`. Uses the Phase 2L cano
 
 ## Expected future phases
 - **2M** — Sample integrated dataset (locations included) — ✅ DONE
-- **2N** — Architecture verification (relationship/schema checks over the data layer)
+- **2N** — Architecture verification (relationship/schema checks over the data layer) — ✅ DONE (`npm run verify`)
+- **2O** — Architecture lock (freeze conventions)
 
 ## Status
 📦 DATASET CREATED — `location-schema.md` + `index.js` (2 records, Phase 2M). More location records arrive in future dataset phases.

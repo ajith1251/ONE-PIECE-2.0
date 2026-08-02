@@ -46,7 +46,7 @@ Reused from `../shared/entity-metadata.md` — **NOT duplicated**.
 
 | Field | Source | Notes |
 |-------|--------|-------|
-| `id` | shared | Convention-compliant, immutable (e.g., `marineford`, `east-blue`) |
+| `id` | shared | Convention-compliant, immutable (e.g., `marineford-arc`, `east-blue`) |
 | `displayName` | shared | UI text (e.g., `Marineford`, `Alabasta`) |
 | `description` | shared | Short summary |
 
@@ -109,10 +109,10 @@ Documented how relationships work — **no relationship logic implemented**.
 Arc records carry **`imageKey`** only:
 
 ```js
-imageKey: 'marineford'   // equals id by default
+  imageKey: 'marineford-arc'   // equals id by default
 ```
 
-Examples: `east-blue`, `alabasta`, `skypiea`, `water-7`, `marineford`, `dressrosa`, `whole-cake-island`, `wano`, `egghead`.
+Examples: `east-blue`, `alabasta`, `skypiea`, `water-7`, `marineford-arc`, `dressrosa`, `whole-cake-island`, `wano`, `egghead`.
 
 - ❌ Never hardcode `.png`, `.webp`, `.jpg`
 - ❌ Never absolute URLs
@@ -177,14 +177,14 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the arc d
 ```js
 // Marineford — validates the schema for a large war arc archetype
 {
-  id: 'marineford',
+  id: 'marineford-arc',
   displayName: 'Marineford',
   description: 'The climactic war between the Whitebeard Pirates and the Marines over the execution of Portgas D. Ace.',
   // shared optional
   aliases: ['The Paramount War'],
   tags: ['war', 'paramount-war-saga', 'marineford'],
   status: 'historic',
-  imageKey: 'marineford',
+  imageKey: 'marineford-arc',
   // arc-specific
   sagaId: 'paramount-war-saga',
   arcNumber: 26,

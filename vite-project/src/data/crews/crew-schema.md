@@ -189,7 +189,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the crew 
   shipIds: ['going-merry', 'thousand-sunny'],
   locationIds: ['east-blue'],
   battleIds: ['marineford-war'],
-  arcIds: ['marineford'],
+  arcIds: ['marineford-arc'],
   eventIds: ['timeskip'],
   // spoiler safety
   spoilerLevel: 'basic',

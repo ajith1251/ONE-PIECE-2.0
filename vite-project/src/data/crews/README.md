@@ -61,7 +61,8 @@ Records follow `crew-schema.md` + `relationships.md` (ID-only references). `memb
 - **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
 - **2H** — Crew/Faction schema — ✅ DONE (see `crew-schema.md`)
 - **2M** — Sample integrated dataset (crews/factions included) — ✅ DONE
-- **2N** — Architecture verification (relationship/schema checks over the data layer)
+- **2N** — Architecture verification (relationship/schema checks over the data layer) — ✅ DONE (`npm run verify`)
+- **2O** — Architecture lock (freeze conventions)
 
 ## Status
 📦 DATASET CREATED — `crew-schema.md` + `index.js` (1 record, Phase 2M). More crew/faction records arrive in future dataset phases.

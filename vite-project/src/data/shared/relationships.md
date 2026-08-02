@@ -1,6 +1,7 @@
 # Cross-Entity Relationship Convention — One Piece 2.0
 
 > **Created**: 2026-08-01 (Phase 2L)
+> **Updated**: 2026-08-02 (Phase 2N — stored-both canonicalization, global-ID fix `marineford-arc`, verification tooling reference)
 > **Status**: CONVENTION — defines how every entity schema relates to one another
 > **Extends**: `../shared/entity-ids.md` (Universal Entity ID Convention, Phase 2C) + `../shared/entity-metadata.md` (Shared Entity Metadata, Phase 2D)
 > **Applies to**: Character, Location, Arc, Crew/Faction, Battle, Devil Fruit & Power, Ship, Event schemas
@@ -25,7 +26,7 @@ Define ONE universal relationship convention that every entity relationship in t
 | `battleIds: ['marineford-war']` | `battles: [<full battle objects>]` |
 | `crewIds: ['straw-hat-pirates']` | `crew: { id, displayName, captainId, ... }` |
 | `shipIds: ['thousand-sunny']` | `ships: [<full ship objects>]` |
-| `fruitIds: ['gomu-gomu-no-mi']` | `devilFruit: { id, displayName, ... }` |
+| `devilFruitIds: ['gomu-gomu-no-mi']` | `devilFruit: { id, displayName, ... }` |
 
 Rules:
 
@@ -48,7 +49,7 @@ Supported relationship types, defined once for the whole project:
 
 Convention:
 
-- **Singular field** (`captainId`, `fruitId`, `locationId`) when the relationship is One → One or the field names a single anchor (current location, primary arc).
+- **Singular field** (`captainId`, `devilFruitId`, `locationId`) when the relationship is One → One or the field names a single anchor (current location, primary arc).
 - **Plural field** (`characterIds`, `arcIds`, `battleIds`) when the relationship is One → Many or Many → Many.
 - A plural field may contain an **empty array** or be **omitted** — both mean "no relationship", never `null` placeholders.
 
@@ -58,17 +59,19 @@ No validation code is implemented; this documents intent.
 
 ## 4. Bidirectional Relationships
 
-**Strategy: store the relationship in ONE direction only (source-of-truth side); resolve the reverse dynamically.**
+**Strategy: store relationships in BOTH directions, with ONE declared source of truth per relationship.**
 
-- Each relationship has a single canonical owner — the entity type that naturally owns it.
-- The reverse direction is **NOT stored**; it is computed by scanning the owner's dataset.
-- Example: A crew's `memberIds` is the source of truth. A character's membership in that crew is **not** also stored on the character — it is derived from `crew.memberIds`.
+- Every relationship declares a single **source-of-truth** field — the canonical owner.
+- The reverse direction MAY also be stored on the counterpart record as a **mirror copy** (stored-both). Mirrors give O(1) traversal in both directions and self-contained records.
+- A mirror is conceptually derived from its source of truth and MUST agree with it. Edit the source, regenerate the mirror.
+- Example: `crew.memberIds` is the source of truth for Straw Hat membership; `character.crewIds` is a stored mirror derived from it. Both appear in Phase 2M records.
+- Phase 2N verification (`npm run verify` → `scripts/verify-data.mjs`) checks mirror agreement; gaps are reported as warnings.
 
-Rationale — minimizes duplicated data:
+Rationale:
 
-- One authoritative copy per relationship → no drift between sides.
-- Editing one record can never create a two-sided mismatch.
-- Reverse lookups are simple scans over a single dataset (fast enough at the planned data scale).
+- Mirrors make reverse lookups instant (no dataset scan) and keep every record self-contained for future UI features.
+- A single source of truth keeps edits deterministic and prevents drift between the two sides.
+- Where a schema provides no reverse field (e.g., a location has no `shipIds`), the relationship is stored one-directionally — mirrors are optional, agreement is mandatory whenever both sides exist.
 
 Exceptions (documented per-schema aliases, canonized here):
 
@@ -82,28 +85,31 @@ Exceptions (documented per-schema aliases, canonized here):
 
 ## 5. Entity Relationship Matrix
 
-How entities connect (ID references only). Documented — NOT populated.
+How entities connect (ID references only). Documented — NOT populated beyond the Phase 2M sample.
 
-| Relationship | Canonical field | Referenced IDs |
-|--------------|-----------------|----------------|
-| Character → Crew | `character.crewIds` (derive reverse from `crew.memberIds`) | crew |
-| Character → Battle | `battle.participantIds` (reverse derived) | character |
-| Character → Arc | `arc.characterIds` (reverse derived) | character |
-| Character → Ship | `ship.captainIds` (reverse derived) | character |
-| Character → Devil Fruit / Power | `character.devilFruitId`; powers list `userIds` | power |
-| Character → Location | `character.originLocationId` / `currentLocationId`; `location.characterIds` (reverse) | location |
-| Arc → Battle | `arc.battleIds` (reverse derived from `battle.arcId`) | battle |
-| Arc → Location | `arc.locationIds` (reverse derived from `location.arcIds`) | location |
-| Arc → Character | `arc.characterIds` (reverse derived from `character.arcIds`) | character |
-| Arc → Crew | `arc.crewIds` (reverse derived) | crew |
-| Crew → Ship | `crew.shipIds` (reverse derived from `ship.ownerCrewId`) | ship |
-| Crew → Battle | `battle.crewIds` (reverse derived) | crew |
-| Location → Battle | `battle.locationId` (reverse derived from `location.battleIds`) | location |
-| Ship → Battle | `battle.shipIds` (reverse derived) | ship |
-| Ship → Crew | `ship.ownerCrewId` (reverse derived from `crew.shipIds`) | crew |
-| Devil Fruit / Power → Character | `power.userIds` / `previousUserIds` (reverse derived from `character.devilFruitId`) | character |
+Columns: **Source of truth** = the canonical owner (where edits land). **Stored mirror** = the optional reverse copy on the counterpart record (stored-both convention, §4). When both are stored they MUST agree; `npm run verify` reports gaps as warnings.
 
-Guidance: **store the singular, own the plural.** When one side is naturally singular (battle's arc, ship's owner crew, character's fruit), store it there and derive the many-side.
+| Relationship | Source of truth | Stored mirror (stored-both) | Referenced type |
+|--------------|-----------------|-----------------------------|-----------------|
+| Character → Crew | `crew.memberIds` | `character.crewIds` | crew |
+| Character → Ship | `ship.characterIds` | `character.shipIds` | ship |
+| Character → Arc | `arc.characterIds` | `character.arcIds` | arc |
+| Character → Battle | `battle.participantIds` | `character.battleIds` | battle |
+| Character → Location | `location.characterIds` | `character.locationIds` | location |
+| Character → Devil Fruit / Power | `character.devilFruitId` | `power.userIds` (current user) | power |
+| Arc → Battle | `battle.arcId` | `arc.battleIds` | battle |
+| Arc → Location | `arc.locationIds` | `location.arcIds` | location |
+| Arc → Character | `arc.characterIds` | `character.arcIds` | character |
+| Arc → Crew | `arc.crewIds` | `crew.arcIds` | crew |
+| Crew → Ship | `ship.ownerCrewId` | `crew.shipIds` | ship |
+| Crew → Battle | `battle.crewIds` | `crew.battleIds` | crew |
+| Crew → Location | `location.crewIds` | `crew.locationIds` | location |
+| Location → Battle | `battle.locationId` | `location.battleIds` | location |
+| Ship → Battle | `battle.shipIds` | `ship.battleIds` | ship |
+| Ship → Location | `ship.launchLocationId` / `currentLocationId` | — (no `shipIds` on locations; one-way) | location |
+| Power → Character | `power.userIds` / `previousUserIds` | `character.devilFruitId` (current user only) | character |
+
+Guidance: **the singular side is the source of truth.** When one side is naturally singular (battle's arc, ship's owner crew, character's fruit, battle's location), store the relationship there; mirror the plural side when a reverse field exists.
 
 ---
 
@@ -119,7 +125,7 @@ locationIds
 battleIds
 crewIds
 shipIds
-fruitIds
+devilFruitIds
 eventIds
 arcIds
 powerIds        // powers other than Devil Fruits (Haki, combat styles, weapons)
@@ -130,7 +136,7 @@ Singular variants (One → One / single anchor only):
 
 ```
 captainId
-fruitId         // a character's single Devil Fruit
+devilFruitId    // a character's single Devil Fruit
 locationId      // a battle's single location
 arcId           // a battle's single arc
 ownerCrewId     // a ship's owning crew
@@ -243,13 +249,13 @@ Expected validation concerns — **no validation code implemented, architecture 
 | Invalid entity type | Referenced ID resolves to the entity type the field name implies (e.g., `crewIds` → a crew) |
 | Broken relationship | ID referenced but target missing → flagged (data-quality, not runtime error) |
 
-Validation will live in future shared tooling (e.g., `shared/relationships.js`), run as part of Phase 2N verification.
+Validation runs as Phase 2N tooling: `npm run verify` → `scripts/verify-data.mjs`. Structural checks (resolution, duplicates, types, aliases, cycles) are errors; stored-both mirror gaps are warnings.
 
 ---
 
 ## 13. Example Relationship Graph (Documentation Only)
 
-One small example explaining the architecture — NOT production data:
+One small traversal matching the Phase 2M dataset — walks every entity type exactly once. NOT the full data:
 
 ```
 Monkey D. Luffy (character)
@@ -259,16 +265,19 @@ Straw Hat Pirates (crew)
         │  shipIds
         ▼
 Thousand Sunny (ship)
+        │  launchLocationId
+        ▼
+Water 7 (location)
+        │  connectedLocationIds
+        ▼
+Marineford (location)
         │  battleIds
         ▼
 Marineford War (battle)
         │  arcId
         ▼
 Marineford (arc)
-        │  locationIds
-        ▼
-Marineford (location)
-        │  characterIds (reverse)
+        │  characterIds
         ▼
 Monkey D. Luffy (character)
         │  devilFruitId
@@ -278,8 +287,8 @@ Gomu Gomu no Mi (power)
 
 Reading the graph:
 
-- Every arrow is a **stored ID reference on the source entity**.
-- Every backward arrow is **derived dynamically** (single-direction storage, per §4).
+- Every arrow is a **stored ID reference on the source entity** — each field shown exists in the Phase 2M dataset.
+- Reverse directions may be stored as mirror copies on the counterpart record (stored-both, per §4) — omitted here for readability.
 - No arrow carries entity content — only IDs.
 - Replacing any entity's displayName or image leaves every arrow intact (§7–8).
 
@@ -287,7 +296,7 @@ Reading the graph:
 
 ## 14. Future Extension Points
 
-- `shared/relationships.js` — future helper module for resolve/validate/derive lookups (Phase 2N tooling)
+- `scripts/verify-data.mjs` — Phase 2N verification tooling (`npm run verify`); a future `shared/relationships.js` resolve/derive helper remains a later-phase option
 - `eventIds` / `powerIds` / `relatedPowerIds` — new relationship kinds without schema changes
 - Timeline + map navigation layers consume the same ID conventions
 - Phase 2M datasets MUST follow every rule in this document

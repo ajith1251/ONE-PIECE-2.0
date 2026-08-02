@@ -22,7 +22,7 @@ const locations = [
     climate: 'temperate',
     government: 'world-government',
     characterIds: ['monkey-d-luffy'],
-    arcIds: ['marineford'],
+    arcIds: ['marineford-arc'],
     battleIds: ['marineford-war'],
     connectedLocationIds: ['water-7'],
     mapRegion: 'paradise',

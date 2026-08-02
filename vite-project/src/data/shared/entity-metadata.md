@@ -153,7 +153,7 @@ characterIds   → array of character IDs
 locationIds    → array of location IDs
 battleIds      → array of battle IDs
 crewIds        → array of crew/faction IDs
-fruitIds       → array of Devil Fruit IDs
+devilFruitIds → array of Devil Fruit IDs
 shipIds        → array of ship IDs
 ```
 

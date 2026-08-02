@@ -202,7 +202,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the ship 
   characterIds: ['monkey-d-luffy', 'franky'],
   battleIds: ['marineford-war'],
   locationIds: ['water-7'],
-  arcIds: ['water-7', 'marineford'],
+  arcIds: ['water-7', 'marineford-arc'],
   eventIds: ['timeskip'],
   // spoiler safety
   spoilerLevel: 'basic',

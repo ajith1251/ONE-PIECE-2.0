@@ -16,7 +16,7 @@ Every entity ID MUST be:
 |------|-------------|
 | **lowercase** | `a–z` only. No uppercase letters. |
 | **kebab-case** | Words separated by a single hyphen `-`. No spaces, underscores, or camelCase. |
-| **unique** | No two entities of the same type share an ID. |
+| **unique** | No two entities — of any type — share an ID. IDs are globally unique across ALL entity datasets (Phase 2N canon). |
 | **stable** | The ID never changes once assigned to an entity. |
 | **immutable once published** | After an entity ships, its ID is frozen forever. Changing it breaks references. |
 | **independent from UI text** | The ID never depends on how the name is displayed, translated, or styled. |
@@ -49,6 +49,8 @@ Rules:
 |--------|------|------------|
 | Monkey D. Luffy | `monkey-d-luffy` | `monkey-d-luffy` |
 | Alabasta | `alabasta` | `alabasta` |
+| Marineford arc | `marineford-arc` | `marineford-arc` |
+| Marineford location | `marineford` | `marineford` |
 
 - The image key lets the (future) image resolver find artwork by a predictable name.
 - Image loading is NOT implemented yet — convention only.
@@ -64,9 +66,12 @@ monkey-d-luffy.*
 roronoa-zoro.*
 alabasta.*
 marineford.*
+marineford-arc.*
 wano.*
 egghead.*
 ```
+
+**Same-name collisions**: when two entities of different types share a `displayName` (e.g., the `Marineford` arc and the `Marineford` location), they MUST still get distinct IDs. Append the type to one of them — `marineford-arc` (arc) vs `marineford` (location), `alabasta-arc` vs `alabasta` — so `imageKey` and artwork filenames stay unique.
 
 Supported formats (browser-compatible): `.png`, `.webp`, `.jpg`, `.jpeg`, `.avif`, `.gif`
 
@@ -83,7 +88,7 @@ One canonical example per entity type. These are documentation examples — NOT 
 |------|------|---------------|
 | Character | `monkey-d-luffy` | Monkey D. Luffy |
 | Location | `alabasta` | Alabasta |
-| Arc | `marineford` | Marineford |
+| Arc | `marineford-arc` | Marineford |
 | Crew | `straw-hat-pirates` | Straw Hat Pirates |
 | Ship | `thousand-sunny` | Thousand Sunny |
 | Battle | `marineford-war` | Marineford War |
@@ -120,7 +125,7 @@ locationIds    → array of location IDs
 crewIds        → array of crew/faction IDs
 battleIds      → array of battle IDs
 shipIds        → array of ship IDs
-fruitIds       → array of Devil Fruit IDs
+devilFruitIds → array of Devil Fruit IDs
 ```
 
 Example (concept only):

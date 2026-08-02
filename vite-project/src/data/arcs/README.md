@@ -4,7 +4,7 @@
 Future home for all anime arc / saga datasets in One Piece 2.0.
 
 ## What eventually belongs here
-- Arc entity records (e.g., `marineford`, `wano`)
+- Arc entity records (e.g., `marineford-arc`, `wano`)
 - Arc schemas, lookups, and helpers
 
 ## ID Convention
@@ -32,7 +32,7 @@ Arcs follow **`arc-schema.md`** (Arc Schema Foundation, Phase 2G):
 - Artwork referenced by `imageKey` (equals `id` by default) — never paths or extensions
 - Timeline-readiness fields (`sagaId`, `arcNumber`, `chronologicalOrder`, `previousArcId`, `nextArcId`) documented only
 - `spoilerLevel` (`basic`/`advanced`/`late`) supports future spoiler safety
-- One sample record (`marineford`) validates the schema. NO arc database yet.
+- One sample record (`marineford-arc`) validates the schema. NO arc database yet.
 
 ## ID Convention
 
@@ -52,7 +52,7 @@ Arcs MUST follow the **Universal Entity ID Convention** (see `../shared/entity-i
 
 First real arc record — **`index.js`** in this folder.
 
-- `marineford` (war arc, Paramount War saga)
+- `marineford-arc` (war arc, Paramount War saga)
 
 Records follow `arc-schema.md` + `relationships.md` (ID-only references). `previousArcId`/`nextArcId` omitted — those arcs are not yet in the dataset.
 
@@ -61,7 +61,8 @@ Records follow `arc-schema.md` + `relationships.md` (ID-only references). `previ
 - **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
 - **2G** — Arc schema — ✅ DONE (see `arc-schema.md`)
 - **2M** — Sample integrated dataset (arcs included) — ✅ DONE
-- **2N** — Architecture verification (relationship/schema checks over the data layer)
+- **2N** — Architecture verification (relationship/schema checks over the data layer) — ✅ DONE (`npm run verify`)
+- **2O** — Architecture lock (freeze conventions)
 
 ## Status
 📦 DATASET CREATED — `arc-schema.md` + `index.js` (1 record, Phase 2M). More arc records arrive in future dataset phases.

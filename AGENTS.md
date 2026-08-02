@@ -49,6 +49,7 @@ vite-project/
 - `npm run dev` - Start development server
 - `npm run build` - Production build
 - `npm run lint` - Run ESLint
+- `npm run verify` - Run data-layer verification (`scripts/verify-data.mjs`)
 - `npm run preview` - Preview production build
 
 ## Completed Phases
@@ -66,11 +67,13 @@ vite-project/
 - **Phase 2K** (2026-08-01): Ship Schema Foundation — ✅ COMPLETE. Doc: `src/data/ships/ship-schema.md` (one reusable schema for all ship types; ID-only relationships; imageKey; history-support fields; spoilerLevel; one sample record). No production logic changed.
 - **Phase 2L** (2026-08-01): Cross-Entity Relationship Convention — ✅ COMPLETE. Doc: `src/data/shared/relationships.md` (ID-only relationships; single-direction storage; cardinality rules; standard field naming; relationship matrix; cascade + validation principles). No production logic changed.
 - **Phase 2M** (2026-08-02): Small Integrated Dataset — ✅ COMPLETE. First real production data: `src/data/<type>/index.js` for characters (3), locations (2), arcs (1), crews (1), battles (1), ships (1), fruits/powers (1). All ID references resolve; lint + build pass; no UI/protected changes. Findings recorded for 2N/2O (canonical subsets, Ship→Battle edge, §13 graph edge, single-direction vs stored-both, fruitId vs devilFruitId).
-- Hero is 🔒 LOCKED. Next: Phase 2N — Architecture Verification
+- **Phase 2N** (2026-08-02): Architecture Verification — ✅ COMPLETE. Added `scripts/verify-data.mjs` (`npm run verify`) + node-globals eslint scope for `scripts/`; structural checks are errors, stored-both mirror gaps are warnings. Found + fixed a real defect: arc `marineford` and location `marineford` shared one ID → renamed arc to `marineford-arc`, `entity-ids.md` now requires globally unique IDs. Canonicalized: stored-both + declared source of truth (§4/§5), `fruitId`/`fruitIds` → `devilFruitId`/`devilFruitIds`, new canonical §13 example graph. `npm run verify` = PASS (0 errors, 2 documented sample-gap warnings); lint + build clean; no UI/protected changes.
+- Hero is 🔒 LOCKED. Next: Phase 2O — Architecture Lock
 
 > **Full details**: `vite-project/docs/PROJECT_MEMORY.md` + `vite-project/docs/PHASE_HISTORY.md`
 
 ## Change Log
+- **2026-08-02**: Phase 2N completed. Added `scripts/verify-data.mjs` + `npm run verify`; renamed arc `marineford` → `marineford-arc` (global-ID fix); canonicalized stored-both + `devilFruitId` naming; new §13 example graph; entity-ids.md global uniqueness. Updated all READMEs + memory docs. `npm run verify` PASS (0 errors, 2 documented warnings).
 - **2026-08-02**: Phase 2M completed. Created `src/data/<type>/index.js` sample datasets (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power), updated all data-folder READMEs + shared README + memory docs. Verified all ID references resolve + lint/build pass.
 - **2026-08-01**: Phase 2L completed. Created `src/data/shared/relationships.md` (Cross-Entity Relationship Convention), updated shared README + schema canonical notes + memory docs.
 - **2026-08-01**: Phase 2K completed. Created `src/data/ships/ship-schema.md` (Ship Schema Foundation), updated ships README + memory docs.

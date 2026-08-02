@@ -15,7 +15,7 @@ Quick summary:
 - Extends the shared metadata foundation (`../shared/entity-metadata.md`).
 - Required: `id`, `displayName`, `description` (from shared layer).
 - Character fields: `bounty`, `occupation`, `role`, `species`, `haki`, `devilFruitId`, `weapons`, `fightingStyles`, `originLocationId`, `currentLocationId`, etc.
-- Relationships are ID references only: `crewIds`, `locationIds`, `arcIds`, `battleIds`, `shipIds`, `fruitId`, `mentorIds`, `rivalIds`, `familyIds`.
+- Relationships are ID references only: `crewIds`, `locationIds`, `arcIds`, `battleIds`, `shipIds`, `devilFruitId`, `mentorIds`, `rivalIds`, `familyIds`.
 - `imageKey` only — never hardcoded extensions or URLs.
 - `spoilerLevel` supports future spoiler filtering (basic/advanced/late).
 - One sample record (`monkey-d-luffy`) validates the schema. NO character database yet.
@@ -26,7 +26,7 @@ Characters MUST follow the **Universal Entity ID Convention** (see `../shared/en
 
 - IDs are lowercase kebab-case, unique, stable, and immutable once published.
 - `id` ≠ `displayName` — UI shows the display name, references use the ID.
-- Relationships to other entities use their IDs (e.g., `crewIds`, `fruitIds`, `arcIds`).
+- Relationships to other entities use their IDs (e.g., `crewIds`, `devilFruitIds`, `arcIds`).
 - IDs are never generated dynamically at runtime.
 
 ## What does NOT belong here
@@ -49,7 +49,8 @@ Records follow `character-schema.md` + `relationships.md` (ID-only references). 
 - **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
 - **2E** — Character schema — ✅ DONE (see `character-schema.md`)
 - **2M** — Sample integrated dataset (first real character records) — ✅ DONE
-- **2N** — Architecture verification (relationship/schema checks over the data layer)
+- **2N** — Architecture verification (relationship/schema checks over the data layer) — ✅ DONE (`npm run verify`)
+- **2O** — Architecture lock (freeze conventions)
 
 ## Status
 📦 DATASET CREATED — `character-schema.md` + `index.js` (3 records, Phase 2M). More character records arrive in future dataset phases.

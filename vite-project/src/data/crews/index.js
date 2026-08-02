@@ -29,7 +29,7 @@ const crews = [
     characterIds: ['monkey-d-luffy', 'roronoa-zoro', 'nami'],
     locationIds: ['water-7', 'marineford'],
     battleIds: ['marineford-war'],
-    arcIds: ['marineford'],
+    arcIds: ['marineford-arc'],
     spoilerLevel: 'basic',
     history: 'Founded when Luffy departed Foosha Village and gathered his crew across the East Blue.',
     notes: 'Phase 2M sample — memberIds is a canonical SUBSET (3 of 10 members); the full roster will arrive as more character records are added. TerritoryIds omitted (fish-man-island not in the sample).',

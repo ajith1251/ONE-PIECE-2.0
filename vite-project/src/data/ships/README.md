@@ -62,7 +62,8 @@ Records follow `ship-schema.md` + `relationships.md` (ID-only references). `batt
 - **2D** — Shared metadata — ✅ DONE (see `../shared/entity-metadata.md`)
 - **2K** — Ship schema — ✅ DONE (see `ship-schema.md`)
 - **2M** — Sample integrated dataset (ships included) — ✅ DONE
-- **2N** — Architecture verification (relationship/schema checks over the data layer)
+- **2N** — Architecture verification (relationship/schema checks over the data layer) — ✅ DONE (`npm run verify`)
+- **2O** — Architecture lock (freeze conventions)
 
 ## Status
 📦 DATASET CREATED — `ship-schema.md` + `index.js` (1 record, Phase 2M). More ship records arrive in future dataset phases.

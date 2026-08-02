@@ -1815,3 +1815,119 @@ None new. Findings above are documentation/architecture notes, not defects in th
 **Phase 2N** — Architecture Verification
 - Build the first verification checks/tooling over the data layer (relationship resolution, duplicate IDs, missing references, circular refs)
 - Canonicalize the Phase 2M findings (single-direction storage, `fruitId` vs `devilFruitId`, §13 example graph)
+
+---
+
+## Phase 2N — Architecture Verification
+
+**Status**: ✅ COMPLETE — 2026-08-02
+
+**Objective**: Build the first verification tooling over the Phase 2M data layer and canonicalize the Phase 2M findings (storage direction, `fruitId` vs `devilFruitId`, §13 example-graph edge). Verify the data layer with committed, repeatable checks.
+
+**User decisions (2026-08-02)**:
+1. Storage canonicalization → **Stored-both** (keep both directions; declare ONE source of truth per relationship; doc-only + dataset untouched).
+2. Tooling home → **Committed script + lint scope** (`scripts/verify-data.mjs` + node-globals eslint block + `npm run verify`).
+3. ID collision → **Rename arc to `marineford-arc`** (global uniqueness + imageKey integrity).
+
+### What Was Built
+
+**`scripts/verify-data.mjs`** (new) — the first committed data-layer verifier. Imported by `npm run verify`:
+- **Errors (exit 1)**: global duplicate IDs (across ALL datasets — stricter than 2M's per-type check), duplicate values inside a `*Ids` array, unresolved references, type mismatches (ID resolves to the wrong entity type), unknown relationship fields (field ending in `Id`/`Ids` not in the naming map, excluding label fields `sagaId`/`hotspotId`), alias violations (battle `characterIds`, power `characterIds`, location `neighborLocationIds`), self-references, circular `previousArcId`/`nextArcId` chains, malformed IDs (not lowercase kebab-case), missing required fields (`id`/`displayName`/`description`), missing `imageKey`, `imageKey` ≠ `id`.
+- **Warnings**: stored-both mirror gaps/disagreements (data completeness, not structure).
+- Mirrors enforced for ~30 stored-both pairs (character↔crew/ship/arc/battle/location/fruit, crew↔ship/battle/location/arc, battle↔arc/location, ship↔crew, location↔location adjacency, power↔character).
+
+**`eslint.config.js`** (modified): added a `scripts/**/*.mjs` block scoped to `js.configs.recommended` + `globals.node` (browser globals remain everywhere else).
+
+**`package.json`** (modified): added `"verify": "node scripts/verify-data.mjs"`.
+
+### ID Collision Defect (Found & Fixed)
+
+Verification surfaced a real defect the 2M temp script masked: the **arc `marineford` and location `marineford` shared the same ID**. Consequences: two entities with one `imageKey` (`marineford.*` artwork would collide) and no globally-unique ID resolution. Fixed by renaming the arc to **`marineford-arc`** (location keeps `marineford`) across all datasets, schemas, READMEs, and docs. `entity-ids.md` now requires GLOBALLY unique IDs (all entity types) and documents a same-name-collision rule (e.g., `marineford-arc` vs `marineford`, `alabasta-arc` vs `alabasta`).
+
+### Canonicalizations (Phase 2M findings resolved)
+
+| Phase 2M finding | Phase 2N resolution |
+|------------------|---------------------|
+| 3. §13 non-canonical edge (Sunny → Marineford War) | §13 graph replaced with a fully canonical traversal: Luffy → crew → Sunny → Water 7 → Marineford(location) → battle → arc → Luffy → fruit. Every edge is a real stored field in the Phase 2M dataset; also exercises `launchLocationId` + `connectedLocationIds`. |
+| 4. Single-direction vs stored-both | §4 rewritten to **stored-both with ONE declared source of truth**; §5 matrix now has source-of-truth + stored-mirror columns. |
+| 5. `fruitId` vs `devilFruitId` | Canonized **`devilFruitId`** (singular) / **`devilFruitIds`** (plural) across `relationships.md` §2/§3/§6, `character-schema.md`, `entity-ids.md`, `entity-metadata.md`, `shared/README.md`, `characters/README.md`. |
+| 1. Canonical subsets | Reaffirmed as design (not a defect); each record documents its subset. |
+| 2. Ship→Battle edge unexercised | Reaffirmed (Sunny not at Marineford); the new §13 graph additionally demonstrates ship→location via `launchLocationId`. |
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `scripts/verify-data.mjs` | Data-layer verifier (npm run verify) |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `eslint.config.js` | `scripts/**/*.mjs` block with node globals |
+| `package.json` | Added `npm run verify` |
+| `src/data/arcs/index.js` | Arc id/imageKey `marineford` → `marineford-arc` |
+| `src/data/characters/index.js` | Luffy `arcIds` + notes → `marineford-arc` |
+| `src/data/locations/index.js` | Marineford `arcIds` → `marineford-arc` |
+| `src/data/crews/index.js` | `arcIds` → `marineford-arc` |
+| `src/data/battles/index.js` | `arcId` → `marineford-arc` |
+| `src/data/fruits/index.js` | `arcIds` → `marineford-arc` |
+| `src/data/shared/entity-ids.md` | Global uniqueness rule; same-name-collision note; Arc example → `marineford-arc`; `fruitIds` → `devilFruitIds` |
+| `src/data/shared/entity-metadata.md` | `fruitIds` → `devilFruitIds` |
+| `src/data/shared/relationships.md` | §2/§3/§6 naming; §4 stored-both rewrite; §5 matrix (source-of-truth + mirror columns); §12/§14 tooling references; §13 new canonical graph |
+| `src/data/characters/character-schema.md` | `fruitId` → `devilFruitId`; sample `arcIds`/`arcId` → `marineford-arc` |
+| `src/data/arcs/arc-schema.md` | Sample id/imageKey/examples → `marineford-arc` |
+| `src/data/crews/crew-schema.md` | Sample `arcIds` → `marineford-arc` |
+| `src/data/battles/battle-schema.md` | Sample `arcId`/`arcIds` → `marineford-arc` |
+| `src/data/ships/ship-schema.md` | Sample `arcIds` → `marineford-arc` |
+| `src/data/fruits/power-schema.md` | Sample `arcIds` → `marineford-arc` |
+| `src/data/shared/README.md` | Stored-both summary; `devilFruitIds`; validation tooling; 2N ✅ / 2O next |
+| `src/data/<type>/README.md` ×7 | 2N ✅ + 2O next in expected-phases lists |
+| `docs/PROJECT_MEMORY.md` | Phase 2N paragraph, findings, recovery checkpoint, structure, next → 2O |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | Roadmap 2N ✅; section 16 → 2O; legend updates |
+| `AGENTS.md` | Phase 2N complete; next → 2O; change log entry |
+
+### Verification Results
+
+| Check | Result |
+|-------|--------|
+| `npm run verify` | ✅ PASS — 0 errors, 2 warnings |
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+
+### Verify Warnings (known sample gaps — non-blocking, candidates for Phase 2O)
+
+1. `crew.straw-hat-pirates.locationIds` lists `marineford` but `location.marineford.crewIds` is absent. *(Proposed fix: add `crewIds: ['straw-hat-pirates']` to the Marineford location record.)*
+2. `location.water-7.characterIds` lists `monkey-d-luffy` but `character.monkey-d-luffy.locationIds` does not include `water-7`. *(Proposed fix: add `'water-7'` to Luffy's `locationIds`.)*
+
+These were left untouched per the Phase 2N decision to keep the dataset unchanged; they are surfaced as warnings so the tool stays honest and Phase 2O can resolve them with one-line data additions.
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (Crew cards) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+| UI components | ✅ Untouched — Phase 2N is data/tooling only |
+
+### Known Issues
+
+- The 2 known verify warnings above (data completeness in the small sample).
+- Mirror-consistency checks are warning-level by design until datasets grow large enough that agreement is mandatory; escalate to errors when the data layer is populated more fully.
+
+### Deferred Work
+
+- Full datasets for every entity type (100–300+ characters planned, etc.)
+- UI consumption of the data layer (components remain data-free)
+- Resolve the 2 verify warnings with data additions (Phase 2O candidate)
+- `shared/relationships.js` resolve/derive helper (later-phase option)
+- Image migration + resolver (post-roadmap)
+
+### Next Recommended Phase
+
+**Phase 2O** — Architecture Lock
+- Freeze the Phase 2 data-layer conventions (schemas, ID convention, relationship matrix, verification tooling)
+- Record protected systems and the final Phase 2 data-layer state
+- Optionally resolve the 2 remaining mirror warnings

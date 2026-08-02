@@ -187,7 +187,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the battl
   // battle-specific
   battleType: 'war',
   locationId: 'marineford',
-  arcId: 'marineford',
+  arcId: 'marineford-arc',
   participantIds: ['edward-newgate', 'monkey-d-luffy', 'portgas-d-ace', 'akainu', 'sengoku'],
   winningSide: 'marines',
   losingSide: 'whitebeard-pirates',
@@ -202,7 +202,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the battl
   locationIds: ['marineford'],
   shipIds: ['moby-dick', 'thousand-sunny'],
   eventIds: ['ace-execution'],
-  arcIds: ['marineford'],
+  arcIds: ['marineford-arc'],
   // spoiler safety
   spoilerLevel: 'advanced',
   // optional

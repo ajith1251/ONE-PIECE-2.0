@@ -105,7 +105,7 @@ Fields that genuinely belong to characters (all optional unless noted):
 | `arcIds` | Arc IDs |
 | `battleIds` | Battle IDs |
 | `shipIds` | Ship IDs |
-| `fruitId` | Devil Fruit ID (singular — one fruit per character) |
+| `devilFruitId` | Devil Fruit ID (singular — one fruit per character) |
 | `mentorIds` | Character IDs |
 | `rivalIds` | Character IDs |
 | `familyIds` | Character IDs |
@@ -124,7 +124,7 @@ achievements: [
     id: 'title-earned',        // stable kebab-case ID
     displayName: 'Title Earned',
     description: 'Short description', // optional
-    arcId: 'marineford',       // optional — where it happened
+    arcId: 'marineford-arc',       // optional — where it happened
     year: '1516',              // optional — in-world date
     type: 'title' | 'victory' | 'territory' | 'kingdom' | 'accomplishment'
   }
@@ -224,7 +224,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the chara
   // relationships
   crewIds: ['straw-hat-pirates'],
   locationIds: ['east-blue'],
-  arcIds: ['marineford'],
+  arcIds: ['marineford-arc'],
   battleIds: ['marineford-war'],
   shipIds: ['thousand-sunny'],
   mentorIds: ['silvers-rayleigh'],
