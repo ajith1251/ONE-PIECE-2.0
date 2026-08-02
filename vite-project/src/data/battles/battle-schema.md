@@ -197,12 +197,9 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the battl
   casualties: 'Portgas D. Ace and Edward Newgate die; heavy losses on both sides.',
   timelineOrder: 26,
   // relationships
-  characterIds: ['monkey-d-luffy', 'portgas-d-ace', 'edward-newgate'],
   crewIds: ['whitebeard-pirates', 'straw-hat-pirates', 'marines'],
-  locationIds: ['marineford'],
   shipIds: ['moby-dick', 'thousand-sunny'],
   eventIds: ['ace-execution'],
-  arcIds: ['marineford-arc'],
   // spoiler safety
   spoilerLevel: 'advanced',
   // optional

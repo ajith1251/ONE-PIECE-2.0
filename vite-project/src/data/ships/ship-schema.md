@@ -192,7 +192,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the ship 
   builder: 'Franky',
   manufacturer: 'Water 7 Shipyards',
   launchLocationId: 'water-7',
-  currentLocationId: null, // currently at sea — omitted when not set, never a placeholder string
+  // currentLocationId: omitted — currently at sea (never a placeholder)
   size: '56m',
   specialFeatures: ['Coup de Burst', 'gaon cannon', 'doctor room', 'shark submarine'],
   armament: ['gaon cannon', 'gangster cannon', 'coup de bur', 'striker', 'wavemaker'],
@@ -202,7 +202,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the ship 
   characterIds: ['monkey-d-luffy', 'franky'],
   battleIds: ['marineford-war'],
   locationIds: ['water-7'],
-  arcIds: ['water-7', 'marineford-arc'],
+  arcIds: ['water-7-arc', 'marineford-arc'],
   eventIds: ['timeskip'],
   // spoiler safety
   spoilerLevel: 'basic',

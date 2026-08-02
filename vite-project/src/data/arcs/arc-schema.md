@@ -46,7 +46,7 @@ Reused from `../shared/entity-metadata.md` — **NOT duplicated**.
 
 | Field | Source | Notes |
 |-------|--------|-------|
-| `id` | shared | Convention-compliant, immutable (e.g., `marineford-arc`, `east-blue`) |
+| `id` | shared | Convention-compliant, immutable (e.g., `marineford-arc`, `east-blue-arc`) |
 | `displayName` | shared | UI text (e.g., `Marineford`, `Alabasta`) |
 | `description` | shared | Short summary |
 
@@ -112,7 +112,7 @@ Arc records carry **`imageKey`** only:
   imageKey: 'marineford-arc'   // equals id by default
 ```
 
-Examples: `east-blue`, `alabasta`, `skypiea`, `water-7`, `marineford-arc`, `dressrosa`, `whole-cake-island`, `wano`, `egghead`.
+Examples: `east-blue-arc`, `alabasta-arc`, `skypiea-arc`, `water-7-arc`, `marineford-arc`, `dressrosa-arc`, `whole-cake-island-arc`, `wano-arc`, `egghead-arc`. Arc IDs share the location name plus an `-arc` suffix to keep IDs globally unique per `entity-ids.md`.
 
 - ❌ Never hardcode `.png`, `.webp`, `.jpg`
 - ❌ Never absolute URLs
@@ -206,7 +206,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the arc d
   eventIds: ['ace-execution'],
   shipIds: ['moby-dick', 'thousand-sunny'],
   // timeline readiness (documented, not implemented)
-  previousArcId: 'impel-down',
+  previousArcId: 'impel-down-arc',
   nextArcId: 'post-war',
   // spoiler safety
   spoilerLevel: 'advanced',

@@ -213,7 +213,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the locat
   battleIds: ['alabasta-war'],
   crewIds: ['straw-hat-pirates'],
   eventIds: ['alabasta-rebellion'],
-  neighborLocationIds: ['nanohana'],
+  connectedLocationIds: ['nanohana'],
   // map readiness (documented, not implemented)
   mapRegion: 'paradise',
   // spoiler safety

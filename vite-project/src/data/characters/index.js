@@ -33,7 +33,7 @@ const characters = [
     shipIds: ['thousand-sunny'],
     arcIds: ['marineford-arc'],
     battleIds: ['marineford-war'],
-    locationIds: ['marineford'],
+    locationIds: ['marineford', 'water-7'],
     spoilerLevel: 'late',
     notes: 'Phase 2M sample — first production character record. Family/mentor lists omitted (references would point outside the sample dataset).',
   },

@@ -356,10 +356,10 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 | **2K** | Ship schema | ✅ DONE — schema in `src/data/ships/ship-schema.md` (Phase 2K) |
 | **2L** | Relationship conventions | ✅ DONE — convention in `src/data/shared/relationships.md` (Phase 2L) |
 | **2M** | Small integrated dataset | Small connected dataset proving schemas + relationships — ✅ DONE (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power in `src/data/<type>/index.js`) |
-| **2N** | Architecture verification | ✅ DONE — `scripts/verify-data.mjs` (`npm run verify`): relationship resolution, duplicate IDs, missing refs, type mismatches, aliases, cycles; stored-both canonicalized; `marineford-arc` global-ID fix |
+| **2N** | Architecture verification | ✅ DONE — `scripts/verify-data.mjs` (`npm run verify`): relationship resolution, duplicate IDs, missing refs, type mismatches, aliases, cycles; stored-both canonicalized; `marineford-arc` global-ID fix; full 17-section audit + stress test PASS (8 doc-sample consistency fixes; both mirror-gap warnings resolved → `npm run verify` 0 errors, 0 warnings; READY FOR PHASE 2O) |
 | **2O** | Architecture lock | Freeze conventions, record protected systems |
 
-> Phase 2O is **planned only** — not implemented. Phase 2N delivered the first verification tooling (`npm run verify`), fixed the arc/location ID collision (`marineford-arc`), and canonicalized storage direction, field naming, and the example graph.
+> Phase 2O is **planned only** — not implemented. Phase 2N delivered the first verification tooling (`npm run verify`), fixed the arc/location ID collision (`marineford-arc`), canonicalized storage direction, field naming, and the example graph, then completed a full 17-section architecture verification + stress test (PASS). Both mirror-gap warnings from the audit were resolved with small data additions (Marineford `crewIds`, `water-7` on Luffy's `locationIds`) — `npm run verify` now reports 0 errors, 0 warnings.
 
 ---
 
@@ -376,4 +376,4 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 
 ## 16. Immediate Next Step
 
-**Phase 2O — Architecture Lock**: Freeze the Phase 2 data-layer conventions (schemas, universal ID convention with global uniqueness, relationship matrix with stored-both + source-of-truth, verification tooling `npm run verify`) and record the protected systems + final Phase 2 data-layer state. Optionally resolve the two remaining Phase 2N mirror warnings with small data additions (crew mirror on Marineford location; `water-7` on Luffy's `locationIds`).
+**Phase 2O — Architecture Lock**: Freeze the Phase 2 data-layer conventions (schemas, universal ID convention with global uniqueness, relationship matrix with stored-both + source-of-truth, verification tooling `npm run verify`) and record the protected systems + final Phase 2 data-layer state. The two Phase 2N mirror warnings are already resolved (Marineford `crewIds`, `water-7` on Luffy's `locationIds`) — nothing pending here.

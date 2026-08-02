@@ -22,6 +22,7 @@ const locations = [
     climate: 'temperate',
     government: 'world-government',
     characterIds: ['monkey-d-luffy'],
+    crewIds: ['straw-hat-pirates'],
     arcIds: ['marineford-arc'],
     battleIds: ['marineford-war'],
     connectedLocationIds: ['water-7'],

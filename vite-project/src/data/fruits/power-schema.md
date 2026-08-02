@@ -224,9 +224,8 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the power
   rarity: 'unique',
   canonicalStatus: 'canon',
   // relationships
-  characterIds: ['monkey-d-luffy'],
   battleIds: ['luffy-vs-kaido'],
-  arcIds: ['marineford-arc', 'wano'],
+  arcIds: ['marineford-arc', 'wano-arc'],
   locationIds: ['foosha-village'],
   crewIds: ['straw-hat-pirates'],
   relatedPowerIds: ['mera-mera-no-mi'],

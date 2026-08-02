@@ -1931,3 +1931,135 @@ These were left untouched per the Phase 2N decision to keep the dataset unchange
 - Freeze the Phase 2 data-layer conventions (schemas, ID convention, relationship matrix, verification tooling)
 - Record protected systems and the final Phase 2 data-layer state
 - Optionally resolve the 2 remaining mirror warnings
+
+---
+
+## Phase 2N Audit — Architecture Verification & Stress Test
+
+**Date**: 2026-08-02
+
+**Objective**: Prove the complete Phase 2 data-layer architecture (all 8 schemas + IDs + metadata + relationships + dataset) is internally consistent and production-ready before Phase 2O permanently locks it. Verification only — NO new entities, NO dataset expansion, NO schema redesigns, NO UI.
+
+### Recovery
+
+- Read `docs/PROJECT_MEMORY.md`, `docs/PHASE_HISTORY.md`, `docs/PHASE2_ARCHITECTURE_PLAN.md` (all synchronized at Phase 2N).
+- Reviewed every schema: shared metadata, character, location, arc, crew/faction, battle, power, ship + relationship convention.
+- Reviewed the Phase 2M sample dataset (7 datasets).
+- Hero verified LOCKED: git log confirms Hero.jsx / Hero.css / heroQuotes.js / Navbar.jsx / Section1.jsx untouched since `027794f`.
+- Git state: branch `main`, clean working tree, latest commit `e308f37`.
+
+### Schema Consistency Audit — ✅ PASS
+
+- Shared required fields (`id` / `displayName` / `description`) consistent across all 8 schemas; each extends `entity-metadata.md` (no duplication).
+- Optional fields, `imageKey` (equals id), and `spoilerLevel` levels (`basic`/`advanced`/`late`) consistent across schemas.
+- No schema contradicts another at the field-definition level.
+
+### Relationship Audit — ✅ PASS
+
+- All documented pairs (Character↔Crew/Arc/Location/Battle/Ship/Devil-Fruit, Crew↔Ship/Battle, Arc↔Battle/Location, Battle↔Location, Ship↔Crew, Location↔Arc) follow the Phase 2L convention: ID references only, no embedded entity objects.
+- Canonical aliases enforced: battle `participantIds`, power `userIds`/`previousUserIds`, location `connectedLocationIds`.
+
+### Image Strategy Audit — ✅ PASS
+
+- Every schema references artwork via `imageKey` only — no `imagePath`, no absolute URLs, no hardcoded extensions. Relationships are independent of artwork.
+
+### Data Quality Audit — ✅ PASS (verified by `npm run verify`)
+
+- No duplicate IDs, no invalid/orphaned references, no inconsistent naming, no broken relationships, no invalid imageKeys.
+- 0 errors, 2 known mirror-gap warnings (non-blocking; candidates for Phase 2O).
+
+### Entity Scale Review — ✅ PASS
+
+- 300+ characters, 100+ locations, 60+ arcs, 100+ battles, 50+ ships, 50+ crews, 50+ powers all fit the flat-module + ID-reference architecture with zero structural redesign. No premature optimization performed.
+
+### Future Feature Readiness — ✅ PASS
+
+- Character Archive, Wanted Poster Gallery, Arc Explorer, Interactive World Map, Timeline, Search, Relationship Explorer, Character Comparison, Battle/Crew/Ship Pages — all architecture-compatible via ID traversal, `imageKey`, map/timeline-readiness fields, and `spoilerLevel`. Not implemented (verification only).
+
+### Stress Test — ✅ PASS
+
+- Mentally validated: adding the 301st character, a new crew, a new Devil Fruit, replacing one character's artwork, adding a new island, introducing a new battle, and a non-canonical demo dataset — all supported without schema redesign.
+
+### Documentation & File Organization Audit — ✅ PASS
+
+- All files in correct `src/data/` locations; `shared/`, `characters/`, `locations/`, `arcs/`, `crews/`, `battles/`, `fruits/`, `ships/`, `events/`, `timeline/` clean.
+- PROJECT_MEMORY / PHASE_HISTORY / PHASE2_ARCHITECTURE_PLAN synchronized; a fresh agent can recover the project.
+
+### Audit Findings Fixed (documentation-only — schema sample records)
+
+| File | Fix |
+|------|-----|
+| `src/data/locations/location-schema.md` | Sample `neighborLocationIds: ['nanohana']` → `connectedLocationIds` (canonical field per §5) |
+| `src/data/battles/battle-schema.md` | Removed alias `characterIds` from sample (canonical `participantIds` already present); removed redundant `locationIds`/`arcIds` (canonical singulars `locationId`/`arcId` present) |
+| `src/data/fruits/power-schema.md` | Removed alias `characterIds` from sample (canonical `userIds` present); arc `wano` → `wano-arc` (global-ID uniqueness) |
+| `src/data/ships/ship-schema.md` | `currentLocationId: null` → omitted per §3; arc `water-7` → `water-7-arc` (global-ID uniqueness) |
+| `src/data/characters/character-schema.md` | `currentLocationId: null` → omitted per §3 |
+| `src/data/crews/crew-schema.md` | Removed duplicate `shipIds` key; `headquartersLocationId: null` → omitted per §3 |
+| `src/data/arcs/arc-schema.md` | Example arc IDs (`east-blue`, `alabasta`, `water-7`, `dressrosa`, `wano`, `egghead`, …) → `-arc` suffix (global-ID uniqueness); sample `previousArcId: 'impel-down'` → `impel-down-arc` |
+| `src/data/shared/relationships.md` | Scope line updated (datasets + tooling now exist; runtime helpers still future) |
+
+No datasets (`index.js`), no schemas, no UI, no protected systems modified.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run verify` | ✅ PASS — 0 errors, 2 known warnings |
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+
+### Repository Audit
+
+- `git status`: only the 8 schema-doc files modified (documentation fixes above). No Hero/UI changes.
+- `git diff --stat`: 8 files, +10/−15, all documentation-only.
+
+### Risks
+
+**Critical**: none.
+**Minor**:
+- ~~2 verify warnings (mirror gaps in the small sample dataset)~~ → **RESOLVED** — see "Phase 2N Warning Resolution" below; `npm run verify` now reports 0 errors, 0 warnings.
+- `MIRROR_PAIRS` in `verify-data.mjs` is a hand-maintained list; a future derive-from-matrix refactor may be needed as datasets grow.
+- `winningSide`/`losingSide` are labels, not IDs (documented) — a future relationship change would be needed to reference entities.
+- Mirror-consistency remains warning-level by design until datasets grow; escalate to errors later.
+
+**Deferred** (Phase 3+): full datasets, UI consumption, image migration + resolver, `shared/relationships.js`, map/timeline/search implementations, spoiler filtering.
+
+### Final Recommendation
+
+**READY FOR PHASE 2O** — the 2 audit warnings were resolved with small data additions (see "Phase 2N Warning Resolution"); `npm run verify` now reports 0 errors, 0 warnings.
+
+### Next Recommended Phase
+
+**Phase 2O** — Architecture Lock
+- Freeze the Phase 2 data-layer conventions (schemas, ID convention, relationship matrix, verification tooling)
+- Record protected systems and the final Phase 2 data-layer state
+- Both Phase 2N mirror warnings are now resolved; nothing pending for 2O on this front.
+
+---
+
+## Phase 2N Warning Resolution
+
+> Appended after the Phase 2N audit. Resolves the 2 mirror-gap warnings with Phase 2O candidate data additions, per the decision that `npm run verify` should report a clean PASS (0 errors, 0 warnings) before entering Phase 2O.
+
+### Changes (2 dataset files)
+
+| File | Change |
+|------|--------|
+| `src/data/locations/index.js` | Marineford record: added `crewIds: ['straw-hat-pirates']` — the location side is the declared §5 source of truth for Crew↔Location, matching the existing `crew.straw-hat-pirates.locationIds: ['water-7', 'marineford']`. |
+| `src/data/characters/index.js` | Luffy record: `locationIds: ['marineford']` → `['marineford', 'water-7']` — Luffy was present at both; now agrees with `location.water-7.characterIds` and `location.marineford.characterIds`. |
+
+No schemas, no docs, no UI, no protected systems modified. Existing `imageKey`s unaffected.
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run verify` | ✅ PASS — 0 errors, 0 warnings (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power) |
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+
+### Notes
+
+- Both additions are data-completeness completions, not structural changes; the schema, ID convention, and relationship matrix are unchanged.
+- With warnings at 0, the Phase 2N audit verdict is now a clean **READY FOR PHASE 2O**.
+

@@ -324,8 +324,8 @@ A phase is NOT complete until memory is synchronized.
 | Aspect | Detail |
 |--------|--------|
 | **Git branch** | `main` |
-| **Latest commit** | `eb1ae2e` — phase 2g-2m: entity schemas, relationship convention, and integrated dataset |
-| **Working tree** | Phase 2N changes uncommitted (verify tooling, ID rename, canonicalizations) |
+| **Latest commit** | `e308f37` — phase 2n: data layer verification and canonicalization |
+| **Working tree** | Phase 2N verification audit — 8 schema-doc sample-consistency fixes uncommitted |
 | **Phase 1 status** | ✅ COMPLETE |
 | **Phase 2A status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2B status** | ✅ COMPLETE (folders + READMEs, no production logic changes) |
@@ -340,11 +340,11 @@ A phase is NOT complete until memory is synchronized.
 | **Phase 2K status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2L status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2M status** | ✅ COMPLETE (first real production data — 3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power) |
-| **Phase 2N status** | ✅ COMPLETE (verification tooling + canonicalizations — `npm run verify` PASS with 2 documented warnings) |
+| **Phase 2N status** | ✅ COMPLETE (verification tooling + canonicalizations + full audit/stress test — `npm run verify` PASS 0 errors, 0 warnings after mirror-gap resolution) |
 | **Hero status** | 🔒 STABLE + PROTECTED |
 | **Lint status** | ✅ Passing |
 | **Build status** | ✅ Passing |
-| **Verify status** | ✅ Passing (`npm run verify` — 0 errors, 2 known warnings) |
+| **Verify status** | ✅ Passing (`npm run verify` — 0 errors, 0 warnings) |
 
 ---
 
@@ -380,11 +380,11 @@ vite-project/
 
 ## Current Phase
 
-**Phase**: Phase 2M — Small Integrated Dataset
+**Phase**: Phase 2N — Architecture Verification & Stress Test
 
-**Goal**: Create one tiny connected dataset (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power) proving the Phase 2E–2L schemas + relationship conventions work together, verified end-to-end via ID traversal.
+**Goal**: Prove the Phase 2 data-layer architecture (schemas, IDs, metadata, relationships) is internally consistent and production-ready before Phase 2O locks it. Verification only — no new entities, no dataset expansion, no schema redesigns, no UI.
 
-**Status**: ✅ COMPLETED
+**Status**: ✅ COMPLETED — PASS. Both sample mirror-gap warnings resolved with Phase 2O candidate data additions (see "Phase 2N warning resolution" in PHASE_HISTORY.md). `npm run verify` → 0 errors, 0 warnings.
 
 ---
 
@@ -412,6 +412,7 @@ vite-project/
 | **Phase 2K** | Ship Schema Foundation | ✅ |
 | **Phase 2L** | Cross-Entity Relationship Convention | ✅ |
 | **Phase 2M** | Small Integrated Dataset | ✅ |
+| **Phase 2N** | Architecture Verification & Stress Test | ✅ |
 
 ---
 
@@ -448,7 +449,7 @@ vite-project/
 
 **Phase 2O** — Architecture Lock
 
-Freeze the Phase 2 data-layer conventions (schemas, ID convention, relationship matrix, verification tooling) and record protected systems. Optionally resolve the two remaining Phase 2N mirror warnings with small data additions.
+Freeze the Phase 2 data-layer conventions (schemas, ID convention, relationship matrix, verification tooling) and record protected systems. The two Phase 2N mirror warnings were resolved with small data additions (Marineford `crewIds`, Luffy `locationIds` + `water-7`) — `npm run verify` now reports 0 errors, 0 warnings.
 
 ---
 
@@ -482,6 +483,8 @@ It covers: current architecture, data flow, assets, strengths, limitations, risk
 
 **Phase 2M created the first production data**: `src/data/<type>/index.js` for characters (3: `monkey-d-luffy`, `roronoa-zoro`, `nami`), locations (2: `marineford`, `water-7`), arcs (1: `marineford-arc`), crews (1: `straw-hat-pirates`), battles (1: `marineford-war`), ships (1: `thousand-sunny`), fruits/powers (1: `gomu-gomu-no-mi`). Every record follows its schema + `relationships.md` (ID-only refs, Phase 2L canonical aliases `participantIds` / `userIds` / `connectedLocationIds`). Verified: every referenced ID resolves to an existing entity of the correct type, no duplicate IDs, no duplicate array values, full traversal chain works (Luffy → crew → ship → battle → arc → location → Luffy → fruit). `npm run lint` + `npm run build` pass. No UI, no Hero/protected-system changes. Key findings for 2N/2O: (1) canonical subset lists (e.g., 3-of-10 `memberIds`) are unavoidable in a closed sample — full lists grow with the dataset; (2) Ship→Battle edge intentionally unexercised (Thousand Sunny was not at Marineford War); (3) `relationships.md` §13 example graph lists a non-canonical edge (Thousand Sunny → Marineford War) and should be corrected; (4) single-direction vs. stored-both ambiguity between `relationships.md` §4 and §5/§2E sample (both `crew.memberIds` and `character.crewIds` stored) needs canonicalization; (5) `fruitId` vs `devilFruitId` naming discrepancy across docs — dataset uses `devilFruitId` (matches 2E sample + 2L matrix).
 
-**Phase 2N built the first verification tooling and canonicalized the data layer**: added `scripts/verify-data.mjs` (`npm run verify`) — structural checks are errors (global duplicate IDs, duplicate array values, unresolved references, type mismatches, unknown relationship fields, alias violations, self-references, circular `previousArcId`/`nextArcId` chains, malformed IDs, missing `id`/`displayName`/`description`/`imageKey`, `imageKey` ≠ id) and stored-both mirror gaps are warnings. Verification surfaced a real defect: the arc `marineford` and location `marineford` shared one ID, breaking `imageKey` uniqueness and global ID resolution — fixed by renaming the arc to **`marineford-arc`** (Phase 2N) across all datasets/schemas/docs, and `entity-ids.md` now requires GLOBALLY unique IDs (all types) with a same-name-collision rule. Canonicalizations applied: §4 rewritten to **stored-both with a declared source of truth** (§5 matrix now has source-of-truth + stored-mirror columns); `fruitId`/`fruitIds` → **`devilFruitId`/`devilFruitIds`** everywhere; §13 example graph replaced with a fully canonical traversal (uses `launchLocationId` + `connectedLocationIds`, no Sunny→Marineford edge). `npm run verify` → **PASS (0 errors, 2 warnings)**, lint + build clean, no UI/Hero changes. Remaining 2 warnings (known sample gaps, non-blocking): (1) `crew.straw-hat-pirates.locationIds` lists `marineford` but `location.marineford.crewIds` is absent; (2) `location.water-7.characterIds` lists `monkey-d-luffy` but `character.monkey-d-luffy.locationIds` lacks `water-7` — candidate one-line data additions for Phase 2O.
+**Phase 2N built the first verification tooling and canonicalized the data layer**: added `scripts/verify-data.mjs` (`npm run verify`) — structural checks are errors (global duplicate IDs, duplicate array values, unresolved references, type mismatches, unknown relationship fields, alias violations, self-references, circular `previousArcId`/`nextArcId` chains, malformed IDs, missing `id`/`displayName`/`description`/`imageKey`, `imageKey` ≠ id) and stored-both mirror gaps are warnings. Verification surfaced a real defect: the arc `marineford` and location `marineford` shared one ID, breaking `imageKey` uniqueness and global ID resolution — fixed by renaming the arc to **`marineford-arc`** (Phase 2N) across all datasets/schemas/docs, and `entity-ids.md` now requires GLOBALLY unique IDs (all types) with a same-name-collision rule. Canonicalizations applied: §4 rewritten to **stored-both with a declared source of truth** (§5 matrix now has source-of-truth + stored-mirror columns); `fruitId`/`fruitIds` → **`devilFruitId`/`devilFruitIds`** everywhere; §13 example graph replaced with a fully canonical traversal (uses `launchLocationId` + `connectedLocationIds`, no Sunny→Marineford edge). `npm run verify` → **PASS (0 errors, 2 warnings)**, lint + build clean, no UI/Hero changes. The 2 warnings were known sample gaps: (1) `crew.straw-hat-pirates.locationIds` lists `marineford` but `location.marineford.crewIds` was absent; (2) `location.water-7.characterIds` lists `monkey-d-luffy` but `character.monkey-d-luffy.locationIds` lacked `water-7`. **Both were later resolved with Phase 2O candidate data additions** — see "Phase 2N warning resolution" in PHASE_HISTORY.md; `npm run verify` now reports 0 errors, 0 warnings.
+
+**Phase 2N full verification & stress test (audit pass)**: executed the complete 17-section architecture verification. Result: **PASS** — architecture is internally consistent and production-ready for Phase 2O. All 8 schemas audited (shared metadata, character, location, arc, crew, battle, power, ship): naming/required/optional/imageKey/metadata inheritance consistent; no schema contradicts another. Relationship audit: all 13 documented relationship pairs follow the Phase 2L ID-only convention — no embedded entity objects anywhere. Image audit: every schema references `imageKey` only; no paths, URLs, or hardcoded extensions; relationships independent of artwork. Data-quality audit (verified via `npm run verify` + manual review): no duplicate IDs, no invalid/orphaned references, consistent naming, no broken relationships, no invalid imageKeys. File-organization audit: all files in correct `src/data/` locations. Hero regression audit: Hero/Navbar/Section1/`heroQuotes.js`/video/animations all untouched since `027794f` — confirmed via git log. Documentation audit: PROJECT_MEMORY / PHASE_HISTORY / PHASE2_ARCHITECTURE_PLAN synchronized and recoverable by a fresh agent. **Audit findings (documentation-only fixes applied)**: (1) location-schema sample used forbidden `neighborLocationIds` → corrected to `connectedLocationIds`; (2) battle-schema sample listed alias `characterIds` alongside `participantIds` → removed; (3) power-schema sample listed alias `characterIds` alongside `userIds` → removed; (4) crew-schema sample had duplicate `shipIds` key → removed; (5) null singular placeholders in character/crew/ship samples (`currentLocationId`, `headquartersLocationId` = null) → omitted per §3; (6) doc-example arc IDs that collide with location IDs under the global-uniqueness rule (`wano`, `water-7`, `alabasta`, `dressrosa`, `whole-cake-island`, `east-blue`, `skypiea`, `egghead`, `impel-down` used as arcs) → suffix `-arc` applied in arc/power/ship schema samples; (7) `relationships.md` scope line updated (datasets + tooling now exist). Scale review: architecture supports 300+ characters / 100+ locations / 60+ arcs / 100+ battles / 50+ ships / 50+ crews / 50+ powers with no structural redesign (flat JS modules + ID-only references scale linearly; no premature optimization). Future-feature readiness: Character Archive, Wanted Poster Gallery, Arc Explorer, Interactive World Map, Timeline, Search, Relationship Explorer, Character Comparison, Battle/Crew/Ship Pages all architecture-compatible (ID traversal + `imageKey` + map-readiness fields + timeline-readiness fields + spoilerLevel). Stress test: adding the 301st character, a new crew, new Devil Fruit, artwork replacement, new island, new battle, and a non-canonical demo dataset all require zero schema changes. Risks: none critical; minor = mirror-pair maintenance in the verifier as datasets grow (warn-level until fuller data), `winningSide`/`losingSide` remain labels (not IDs) by design, fixed `MIRROR_PAIRS` list may need a derive-from-matrix refactor later, no automated tests beyond `npm run verify`. **Final recommendation: READY FOR PHASE 2O**. The 2 mirror-gap warnings raised by the audit were subsequently resolved with small data additions (see "Phase 2N warning resolution") — `npm run verify` now reports 0 errors, 0 warnings.
 
 **Phase 2 data layer implementation has started.** Phase 2M delivered the first real data records; Phase 2N added the verification tooling; characters/locations/arcs/battles/crews/ships/powers remain small until future dataset phases. UI consumption is NOT started.

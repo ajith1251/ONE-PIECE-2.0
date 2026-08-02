@@ -177,7 +177,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the crew 
   memberIds: ['roronoa-zoro', 'nami', 'usopp', 'sanji', 'tony-tony-chopper', 'nico-robin', 'franky', 'brook', 'jinbe'],
   shipIds: ['going-merry', 'thousand-sunny'],
   territoryIds: ['fish-man-island'],
-  headquartersLocationId: null, // ship-based crew — omitted when not set, never a placeholder string
+  // headquartersLocationId: omitted — ship-based crew (never a placeholder string)
   emblem: 'Straw Hat Jolly Roger',
   allegiance: 'pirates',
   foundedBy: 'Monkey D. Luffy',
@@ -186,7 +186,6 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the crew 
   affiliations: ['yonko'],
   // relationships
   characterIds: ['monkey-d-luffy', 'roronoa-zoro', 'nami'],
-  shipIds: ['going-merry', 'thousand-sunny'],
   locationIds: ['east-blue'],
   battleIds: ['marineford-war'],
   arcIds: ['marineford-arc'],

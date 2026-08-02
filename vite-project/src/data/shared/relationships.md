@@ -5,7 +5,7 @@
 > **Status**: CONVENTION — defines how every entity schema relates to one another
 > **Extends**: `../shared/entity-ids.md` (Universal Entity ID Convention, Phase 2C) + `../shared/entity-metadata.md` (Shared Entity Metadata, Phase 2D)
 > **Applies to**: Character, Location, Arc, Crew/Faction, Battle, Devil Fruit & Power, Ship, Event schemas
-> **Scope**: Architecture only — NO datasets, NO validation code, NO relationship logic implemented
+> **Scope**: Architecture convention + Phase 2M sample datasets + Phase 2N verification tooling (`scripts/verify-data.mjs`). No runtime relationship logic (resolve/derive helpers) implemented.
 
 ---
 

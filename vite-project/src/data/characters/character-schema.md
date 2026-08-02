@@ -215,7 +215,7 @@ Exactly ONE sample, to validate the schema. This is documentation, NOT the chara
   age: 19,
   height: '174cm',
   originLocationId: 'foosha-village',
-  currentLocationId: null, // unknown — omitted when not set, never a placeholder string
+  // currentLocationId: omitted — unknown, never a placeholder string
   nicknames: ['Straw Hat'],
   haki: ['observation', 'armament', 'conquerors'],
   devilFruitId: 'gomu-gomu-no-mi',
