@@ -13,7 +13,7 @@ This file is a lightweight index. For full context (protected systems, recovery 
 - **Type**: React + Vite single-page application
 - **Theme**: One Piece anime/manga tribute website
 - **Location**: `D:\one-piece2.0\vite-project`
-- **Last Updated**: 2026-08-02
+- **Last Updated**: 2026-08-04
 
 ## Tech Stack
 - **Framework**: React 19.2.7
@@ -32,13 +32,22 @@ vite-project/
 │   ├── PROJECT_MEMORY.md
 │   └── PHASE_HISTORY.md
 ├── public/
-│   └── video/hero.mp4
-│   └── images/img1-10.png
+│   ├── video/hero.mp4
+│   └── images/
+│       ├── img1-10.png             ← Legacy crew portraits (until future migration)
+│       ├── characters/ locations/ arcs/ crews/ ships/ battles/ powers/ timeline/ shared/
+│       │       ← Phase 3A Universal Asset System tree (README per folder)
+│       └── README.md               ← Universal Asset System architecture (imageKey-only naming, formats, migration plan)
+├── scripts/
+│   └── verify-data.mjs             ← Phase 2N data verification (npm run verify)
 ├── src/
 │   ├── main.jsx
 │   ├── App.jsx
 │   ├── App.css
 │   ├── index.css
+│   ├── data/
+│   │   ├── heroQuotes.js
+│   │   ├── characters/ … timeline/ shared/   ← entity datasets (index.js) + schema docs
 │   └── components/
 │       ├── Navbar.jsx + Navbar.css
 │       ├── Hero.jsx + Hero.css
@@ -69,13 +78,16 @@ vite-project/
 - **Phase 2M** (2026-08-02): Small Integrated Dataset — ✅ COMPLETE. First real production data: `src/data/<type>/index.js` for characters (3), locations (2), arcs (1), crews (1), battles (1), ships (1), fruits/powers (1). All ID references resolve; lint + build pass; no UI/protected changes. Findings recorded for 2N/2O (canonical subsets, Ship→Battle edge, §13 graph edge, single-direction vs stored-both, fruitId vs devilFruitId).
 - **Phase 2N** (2026-08-02): Architecture Verification — ✅ COMPLETE. Added `scripts/verify-data.mjs` (`npm run verify`) + node-globals eslint scope for `scripts/`; structural checks are errors, stored-both mirror gaps are warnings. Found + fixed a real defect: arc `marineford` and location `marineford` shared one ID → renamed arc to `marineford-arc`, `entity-ids.md` now requires globally unique IDs. Canonicalized: stored-both + declared source of truth (§4/§5), `fruitId`/`fruitIds` → `devilFruitId`/`devilFruitIds`, new canonical §13 example graph. `npm run verify` = PASS (0 errors, 2 documented sample-gap warnings); lint + build clean; no UI/protected changes.
 - **Phase 2N audit** (2026-08-02): Full 17-section verification + stress test — ✅ COMPLETE. All 8 schemas audited; relationship/image/scale/feature/file/doc audits PASS. Fixed 8 documentation-only sample inconsistencies (forbidden `neighborLocationIds`/`characterIds` aliases, `null` singular placeholders, duplicate `shipIds` key, arc IDs colliding with location IDs → `-arc` suffix). No schemas/UI/protected systems modified. See `docs/PHASE_HISTORY.md` → "Phase 2N Audit".
-- **Phase 2N warning resolution** (2026-08-02): Both mirror-gap warnings resolved — data-completeness additions only. Marineford location now has `crewIds: ['straw-hat-pirates']` (location side is §5 source of truth for Crew↔Location); Luffy `locationIds` → `['marineford', 'water-7']` (agrees with both locations' `characterIds`). `npm run verify` = **PASS (0 errors, 0 warnings)**; lint + build clean. READY FOR PHASE 2O.
-- Hero is 🔒 LOCKED. Next: Phase 2O — Architecture Lock
+- **Phase 2N warning resolution** (2026-08-02): Both mirror-gap warnings resolved — data-completeness additions only. Marineford location now has `crewIds: ['straw-hat-pirates']` (location side is §5 source of truth for Crew↔Location); Luffy `locationIds` → `['marineford', 'water-7']` (agrees with both locations' `characterIds`). `npm run verify` = **PASS (0 errors, 0 warnings)**; lint + build clean.
+- **Phase 2O** (2026-08-04): Architecture Lock — Phase 2 conventions declared **COMPLETE / LOCKED** (per operator brief entering Phase 3A). Schemas, ID convention (global uniqueness), relationship matrix (stored-both + source-of-truth), and `npm run verify` tooling frozen.
+- **Phase 3A** (2026-08-04): Universal Asset System Foundation — ✅ COMPLETE. Created `public/images/` tree: `characters/ locations/ arcs/ crews/ ships/ battles/ powers/ timeline/ shared/` (README per folder). Authoritative conventions in `public/images/README.md`: image-first (`imageKey` only — never paths/extensions/URLs), predictable naming (`imageKey.*`, any browser format), replacement philosophy (swap asset file, never component), asset ownership (one asset → one entity; shared art → `shared/`), placeholder strategy (deferred), migration plan for `img1.png`–`img10.png` (NOT executed), future resolver responsibilities (NOT implemented). Data-layer docs linked. No production code, no assets moved/renamed, no Hero/UI changes. `npm run verify` PASS (0 errors, 0 warnings); lint + build clean.
+- Hero is 🔒 LOCKED. Next: Phase 3B — Asset Naming Migration Preparation
 
 > **Full details**: `vite-project/docs/PROJECT_MEMORY.md` + `vite-project/docs/PHASE_HISTORY.md`
 
 ## Change Log
-- **2026-08-02**: Phase 2N warning resolution completed. Resolved both mirror-gap warnings with data-completeness additions (Marineford location `crewIds: ['straw-hat-pirates']`; Luffy `locationIds` → `['marineford', 'water-7']`). Memory synced. `npm run verify` PASS (0 errors, 0 warnings); lint + build clean. READY FOR PHASE 2O.
+- **2026-08-04**: Phase 3A completed. Universal Asset System Foundation: created `public/images/` asset tree (characters, locations, arcs, crews, ships, battles, powers, timeline, shared) with per-folder READMEs; authoritative conventions in `public/images/README.md` (image-first imageKey-only rule, naming + formats, replacement/placeholder/ownership/migration/resolver rules); linked data-layer docs; synced memory + architecture plan. Phase 2 declared COMPLETE/LOCKED. `npm run verify` PASS (0 errors, 0 warnings); lint + build clean; no production code / no asset migration / Hero untouched.
+- **2026-08-02**: Phase 2N warning resolution completed. Resolved both mirror-gap warnings with data-completeness additions (Marineford location `crewIds: ['straw-hat-pirates']`; Luffy `locationIds` → `['marineford', 'water-7']`). Memory synced. `npm run verify` PASS (0 errors, 0 warnings); lint + build clean.
 - **2026-08-02**: Phase 2N audit completed. Ran the full 17-section architecture verification + stress test → PASS (READY FOR PHASE 2O WITH WARNINGS). Fixed 8 documentation-only sample inconsistencies across the schema docs (canonical aliases, null placeholders, duplicate key, `-arc` arc-ID suffixes). Memory synced. `npm run verify` PASS (0 errors, 2 known warnings); lint + build clean.
 - **2026-08-02**: Phase 2N completed. Added `scripts/verify-data.mjs` + `npm run verify`; renamed arc `marineford` → `marineford-arc` (global-ID fix); canonicalized stored-both + `devilFruitId` naming; new §13 example graph; entity-ids.md global uniqueness. Updated all READMEs + memory docs. `npm run verify` PASS (0 errors, 2 documented warnings).
 - **2026-08-02**: Phase 2M completed. Created `src/data/<type>/index.js` sample datasets (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power), updated all data-folder READMEs + shared README + memory docs. Verified all ID references resolve + lint/build pass.

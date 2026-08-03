@@ -27,7 +27,10 @@ one-piece2.0/
     │   ├── favicon.svg          ← Used by index.html
     │   ├── icons.svg            ← ⚠️ ORPHAN — not referenced anywhere
     │   ├── images/
-    │   │   └── img1.png – img10.png   ← Crew portraits (numeric names)
+    │   │   ├── README.md        ← Universal Asset System architecture (Phase 3A)
+    │   │   ├── img1.png – img10.png   ← Crew portraits (numeric names, UNTIL future migration)
+    │   │   ├── characters/  locations/  arcs/  crews/  ships/  battles/  powers/  timeline/  shared/
+    │   │   │       ← Phase 3A asset tree (each with a README; empty by design)
     │   └── video/
     │       └── hero.mp4         ← Hero background video
     └── src/
@@ -253,28 +256,30 @@ No relationship logic is implemented in this phase — the convention is archite
 
 ### Future Image Organization
 
-Intended asset organization (NOT yet created — do not move or rename existing assets):
+> **Phase 3A (2026-08-04) — NOW CREATED.** The Universal Asset System tree exists under `public/images/` and the authoritative conventions live in **`public/images/README.md`** (folder responsibilities, naming, formats, replacement/placeholder/ownership rules, migration plan, future resolver). The full structure below reflects the created tree.
 
 ```
 public/images/
 ├── characters/
 ├── locations/
 ├── arcs/
-├── ships/
 ├── crews/
-├── fruits/
+├── ships/
 ├── battles/
-└── timeline/
+├── powers/       ← corresponds to the `src/data/fruits/` data folder (power-schema)
+├── timeline/
+└── shared/       ← fallbacks, generic artwork, logos, icons
 ```
 
-Existing files (`img1.png`…`img10.png`) stay where they are until a dedicated migration phase renames and re-homes them.
+Existing files (`img1.png`…`img10.png`) stay in the `public/images/` ROOT until a dedicated migration phase renames and re-homes them (planned, NOT executed in Phase 3A).
 
 ### Future Image Naming
 
 - **Predictable names**: `monkey-d-luffy.*`, `roronoa-zoro.*`, `alabasta.*`, `marineford.*`, `wano.*`, `egghead.*`, `thousand-sunny.*`
-- **Formats**: PNG, JPG, JPEG, WEBP, AVIF, GIF (browser-compatible)
+- **Formats**: PNG, JPG, JPEG, WEBP, AVIF, GIF (browser-compatible); SVG only for icons/emblems/logos.
 - **No fixed extension**: the resolver should accept any supported format.
 - **Resolution**: an image resolver (future) maps entity → asset file → placeholder fallback. Not implemented yet.
+- **Canonical source (Phase 3A)**: `public/images/README.md` is the single source of truth for asset rules.
 
 ### Missing Image Policy
 
@@ -357,9 +362,10 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 | **2L** | Relationship conventions | ✅ DONE — convention in `src/data/shared/relationships.md` (Phase 2L) |
 | **2M** | Small integrated dataset | Small connected dataset proving schemas + relationships — ✅ DONE (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power in `src/data/<type>/index.js`) |
 | **2N** | Architecture verification | ✅ DONE — `scripts/verify-data.mjs` (`npm run verify`): relationship resolution, duplicate IDs, missing refs, type mismatches, aliases, cycles; stored-both canonicalized; `marineford-arc` global-ID fix; full 17-section audit + stress test PASS (8 doc-sample consistency fixes; both mirror-gap warnings resolved → `npm run verify` 0 errors, 0 warnings; READY FOR PHASE 2O) |
-| **2O** | Architecture lock | Freeze conventions, record protected systems |
+| **2O** | Architecture lock | ✅ DONE — Phase 2 conventions frozen + protected systems recorded (declared LOCKED per operator brief entering Phase 3A) |
+| **3A** | Universal Asset System foundation | ✅ DONE — `public/images/` asset tree (characters/locations/arcs/crews/ships/battles/powers/timeline/shared) + `public/images/README.md` (naming, formats, replacement/placeholder/ownership/migration/resolver rules). No runtime loading, no migration |
 
-> Phase 2O is **planned only** — not implemented. Phase 2N delivered the first verification tooling (`npm run verify`), fixed the arc/location ID collision (`marineford-arc`), canonicalized storage direction, field naming, and the example graph, then completed a full 17-section architecture verification + stress test (PASS). Both mirror-gap warnings from the audit were resolved with small data additions (Marineford `crewIds`, `water-7` on Luffy's `locationIds`) — `npm run verify` now reports 0 errors, 0 warnings.
+> Phase 2 is declared **COMPLETE / LOCKED** (operator brief entering Phase 3A, 2026-08-04). Phase 2N delivered the verification tooling (`npm run verify`) and the full 17-section audit/stress test PASS; both mirror-gap warnings were resolved (Marineford `crewIds`, `water-7` on Luffy's `locationIds`) — `npm run verify` reports 0 errors, 0 warnings. **Phase 3A (Universal Asset System foundation) is COMPLETE** — asset tree + conventions at `public/images/README.md`. Next: **Phase 3B — Asset Naming Migration Preparation**.
 
 ---
 
@@ -376,4 +382,4 @@ Corresponds to roadmap phases 2E → 2F → 2G → 2I → 2L → (image migratio
 
 ## 16. Immediate Next Step
 
-**Phase 2O — Architecture Lock**: Freeze the Phase 2 data-layer conventions (schemas, universal ID convention with global uniqueness, relationship matrix with stored-both + source-of-truth, verification tooling `npm run verify`) and record the protected systems + final Phase 2 data-layer state. The two Phase 2N mirror warnings are already resolved (Marineford `crewIds`, `water-7` on Luffy's `locationIds`) — nothing pending here.
+**Phase 2O — Architecture Lock**: Phase 2 conventions are declared LOCKED (per the operator brief entering Phase 3A). Phase 3A (2026-08-04) established the Universal Asset System foundation (`public/images/README.md` + asset tree). **Phase 3B — Asset Naming Migration Preparation**: produce the mapping of legacy `img1.png`–`img10.png` → owning entity → future `imageKey.*` name → target folder, WITHOUT moving/renaming/deleting any production asset. A later phase executes the migration alongside the image resolver.

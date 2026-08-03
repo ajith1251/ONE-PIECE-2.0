@@ -1,8 +1,10 @@
 # PROJECT MEMORY — One Piece 2.0
 
-> **Last Updated**: 2026-08-02
-> **Current Phase**: Phase 2N — Architecture Verification
+> **Last Updated**: 2026-08-04
+> **Current Phase**: Phase 3A — Universal Asset System Foundation
 > **Phase 1 Status**: ✅ COMPLETE
+> **Phase 2 Status**: ✅ COMPLETE (Architecture LOCKED)
+> **Phase 3A Status**: ✅ COMPLETE (Universal Asset Foundation established)
 > **Hero Status**: 🔒 STABLE + PROTECTED (unchanged)
 
 ---
@@ -98,7 +100,7 @@ Supported formats (browser-compatible): `.png`, `.webp`, `.jpg`, `.jpeg`, `.avif
 
 Missing images must NOT prevent an entity from existing. An entity may exist with a placeholder until a better image is manually added later.
 
-**This system is NOT yet implemented.** Documented as a principle only.
+**Architecture established (Phase 3A ✅)** — the Universal Asset System lives in **`public/images/README.md`**: directory structure (characters/locations/arcs/crews/ships/battles/powers/timeline/shared), permanent naming convention (`imageKey.*`, any browser format), folder responsibilities, asset ownership, image-replacement rule, placeholder strategy, migration plan, and future resolver responsibilities. Runtime image loading (resolver + placeholder components) is still NOT implemented.
 
 ### Future Map Rule
 
@@ -324,9 +326,10 @@ A phase is NOT complete until memory is synchronized.
 | Aspect | Detail |
 |--------|--------|
 | **Git branch** | `main` |
-| **Latest commit** | `e308f37` — phase 2n: data layer verification and canonicalization |
-| **Working tree** | Phase 2N verification audit — 8 schema-doc sample-consistency fixes uncommitted |
+| **Latest commit** | `phase 3a: universal asset system foundation` (Phase 3A deliverables; baseline before Phase 3A was `d30d3a9`) |
+| **Working tree** | Clean — Phase 3A committed |
 | **Phase 1 status** | ✅ COMPLETE |
+| **Phase 2 status** | ✅ COMPLETE — Architecture LOCKED (per operator declaration entering Phase 3A) |
 | **Phase 2A status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2B status** | ✅ COMPLETE (folders + READMEs, no production logic changes) |
 | **Phase 2C status** | ✅ COMPLETE (documentation-only) |
@@ -341,6 +344,8 @@ A phase is NOT complete until memory is synchronized.
 | **Phase 2L status** | ✅ COMPLETE (documentation-only) |
 | **Phase 2M status** | ✅ COMPLETE (first real production data — 3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power) |
 | **Phase 2N status** | ✅ COMPLETE (verification tooling + canonicalizations + full audit/stress test — `npm run verify` PASS 0 errors, 0 warnings after mirror-gap resolution) |
+| **Phase 2O status** | ✅ COMPLETE (architecture locked — conventions frozen) |
+| **Phase 3A status** | ✅ COMPLETE (Universal Asset System foundation — directory + conventions in `public/images/README.md`) |
 | **Hero status** | 🔒 STABLE + PROTECTED |
 | **Lint status** | ✅ Passing |
 | **Build status** | ✅ Passing |
@@ -359,32 +364,49 @@ vite-project/
 │   └── verify-data.mjs          ← Phase 2N data verification (npm run verify)
 ├── docs/
 │   ├── PROJECT_MEMORY.md
-│   └── PHASE_HISTORY.md
+│   ├── PHASE_HISTORY.md
+│   └── PHASE2_ARCHITECTURE_PLAN.md
 ├── public/
 │   ├── video/hero.mp4
-│   └── images/img1.png–img10.png
-├── src/
-│   ├── main.jsx
-│   ├── App.jsx
-│   ├── App.css
-│   ├── index.css
-│   ├── data/
-│   │   └── heroQuotes.js          ← Centralized quote data
-│   └── components/
-│       ├── Navbar.jsx + Navbar.css
-│       ├── Hero.jsx + Hero.css
-│       └── Section1.jsx + Section1.css
+│   ├── images/
+│   │   ├── img1.png–img10.png    ← Legacy crew portraits (UNTIL a future migration phase)
+│   │   ├── characters/          ← Phase 3A asset folders (README per folder)
+│   │   ├── locations/
+│   │   ├── arcs/
+│   │   ├── crews/
+│   │   ├── ships/
+│   │   ├── battles/
+│   │   ├── powers/
+│   │   ├── timeline/
+│   │   └── shared/
+│   │   └── README.md             ← Universal Asset System architecture (Phase 3A)
+│   ├── icons.svg                (orphan — future housekeeping)
+│   └── favicon.svg
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── App.css
+    ├── index.css
+    ├── data/
+    │   ├── heroQuotes.js          ← Centralized quote data (🔒 LOCKED)
+    │   ├── characters/  locations/  arcs/  crews/  battles/  fruits/  ships/  events/  timeline/
+    │   │     (index.js datasets + schema docs)
+    │   └── shared/                ← IDs, metadata, relationships, image keys (docs)
+    └── components/
+        ├── Navbar.jsx + Navbar.css
+        ├── Hero.jsx + Hero.css
+        └── Section1.jsx + Section1.css
 ```
 
 ---
 
 ## Current Phase
 
-**Phase**: Phase 2N — Architecture Verification & Stress Test
+**Phase**: Phase 3A — Universal Asset System Foundation
 
-**Goal**: Prove the Phase 2 data-layer architecture (schemas, IDs, metadata, relationships) is internally consistent and production-ready before Phase 2O locks it. Verification only — no new entities, no dataset expansion, no schema redesigns, no UI.
+**Goal**: Establish ONE universal asset architecture that every future image fits into. Create the directory structure under `public/images/` (characters, locations, arcs, crews, ships, battles, powers, timeline, shared), document the permanent image-first rules (imageKey only, predictable naming, any browser format), the image-replacement philosophy, placeholder strategy, asset ownership, the migration plan for legacy `img1.png`–`img10.png`, and the responsibilities of the future Asset Resolver. Architecture only — NO runtime image loading, NO resolver, NO placeholder components, NO asset migration, NO Hero/UI changes.
 
-**Status**: ✅ COMPLETED — PASS. Both sample mirror-gap warnings resolved with Phase 2O candidate data additions (see "Phase 2N warning resolution" in PHASE_HISTORY.md). `npm run verify` → 0 errors, 0 warnings.
+**Status**: ✅ COMPLETED — `public/images/` tree created with per-folder READMEs; authoritative asset architecture in `public/images/README.md`; data-layer docs linked (shared README + entity-metadata §5); architecture plan + memory synchronized. `npm run verify` → 0 errors, 0 warnings; lint + build clean; Hero 🔒 unchanged.
 
 ---
 
@@ -413,6 +435,8 @@ vite-project/
 | **Phase 2L** | Cross-Entity Relationship Convention | ✅ |
 | **Phase 2M** | Small Integrated Dataset | ✅ |
 | **Phase 2N** | Architecture Verification & Stress Test | ✅ |
+| **Phase 2O** | Architecture Lock | ✅ |
+| **Phase 3A** | Universal Asset System Foundation | ✅ |
 
 ---
 
@@ -447,9 +471,11 @@ vite-project/
 
 ## Next Phase (Recommended)
 
-**Phase 2O** — Architecture Lock
+**Phase 3B** — Asset Naming Migration Preparation
 
-Freeze the Phase 2 data-layer conventions (schemas, ID convention, relationship matrix, verification tooling) and record protected systems. The two Phase 2N mirror warnings were resolved with small data additions (Marineford `crewIds`, Luffy `locationIds` + `water-7`) — `npm run verify` now reports 0 errors, 0 warnings.
+Prepare the mapping of legacy images (`img1.png`–`img10.png` → owning entity → future `imageKey.*` name → target folder) WITHOUT moving, renaming, or deleting any production asset. Produce the migration reference document (entity → current file → target file → target folder) that a later migration phase will execute alongside the image resolver. No component, resolver, or runtime changes.
+
+> Phase 3A established the Universal Asset System architecture (see `public/images/README.md`). Phase 3B is the next step in the asset pipeline: **plan the migration, don't execute it**.
 
 ---
 
@@ -487,4 +513,6 @@ It covers: current architecture, data flow, assets, strengths, limitations, risk
 
 **Phase 2N full verification & stress test (audit pass)**: executed the complete 17-section architecture verification. Result: **PASS** — architecture is internally consistent and production-ready for Phase 2O. All 8 schemas audited (shared metadata, character, location, arc, crew, battle, power, ship): naming/required/optional/imageKey/metadata inheritance consistent; no schema contradicts another. Relationship audit: all 13 documented relationship pairs follow the Phase 2L ID-only convention — no embedded entity objects anywhere. Image audit: every schema references `imageKey` only; no paths, URLs, or hardcoded extensions; relationships independent of artwork. Data-quality audit (verified via `npm run verify` + manual review): no duplicate IDs, no invalid/orphaned references, consistent naming, no broken relationships, no invalid imageKeys. File-organization audit: all files in correct `src/data/` locations. Hero regression audit: Hero/Navbar/Section1/`heroQuotes.js`/video/animations all untouched since `027794f` — confirmed via git log. Documentation audit: PROJECT_MEMORY / PHASE_HISTORY / PHASE2_ARCHITECTURE_PLAN synchronized and recoverable by a fresh agent. **Audit findings (documentation-only fixes applied)**: (1) location-schema sample used forbidden `neighborLocationIds` → corrected to `connectedLocationIds`; (2) battle-schema sample listed alias `characterIds` alongside `participantIds` → removed; (3) power-schema sample listed alias `characterIds` alongside `userIds` → removed; (4) crew-schema sample had duplicate `shipIds` key → removed; (5) null singular placeholders in character/crew/ship samples (`currentLocationId`, `headquartersLocationId` = null) → omitted per §3; (6) doc-example arc IDs that collide with location IDs under the global-uniqueness rule (`wano`, `water-7`, `alabasta`, `dressrosa`, `whole-cake-island`, `east-blue`, `skypiea`, `egghead`, `impel-down` used as arcs) → suffix `-arc` applied in arc/power/ship schema samples; (7) `relationships.md` scope line updated (datasets + tooling now exist). Scale review: architecture supports 300+ characters / 100+ locations / 60+ arcs / 100+ battles / 50+ ships / 50+ crews / 50+ powers with no structural redesign (flat JS modules + ID-only references scale linearly; no premature optimization). Future-feature readiness: Character Archive, Wanted Poster Gallery, Arc Explorer, Interactive World Map, Timeline, Search, Relationship Explorer, Character Comparison, Battle/Crew/Ship Pages all architecture-compatible (ID traversal + `imageKey` + map-readiness fields + timeline-readiness fields + spoilerLevel). Stress test: adding the 301st character, a new crew, new Devil Fruit, artwork replacement, new island, new battle, and a non-canonical demo dataset all require zero schema changes. Risks: none critical; minor = mirror-pair maintenance in the verifier as datasets grow (warn-level until fuller data), `winningSide`/`losingSide` remain labels (not IDs) by design, fixed `MIRROR_PAIRS` list may need a derive-from-matrix refactor later, no automated tests beyond `npm run verify`. **Final recommendation: READY FOR PHASE 2O**. The 2 mirror-gap warnings raised by the audit were subsequently resolved with small data additions (see "Phase 2N warning resolution") — `npm run verify` now reports 0 errors, 0 warnings.
 
-**Phase 2 data layer implementation has started.** Phase 2M delivered the first real data records; Phase 2N added the verification tooling; characters/locations/arcs/battles/crews/ships/powers remain small until future dataset phases. UI consumption is NOT started.
+**Phase 2 data layer implementation has started.** Phase 2M delivered the first real data records; Phase 2N added the verification tooling; Phase 2O declared the architecture LOCKED (per operator brief entering Phase 3A). Characters/locations/arcs/battles/crews/ships/powers remain small until future dataset phases. UI consumption is NOT started.
+
+**Phase 3A established the Universal Asset System foundation.** The permanent asset architecture now lives in **`public/images/README.md`**. Created the `public/images/` tree: `characters/`, `locations/`, `arcs/`, `crews/`, `ships/`, `battles/`, `powers/`, `timeline/`, `shared/` — each with a concise README documenting folder responsibilities. The doc freezes the permanent rules: image-first (`imageKey` only — never paths/extensions/URLs), predictable naming (`imageKey.*`, any browser format: PNG/JPG/JPEG/WEBP/AVIF/GIF, SVG for icons/emblems only), image-replacement philosophy (swap the asset file, never the component), asset ownership (one asset → one entity; shared art → `shared/`), placeholder strategy (missing art must never break the app — components deferred), the migration plan for legacy `img1.png`–`img10.png` (NOT executed), and the future Asset Resolver's responsibilities (accept `imageKey` → locate formats → return best → graceful fallback — NOT implemented). Data-layer docs linked (shared README + `entity-metadata.md` §5). No production code, no assets moved/renamed, no Hero/UI changes. `npm run verify` 0 errors, 0 warnings; lint + build clean.

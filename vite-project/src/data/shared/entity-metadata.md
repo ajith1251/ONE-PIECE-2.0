@@ -84,6 +84,8 @@ The shared layer references artwork by **`imageKey`** only.
 
 Image **loading** (resolving `imageKey` → actual asset file → placeholder fallback) belongs to a future phase — never implemented here.
 
+> **Permanent rule (Phase 3A)**: The project is **image-first**. Data entities reference `imageKey` only — never an image path, never a hardcoded extension, never an absolute URL. The Universal Asset System (directory structure, naming, replacement/placeholder/migration rules, future resolver) is documented in **`public/images/README.md`**. Artwork must be replaceable by replacing the asset file without changing components.
+
 ---
 
 ## 6. Tag Strategy (Concept Only)

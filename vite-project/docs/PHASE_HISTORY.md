@@ -2063,3 +2063,109 @@ No schemas, no docs, no UI, no protected systems modified. Existing `imageKey`s 
 - Both additions are data-completeness completions, not structural changes; the schema, ID convention, and relationship matrix are unchanged.
 - With warnings at 0, the Phase 2N audit verdict is now a clean **READY FOR PHASE 2O**.
 
+---
+
+## Phase 3A — Universal Asset System Foundation
+
+**Status**: ✅ COMPLETE — 2026-08-04
+
+> **Entry context**: The operator brief for Phase 3A declares **Phase 1 COMPLETE (Hero LOCKED)** and **Phase 2 COMPLETE (Architecture LOCKED)**. The last git commit is `d30d3a9` (Phase 2N warning resolution); there is no separate Phase 2O commit — Phase 2O was declared locked by the operator entering Phase 3A. Phase 3A does not re-implement 2O; it records the lock state and builds the first Phase 3 deliverable.
+
+**Objective**: Establish ONE universal asset architecture that every image used by the project will eventually fit into. This phase creates the architecture only — NO runtime image loading, NO image resolver, NO placeholder components, NO asset migration/renaming, NO Hero/UI changes.
+
+### Recovery
+
+- Read `docs/PROJECT_MEMORY.md`, `docs/PHASE_HISTORY.md`, `docs/PHASE2_ARCHITECTURE_PLAN.md`.
+- Reviewed the conventions: Universal Entity ID Convention (`src/data/shared/entity-ids.md` — global uniqueness, `imageKey` = id), Shared Metadata (`entity-metadata.md` §5 imageKey-only), Cross-Entity Relationship Convention (`relationships.md` — image independence).
+- Reviewed the Phase 2M sample dataset (3 characters, 2 locations, 1 arc, 1 crew, 1 battle, 1 ship, 1 power in `src/data/<type>/index.js`).
+- **Hero verified LOCKED**: git log confirms `Hero.jsx` / `Hero.css` / `heroQuotes.js` / `Navbar.jsx` / `Section1.jsx` untouched since Phase 1 (`027794f`); current production images `img1.png`–`img10.png` still referenced only by `Section1.jsx` (absolute `/images/imgN.png` paths) — untouched this phase.
+- Git state: branch `main`, clean working tree at `d30d3a9` before Phase 3A changes.
+
+### Universal Asset Directory (Created)
+
+```
+public/images/
+├── README.md      ← Universal Asset System architecture (authoritative)
+├── characters/    (Character artwork only)
+├── locations/     (Location/island/kingdom/sea artwork only)
+├── arcs/          (Arc/saga key-art only)
+├── crews/         (Crew/faction emblem or artwork only)
+├── ships/         (Ship artwork only)
+├── battles/       (Battle artwork only)
+├── powers/        (Devil Fruit / Haki / power artwork only — maps to src/data/fruits/)
+├── timeline/      (Timeline, era, and historical artwork)
+└── shared/        (Fallbacks, generic artwork, logos, icons — not owned by one entity)
+```
+
+Each subfolder contains a concise `README.md` documenting its responsibilities. Existing `img1.png`–`img10.png` stay at the `public/images/` ROOT — NOT migrated, NOT renamed.
+
+### Permanent Rules Documented (`public/images/README.md`)
+
+1. **Image-first principle**: entities reference `imageKey` only — never `imagePath`, never absolute URLs, never hardcoded extensions.
+2. **File naming**: filename base = entity `id` (`monkey-d-luffy.*`, `going-merry.*`, `marineford.*`, `wano.*`, `marineford-arc.*`, `gomu-gomu-no-mi.*`); the `.*` means any supported format.
+3. **Supported formats**: PNG, JPG, JPEG, WEBP, AVIF, GIF; SVG appropriate only for icons/emblems/logos; video lives in `public/video/`. Never require one specific extension.
+4. **Replacement philosophy**: artwork improves by replacing the asset file only — components must NEVER be modified because artwork changes.
+5. **Placeholder strategy (future behavior)**: missing art must never prevent entity creation / rendering / navigation; placeholder components are a future deliverable, NOT built now.
+6. **Asset ownership**: each asset belongs to exactly one entity; never duplicate identical artwork across folders; shared art → `shared/`; one entity may hold multiple formats of the SAME asset (same imageKey).
+7. **Migration strategy**: legacy `img1.png` → future `characters/monkey-d-luffy.*`; plan documented, execution explicitly deferred (no renames/moves/deletes in Phase 3A).
+8. **Future Asset Resolver responsibilities**: accept `imageKey` → locate asset in owning folder across supported formats → return best available → gracefully fall back to placeholder when missing. NOT implemented.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `public/images/README.md` | Authoritative Universal Asset System architecture (rules 1–8 above + folder responsibilities + non-goals) |
+| `public/images/{characters,locations,arcs,crews,ships,battles,powers,timeline,shared}/README.md` | Per-folder responsibility docs (Phase 2B-style) |
+
+### Files Modified
+
+| File | Change |
+|------|--------|
+| `src/data/shared/README.md` | Image Keys section linked to `public/images/README.md`; expected-phases list: 2O ✅ + 3A ✅ |
+| `src/data/shared/entity-metadata.md` | §5 Image Metadata: added permanent image-first rule + pointer to `public/images/README.md` |
+| `docs/PROJECT_MEMORY.md` | Header → Phase 3A; Image-First section marks asset architecture established; Project Structure tree; Recovery Checkpoint; Current Phase; Phase Summary (+2O, +3A); Next Phase → 3B |
+| `docs/PHASE_HISTORY.md` | This entry |
+| `docs/PHASE2_ARCHITECTURE_PLAN.md` | §1 repo layout; §11 Image Organization marked CREATED + `fruits/` → `powers/` + README pointer; §14 roadmap 2O ✅ + 3A row; closing note; §16 next step → 3B |
+| `AGENTS.md` | Structure tree + asset tree; Completed Phases 2O + 3A; Next → 3B; change log |
+
+### Validation Results
+
+| Check | Result |
+|-------|--------|
+| `npm run verify` | ✅ PASS — 0 errors, 0 warnings |
+| `npm run lint` | ✅ Passed — no errors or warnings |
+| `npm run build` | ✅ Passed — clean production build |
+| Tests | N/A — no test framework installed (documented in Phase 2A) |
+
+### Protected Systems Verified
+
+| System | Status |
+|--------|--------|
+| Hero (video, quotes, scenes, scroll indicator, layout) | ✅ Unchanged — LOCKED |
+| Navbar | ✅ Unchanged |
+| Section1 (crew cards + `/images/img1`–`img10` references) | ✅ Unchanged |
+| `src/data/heroQuotes.js` | ✅ Unchanged |
+| `img1.png`–`img10.png` | ✅ Untouched (no migration/rename) |
+| Production code / runtime behavior | ✅ Untouched — Phase 3A is documentation + directory only |
+
+### Known Issues
+
+- `powers/` vs `src/data/fruits/` naming asymmetry is intentional and documented (asset folder named after the universal power concept; data folder keeps its Phase 2B name).
+- No dedicated `events/` asset folder yet; rare event art goes to `shared/` until warranted (documented).
+- `public/icons.svg` and `src/assets/*` remain orphaned (deferred housekeeping, unchanged).
+
+### Deferred Work
+
+- Image migration + renaming (`img1.png`–`img10.png` → `imageKey.*` in owning folders) — next phases.
+- Image Resolver implementation (`src/lib/imageResolver.js`) — future.
+- Placeholder components / fallback UI — future.
+- Runtime image loading — future.
+- Full datasets for every entity type — future dataset phases.
+
+### Next Recommended Phase
+
+**Phase 3B** — Asset Naming Migration Preparation
+- Produce the mapping reference: `img1.png`–`img10.png` → owning entity → future `imageKey.*` filename → target folder.
+- Do NOT move, rename, or delete any production asset; no resolver, no component, no runtime changes.
+
+

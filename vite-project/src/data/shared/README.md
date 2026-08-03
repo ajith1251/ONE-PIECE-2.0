@@ -52,6 +52,7 @@ Quick summary:
 - Entities reference artwork via a predictable key (e.g., entity slug), not a hardcoded path.
 - Keys map to files like `monkey-d-luffy.*` (any browser format).
 - Missing artwork must never break the UI — a placeholder fallback is planned (not implemented).
+- **Universal Asset System (Phase 3A ✅)** — the permanent asset architecture lives in **`public/images/README.md`** (directory structure, folder responsibilities, naming convention, supported formats, replacement/ownership/placeholder/migration rules, future resolver responsibilities). Data references `imageKey` only; the future resolver is the only code that maps `imageKey` → file.
 
 ### Validation
 - Phase 2N verification tooling: `scripts/verify-data.mjs` (run via `npm run verify`).
@@ -70,7 +71,8 @@ Quick summary:
 - **2L** — Relationship conventions — ✅ DONE (see `relationships.md`)
 - **2M** — Sample integrated dataset (first records + first real relationships) — ✅ DONE (`index.js` files created in `characters/`, `locations/`, `arcs/`, `crews/`, `battles/`, `ships/`, `fruits/`)
 - **2N** — Architecture verification — ✅ DONE (`scripts/verify-data.mjs` + canonicalization of storage direction, `devilFruitId`, `marineford-arc` global-ID fix)
-- **2O** — Architecture lock (freeze conventions, record protected systems)
+- **2O** — Architecture lock (freeze conventions, record protected systems) — ✅ DONE (Phase 2 locked; see `docs/PROJECT_MEMORY.md`)
+- **3A** — Universal Asset System foundation (asset tree + conventions in `public/images/README.md`) — ✅ DONE
 
 ## Status
 📄 README + `entity-ids.md` + `entity-metadata.md` + `relationships.md` + Phase 2M dataset (`index.js` in every data folder) + Phase 2N verification tooling (`scripts/verify-data.mjs`). Do not implement shared helpers until their phases arrive.
