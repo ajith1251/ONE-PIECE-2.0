@@ -1,0 +1,1 @@
+# Screenshots\n\nPlace project screenshots here:\n\n- `hero.png` — Hero section with video background\n- `crew.png` — Crew showcase section\n- `locations.png` — World map / locations view\n- `mobile.png` — Mobile responsive view\n\nUpdate the README image paths when adding new screenshots.
