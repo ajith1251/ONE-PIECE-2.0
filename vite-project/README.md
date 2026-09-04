@@ -166,7 +166,7 @@ Components use `imageKey` only — **never paths or extensions**. Swap an artwor
 ```bash
 # Clone
 git clone https://github.com/ajith1251/ONE-PIECE-2.0.git
-cd ONE-PIECE-2.0
+cd ONE-PIECE-2.0/vite-project
 
 # Install dependencies
 npm install
@@ -174,6 +174,8 @@ npm install
 # Start dev server
 npm run dev
 ```
+
+> 💡 The app lives in the `vite-project/` subfolder of the repository — run every npm command from there.
 
 App runs at `http://localhost:5173`
 
@@ -193,40 +195,43 @@ App runs at `http://localhost:5173`
 
 ```
 ONE-PIECE-2.0/
-├── public/
-│   ├── video/hero.mp4              # Hero background video
-│   └── images/                     # Artwork by entity type
-│       ├── characters/
-│       ├── locations/
-│       ├── arcs/
-│       ├── crews/
-│       ├── ships/
-│       ├── battles/
-│       ├── powers/
-│       ├── timeline/
-│       └── shared/
-├── src/
-│   ├── components/                 # React components
-│   │   ├── Navbar.jsx              # Sticky navigation
-│   │   ├── Hero.jsx                # Cinematic hero (🔒 locked)
-│   │   └── Section1.jsx            # Crew showcase
-│   ├── data/                       # Entity datasets + schemas
-│   │   ├── characters/
-│   │   ├── locations/
-│   │   ├── arcs/
-│   │   ├── crews/
-│   │   ├── battles/
-│   │   ├── fruits/
-│   │   ├── ships/
-│   │   ├── timeline/
-│   │   └── shared/                 # ID conventions, relationships
-│   ├── App.jsx                     # Root component
-│   └── index.css                   # Global styles + variables
-├── docs/                           # Project documentation
-├── scripts/verify-data.mjs         # Data validation tool
-├── index.html
-├── package.json
-└── vite.config.js
+├── AGENTS.md                       # Agent index (full docs live in docs/)
+├── opencode.json                   # Editor / agent configuration
+└── vite-project/                   # 🏴‍☠️ The app — run all npm commands from here
+    ├── public/
+    │   ├── video/hero.mp4          # Hero background video
+    │   └── images/                 # Artwork by entity type
+    │       ├── characters/
+    │       ├── locations/
+    │       ├── arcs/
+    │       ├── crews/
+    │       ├── ships/
+    │       ├── battles/
+    │       ├── powers/
+    │       ├── timeline/
+    │       └── shared/
+    ├── src/
+    │   ├── components/             # React components
+    │   │   ├── Navbar.jsx          # Sticky navigation
+    │   │   ├── Hero.jsx            # Cinematic hero (🔒 locked)
+    │   │   └── Section1.jsx        # Crew showcase
+    │   ├── data/                   # Entity datasets + schemas
+    │   │   ├── characters/
+    │   │   ├── locations/
+    │   │   ├── arcs/
+    │   │   ├── crews/
+    │   │   ├── battles/
+    │   │   ├── fruits/
+    │   │   ├── ships/
+    │   │   ├── timeline/
+    │   │   └── shared/             # ID conventions, relationships
+    │   ├── App.jsx                 # Root component
+    │   └── index.css               # Global styles + variables
+    ├── docs/                       # Project documentation
+    ├── scripts/verify-data.mjs     # Data validation tool
+    ├── index.html
+    ├── package.json
+    └── vite.config.js
 ```
 
 ---
