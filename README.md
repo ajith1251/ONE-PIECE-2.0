@@ -1,6 +1,6 @@
 <p align="center">
   <br>
-  <img src="public/favicon.svg" alt="One Piece 2.0 Logo" width="100" height="100">
+  <img src="vite-project/public/favicon.svg" alt="One Piece 2.0 Logo" width="100" height="100">
   <br>
 </p>
 
@@ -28,17 +28,17 @@
 <!-- Replace these placeholders with actual screenshots when available -->
 
 <p align="center">
-  <img src="docs/screenshots/hero.png" alt="Hero Section — Cinematic video background with animated scene cards" width="80%">
+  <img src="vite-project/docs/screenshots/hero.png" alt="Hero Section — Cinematic video background with animated scene cards" width="80%">
 </p>
 
 <!-- Add more screenshots below as the project grows -->
 <!-- 
 <p align="center">
-  <img src="docs/screenshots/crew.png" alt="Crew Showcase" width="80%">
+  <img src="vite-project/docs/screenshots/crew.png" alt="Crew Showcase" width="80%">
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/locations.png" alt="World Map" width="80%">
+  <img src="vite-project/docs/screenshots/locations.png" alt="World Map" width="80%">
 </p>
 -->
 
@@ -195,6 +195,7 @@ App runs at `http://localhost:5173`
 
 ```
 ONE-PIECE-2.0/
+├── README.md                       # This file — project overview
 ├── AGENTS.md                       # Agent index (full docs live in docs/)
 ├── opencode.json                   # Editor / agent configuration
 └── vite-project/                   # 🏴‍☠️ The app — run all npm commands from here
@@ -282,7 +283,7 @@ ONE-PIECE-2.0/
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT License — see [LICENSE](vite-project/LICENSE) for details.
 
 ---
 
